@@ -1,0 +1,37 @@
+import axios from 'axios'
+
+const videos = [
+  'https://files.catbox.moe/6zx6x3.mp4',// vero
+  'https://files.catbox.moe/3dnfl0.mp4'// falso
+]
+
+const handler = async (m, { conn }) => {
+  const randomVideo = videos[Math.floor(Math.random() * videos.length)]
+
+  try {
+    const res = await axios.get(randomVideo, {
+      responseType: 'arraybuffer',
+      headers: {
+        'User-Agent': '𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿',
+        'Accept': 'video/mp4'
+      }
+    })
+
+    await conn.sendMessage(m.chat, {
+      video: res.data,
+      mimetype: 'video/mp4',
+      ptv: true
+    }, { quoted: m })
+
+  } catch (err) {
+    console.error('❌ Errore caricamento video:', err)
+    m.reply(`${global.errore}`)
+  }
+}
+
+handler.command = /^(vof|veroofalso|verofalso|veroefalso)$/i
+handler.tags = ['giochi']
+handler.help = ['veroofalso <testo>']
+handler.register = false
+
+export default handler
