@@ -2,7 +2,7 @@ let handler = async (m, { conn }) => {
   await conn.sendMessage(m.chat, {
     text:
 `*🌐 𝐄𝐜𝐜𝐨 𝐢𝐥 𝐫𝐞𝐩𝐨 𝐮𝐟𝐟𝐢𝐜𝐢𝐚𝐥𝐞 𝐝𝐞𝐥 𝐛𝐨𝐭:*
-*https://github.com/Elixir-png/Elixir-Bot1*
+*https://github.com/Elixir-png/ElixirBot*
 
 *📢 𝐒𝐞𝐠𝐮𝐢 𝐢𝐥 𝐜𝐚𝐧𝐚𝐥𝐞 𝐮𝐟𝐟𝐢𝐜𝐢𝐚𝐥𝐞 𝐝𝐞𝐥 𝐛𝐨𝐭 𝐩𝐞𝐫 𝐫𝐢𝐦𝐚𝐧𝐞𝐫𝐞 𝐬𝐞𝐦𝐩𝐫𝐞 𝐚𝐠𝐠𝐢𝐨𝐫𝐧𝐚𝐭𝐨 𝐬𝐮 𝐧𝐨𝐯𝐢𝐭à 𝐞 𝐦𝐨𝐝𝐢𝐟𝐢𝐜𝐡𝐞!*
 
