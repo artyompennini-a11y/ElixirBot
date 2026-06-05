@@ -117,7 +117,7 @@ async function handleViolation(conn, m, reason, isBotAdmin) {
         user.warns[warnKey] = 0;
         await conn.sendMessage(m.chat, {
             text: `╭─━━━━━━━━━━━━━━━━━━━─╮
-          🛡️ ELIXIR ANTILINK 🛡️
+          🛡️ THE PUNISHER ANTILINK 🛡️
 ╰─━━━━━━━━━━━━━━━━━━━─╯
 
 ┃ 👤 @${tag}
@@ -126,11 +126,11 @@ async function handleViolation(conn, m, reason, isBotAdmin) {
 ┃ 💀 Sanzione: ESPULSIONE
 
 ╰─━━━━━━━━━━━━━─╯
-> _Protocollo sicurezza Elixir_`,
+> _Protocollo sicurezza The punisher_`,
             mentions: [sender],
             contextInfo: {
                 externalAdReply: {
-                    title: '⚔️ ELIXIR ANTILINK',
+                    title: '⚔️ THE PUNISHER ANTILINK',
                     body: `Espulso: ${tag}`,
                     thumbnailUrl: 'https://qu.ax',
                     mediaType: 1,
@@ -142,7 +142,7 @@ async function handleViolation(conn, m, reason, isBotAdmin) {
     } else {
         await conn.sendMessage(m.chat, {
             text: `╭─━━━━━━━━━━━━━━━━━━━─╮
-          🛡️ ELIXIR ANTILINK 🛡️
+          🛡️ THE PUNISHER ANTILINK 🛡️
 ╰─━━━━━━━━━━━━━━━━━━━─╯
 
 ┃ 👤 @${tag}
@@ -151,11 +151,11 @@ async function handleViolation(conn, m, reason, isBotAdmin) {
 ┃ ⚠️ Warn: ${warns}/3
 
 ╰─━━━━━━━━━━━━━─╯
-> _Protocollo sicurezza Elixir_`,
+> _Protocollo sicurezza The punisher_`,
             mentions: [sender],
             contextInfo: {
                 externalAdReply: {
-                    title: '⚔️ ELIXIR ANTILINK',
+                    title: '⚔️ THE PUNISHER ANTILINK',
                     body: `Warn ${warns}/3: ${tag}`,
                     thumbnailUrl: 'https://qu.ax',
                     mediaType: 1,
