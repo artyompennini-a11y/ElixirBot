@@ -22,7 +22,7 @@ let handler = async (m, { conn, text, command, isAdmin, isOwner }) => {
 
   const imgElixir = 'https://percorso-tua-immagine-quadrata.jpg' 
 
-  const titleText = 'Elixir'
+  const titleText = '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁'
   const bodyText = isPromote ? 'NUOVO ADMIN PROMOSSO' : 'ADMIN RETROCESSO'
   
   const decorativeText = `* ${isPromote ? 'NUOVO ADMIN' : 'ADMIN RETRO'} *
