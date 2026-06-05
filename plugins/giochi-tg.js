@@ -1,3 +1,8 @@
+// ╔═══════════════════════════════════════════╗
+// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎           ║
+// ║        Sviluppato da: Elixir              ║
+// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ║
+// ╚═══════════════════════════════════════════╝
 import fetch from 'node-fetch'
 import { FormData } from 'formdata-node'
 import { createCanvas, loadImage } from 'canvas'
@@ -10,7 +15,6 @@ import path from 'path'
 const __dirname = path.resolve()
 const execPromise = promisify(exec)
 
-// Utility: Stream audio in Buffer
 function streamToBuffer(stream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -20,7 +24,6 @@ function streamToBuffer(stream) {
   });
 }
 
-// Utility: Divide il testo in righe per il canvas
 function splitText(text, maxLength) {
   const words = text.split(' ')
   const lines = []
@@ -37,45 +40,41 @@ function splitText(text, maxLength) {
   return lines
 }
 
-// Genera URL immagine (nuovo endpoint Pollinations)
 async function generateImageUrl(prompt) {
   const seed = Math.floor(Math.random() * 1000000)
   const query = encodeURIComponent("professional news studio, tv news background, high definition, 4k")
-  return `https://pollinations.ai{query}?width=1280&height=720&seed=${seed}&model=flux&nologo=true`
+  return `https://image.pollinations.ai/prompt/${query}?width=1280&height=720&seed=${seed}&model=flux&nologo=true`
 }
 
 async function createNewsImage(newsTitle, backgroundUrl) {
   const canvas = createCanvas(1280, 720)
   const ctx = canvas.getContext('2d')
-  
-  // Tenta di caricare l'immagine con User-Agent per evitare blocchi
+
   let image;
   try {
     image = await loadImage(backgroundUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } })
   } catch (e) {
-    // Secondo tentativo con URL alternativo se il primo fallisce
-    const fallbackUrl = `https://pollinations.ai{encodeURIComponent("tv news studio")}`
+
+    const fallbackQuery = encodeURIComponent("tv news studio")
+    const fallbackUrl = `https://image.pollinations.ai/prompt/${fallbackQuery}?width=1280&height=720&model=flux&nologo=true`
     image = await loadImage(fallbackUrl).catch(() => {
         throw new Error('Servizio immagini non disponibile al momento.')
     })
   }
   
   ctx.drawImage(image, 0, 0, 1280, 720)
-  
-  // Overlay Grafica TG
+
   ctx.fillStyle = 'rgba(0, 0, 0, 0.85)'
   ctx.fillRect(0, 550, 1280, 170)
   ctx.fillStyle = '#CC0000'
   ctx.fillRect(0, 550, 1280, 55)
-  
-  // Testo Notizia
+
   ctx.fillStyle = '#FFFFFF'
   ctx.font = 'bold 42px sans-serif'
   ctx.textAlign = 'left'
   const lines = splitText(newsTitle.toUpperCase(), 45)
   lines.slice(0, 2).forEach((line, i) => ctx.fillText(line, 40, 635 + i * 55))
-  
-  // Data e Branding
+
   const now = new Date().toLocaleString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
   ctx.font = '24px sans-serif'
   ctx.fillText(now, 40, 700)
@@ -137,8 +136,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     
     const { ttsFile, finalAudioFile } = await createNewsAudio(text)
     await conn.sendFile(m.chat, finalAudioFile, 'news.mp3', null, m, true, { mimetype: 'audio/mp4', ptt: true })
-    
-    // Cleanup
+
     setTimeout(() => {
         if (fs.existsSync(ttsFile)) fs.unlinkSync(ttsFile)
         if (fs.existsSync(finalAudioFile) && finalAudioFile !== ttsFile) fs.unlinkSync(finalAudioFile)
