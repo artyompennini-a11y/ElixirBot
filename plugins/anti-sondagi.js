@@ -29,7 +29,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isSam }) {
       .catch(() => {})
   }
 
-  // Messaggio estetico 𝓔𝓛𝓘𝓧𝓘𝓡-𝓑𝓞𝓣
+  // Messaggio estetico 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃
   const header = `⋆｡˚『 ╭ \`ANTISONDAGGI SYSTEM\` ╯ 』˚｡⋆`
   const footer = `╰⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒`
   
@@ -39,7 +39,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isSam }) {
 
   const text = `${header}
 ╭
-┃ 🛡️ \`Stato:\` *Protocollo Blood Attivo*
+┃ 🛡️ \`Stato:\` *Protocollo The punisher Attivo*
 ┃
 ┃ 『 👤 』 \`Target:\` @${m.sender.split('@')[0]}
 ┃ 『 📊 』 \`Rilevato:\` *Creazione Sondaggio*
@@ -55,7 +55,7 @@ ${statusNote}
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
-          title: 'BLOOD SECURITY',
+          title: 'THE PUNISHER SECURITY',
           body: 'Restrizione sondaggi attiva',
           thumbnailUrl: 'https://qu.ax/TfUj.jpg',
           mediaType: 1,
