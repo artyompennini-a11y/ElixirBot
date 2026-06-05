@@ -7,7 +7,7 @@ const localImg = join(process.cwd(), 'menu-premium.jpeg');
 const defaultMenu = {
   before: `
 ┎━━━━━━━━━━━━━━━━━━━┑
-┃ ✧ ᴇʟɪxɪʀ - ᴘʀᴇᴍɪᴜᴍ ✧ ┃
+┃ ✧ 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 - ᴘʀᴇᴍɪᴜᴍ ✧ ┃
 ┖━━━━━━━━━━━━━━━━━━━┙
 ┌───────────────────┐
   👤 𝚄𝚜𝚎𝚛: %name
@@ -71,7 +71,7 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
         mentionedJid: [m.sender],
         forwardedNewsletterMessageInfo: {
           newsletterJid: '120363232743845068@newsletter',
-          newsletterName: "✧ ᴇʟɪxɪʀ-ʙᴏᴛ ᴘʀᴇᴍɪᴜᴍ ✧"
+          newsletterName: "✧ 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 ᴘʀᴇᴍɪᴜᴍ ✧"
         }
       }
     }, { quoted: m })
