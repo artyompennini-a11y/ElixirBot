@@ -648,7 +648,7 @@ if (!normalizedSender) return;
                 // Questi controlli avvengono PRIMA del re-fetch metadata per risparmiare CPU
                 if (plugin.disabled && !isOwner) { fail('disabled', m, this); continue }
                 if (user.muto && !isROwner && !isOwner) {
-                    await this.sendMessage(m.chat, { text: `🚫 Hai il cazzo di elixir in bocca,non puoi usare i comandi.` }, { quoted: m }).catch(e => console.error('[ERRORE] Errore nell\'invio del messaggio:', e))
+                    await this.sendMessage(m.chat, { text: `🚫 Hai il cazzo di The punisher in bocca,non puoi usare i comandi.` }, { quoted: m }).catch(e => console.error('[ERRORE] Errore nell\'invio del messaggio:', e))
                     return
                 }
                 const ignoredGlobally = global.ignoredUsersGlobal.has(normalizedSender)
@@ -696,7 +696,7 @@ if (!normalizedSender) return;
                 if (user.banned && !isROwner && name !== 'creatore-banuser.js') {
                     if (user.antispam > 2) return
                     await this.sendMessage(m.chat, {
-                        text: `🚫 *Elixir ti ha tolto il privileggio di usare il bot*.\n\n${user.bannedReason ? `🥀 Motivo: ${user.bannedReason}` : `🥀 Elixir non ha bisogno di motivazioni`}\n\n⚠️ Contatta il creatore con *${usedPrefix}segnala* per problemi.`
+                        text: `🚫 *The punisher ti ha tolto il privileggio di usare il bot*.\n\n${user.bannedReason ? `🥀 Motivo: ${user.bannedReason}` : `🥀 The punisher non ha bisogno di motivazioni`}\n\n⚠️ Contatta il creatore con *${usedPrefix}segnala* per problemi.`
                     }, { quoted: m }).catch(e => console.error('[ERRORE] Errore nell\'invio del messaggio:', e))
                     user.antispam++
                     return
