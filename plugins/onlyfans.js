@@ -1,10 +1,14 @@
+// ╔═══════════════════════════════════════════╗
+// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎           ║
+// ║        Sviluppato da: Elixir              ║
+// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ║
+// ╚═══════════════════════════════════════════╝
 import { createCanvas, loadImage } from 'canvas'
 
 const handler = async (m, { conn, args, usedPrefix }) => {
-  // Determina l'utente target: la persona menzionata, l'autore del messaggio citato, o chi invia il comando
+
   let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : m.sender
-  
-  // Recupera il nome: se c'è un tag/citazione usa il pushName di quell'utente, altrimenti usa il testo dopo il comando
+
   let name = args.length > 0 && !m.mentionedJid[0] && !m.quoted ? args.join(" ") : conn.getName(who)
 
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
@@ -27,12 +31,11 @@ const handler = async (m, { conn, args, usedPrefix }) => {
 
   const bio = bioList[Math.floor(Math.random() * bioList.length)]
 
-  // Ottieni foto profilo dell'utente target
   let avatarUrl
   try {
     avatarUrl = await conn.profilePictureUrl(who, 'image')
   } catch {
-    avatarUrl = 'https://i.imgur.com/8Km9tLL.png'
+    avatarUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Portrait_Placeholder.png/240px-Portrait_Placeholder.png'
   }
 
   const avatar = await loadImage(avatarUrl)
@@ -40,11 +43,9 @@ const handler = async (m, { conn, args, usedPrefix }) => {
   const canvas = createCanvas(900, 1100)
   const ctx = canvas.getContext('2d')
 
-  // Background
   ctx.fillStyle = '#0f0f14'
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-  // Header
   ctx.fillStyle = '#00aff0'
   ctx.fillRect(0, 0, canvas.width, 140)
 
@@ -53,7 +54,6 @@ const handler = async (m, { conn, args, usedPrefix }) => {
   ctx.textAlign = 'center'
   ctx.fillText('ONLYFANS', 450, 90)
 
-  // Avatar circolare
   ctx.save()
   ctx.beginPath()
   ctx.arc(450, 300, 140, 0, Math.PI * 2)
@@ -62,12 +62,10 @@ const handler = async (m, { conn, args, usedPrefix }) => {
   ctx.drawImage(avatar, 310, 160, 280, 280)
   ctx.restore()
 
-  // Nome
   ctx.fillStyle = '#ffffff'
   ctx.font = 'bold 38px Sans'
   ctx.fillText(name, 450, 480)
 
-  // Badge verificato
   if (verified) {
     ctx.fillStyle = '#00aff0'
     ctx.beginPath()
@@ -89,7 +87,6 @@ const handler = async (m, { conn, args, usedPrefix }) => {
   ctx.fillStyle = '#aaaaaa'
   ctx.fillText(bio, 450, 760)
 
-  // Bottone
   ctx.fillStyle = '#00aff0'
   ctx.fillRect(300, 900, 300, 80)
 
@@ -111,3 +108,4 @@ handler.tags = ['fun']
 handler.command = /^onlyfans$/i
 
 export default handler
+
