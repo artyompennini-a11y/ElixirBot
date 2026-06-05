@@ -44,7 +44,7 @@ let handler = async (m, { conn, command, usedPrefix }) => {
 ${truncate(item.stack, 3000)}
 \`\`\`
 
-\`[⚡] ELIXIR SYSTEM\``
+\`[⚡] THE PUNISHER SYSTEM\``
 
     return conn.reply(m.chat, fullMsg, m)
   }
@@ -121,7 +121,7 @@ ${truncate(item.stack, 3000)}
       resultMsg += `\n\n\`ℹ️ Nessun file da aggiornare\``
     }
 
-    resultMsg += `\n\n\`[⚡] ELIXIR SYSTEM\``
+    resultMsg += `\n\n\`[⚡] THE PUNISHER SYSTEM\``
 
     await conn.reply(m.chat, truncate(resultMsg), m)
 
@@ -162,11 +162,11 @@ ${truncate(item.stack, 3000)}
 \`📌 File:\` ${item.file}
 \`💥 Messaggio:\` ${item.message}
 
-\`[⚡] ELIXIR SYSTEM\``
+\`[⚡] THE PUNISHER SYSTEM\``
 
         await conn.sendMessage(m.chat, {
           text: shortMsg,
-          footer: '`[⚡] ELIXIR SYSTEM`',
+          footer: '`[⚡] THE PUNISHER SYSTEM`',
           buttons: [
             {
               buttonId: `${usedPrefix}debugplugin ${debugId}`,
@@ -191,7 +191,7 @@ ${truncate(item.stack, 3000)}
   } catch (err) {
     await conn.reply(
       m.chat,
-      `\`── ❌ UPDATE ERROR ──\`\n\n\`💥\` ${err.message}\n\n\`[⚡] ELIXIR SYSTEM\``,
+      `\`── ❌ UPDATE ERROR ──\`\n\n\`💥\` ${err.message}\n\n\`[⚡] THE PUNISHER SYSTEM\``,
       m
     )
 
