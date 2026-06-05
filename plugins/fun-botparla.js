@@ -7,7 +7,7 @@ import { exec } from 'child_process'
 import os from 'os'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) return m.reply(`*⚠️ ELIXIR 𝐒𝐘𝐒𝐓𝐄𝐌: Inserisci il testo che devo pronunciare.*\n\n*Esempio:* _${usedPrefix}${command} Ciao a tutti_`)
+    if (!text) return m.reply(`*⚠️ THE PUNISHER 𝐒𝐘𝐒𝐓𝐄𝐌: Inserisci il testo che devo pronunciare.*\n\n*Esempio:* _${usedPrefix}${command} Ciao a tutti_`)
 
     const tmpDir = os.tmpdir()
     const fileName = `tts_${Date.now()}`
@@ -37,7 +37,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         }, { quoted: m })
 
     } catch (e) {
-        return m.reply('*❌ ELIXIR 𝐒𝐘𝐒𝐓𝐄𝐌: Impossibile generare l\'audio in questo momento.*')
+        return m.reply('*❌ THE PUNISHER 𝐒𝐘𝐒𝐓𝐄𝐌: Impossibile generare l\'audio in questo momento.*')
     } finally {
         if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath)
         if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath)
