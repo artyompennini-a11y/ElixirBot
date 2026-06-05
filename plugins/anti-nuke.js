@@ -76,7 +76,7 @@ handler.before = async function (m, { conn, participants, isBotAdmin }) {
     'RETROCESSIONE ADMIN';
 
   const text = `\`\`\`╔══════════════════════════════════╗
-║       ELIXIR ANTINUKE            ║
+║ THE PUNISHER ANTINUKE            ║
 ╚══════════════════════════════════╝\`\`\`
 \`⚠️\` *ATTIVITÀ SOSPETTA RILEVATA*
 \`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
@@ -88,7 +88,7 @@ handler.before = async function (m, { conn, participants, isBotAdmin }) {
 \`🔒\` Gruppo impostato in sola lettura
 \`✅\` Utenti in whitelist preservati
 \`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
-\`🔐\` *ELIXIR SECURITY SYSTEM*`;
+\`🔐\` *THE PUNISHER SECURITY SYSTEM*`;
 
   try {
     await conn.sendMessage(m.chat, {
@@ -96,10 +96,10 @@ handler.before = async function (m, { conn, participants, isBotAdmin }) {
       contextInfo: {
         mentionedJid: [sender, ...usersToDemote, ...BOT_OWNERS].filter(Boolean),
         externalAdReply: {
-          title: '🛡️ ELIXIR ANTINUKE SYSTEM',
+          title: '🛡️ THE PUNISHER ANTINUKE SYSTEM',
           body: 'Protocollo di Emergenza Attivo',
           thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Portrait_Placeholder.png/240px-Portrait_Placeholder.png',
-          sourceUrl: 'ELIXIR_ANTINUKE',
+          sourceUrl: 'THE PUNISHER_ANTINUKE',
           mediaType: 1,
           renderLargerThumbnail: true
         }
