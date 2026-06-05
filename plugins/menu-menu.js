@@ -17,7 +17,7 @@ let tags = {
 const defaultMenu = {
   testoInizio: `
 ┏━━━━━━━━━━━━━━━━━━━━┓
- 💠  ᴇʟɪxɪʀ - ʙᴏᴛ 💠
+ 💠  𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 💠
 ┗━━━━━━━━━━━━━━━━━━━━┛
  ┌───────────────────
  │ 👤 *User:* %name
@@ -31,7 +31,7 @@ const defaultMenu = {
   header: '      ⋆｡˚『 %category 』˚｡⋆\n╭',
   body: '*│ ➢* 『%emoji』 %cmd',
   footer: '*╰━━━━━━━──────━━━━━━━*\n',
-  testoFine: `_Powered by ᴇʟɪxɪʀ-ʙᴏᴛ Interface_`,
+  testoFine: `_Powered by 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 Interface_`,
 }
 
 const localImg = './menu-principale.jpeg'
@@ -101,7 +101,7 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
     await conn.sendMessage(m.chat, {
       ...(imageBuffer ? { image: imageBuffer } : {}),
       caption: text.trim(),
-      footer: "ᴇ ʟ ɪ x ɪ - ʙ ᴏ ᴛ ꜱ ʏ ꜱ ᴛ ᴇ ᴍ",
+      footer: "𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 - ʙ ᴏ ᴛ ꜱ ʏ ꜱ ᴛ ᴇ ᴍ",
       buttons: buttons,
       headerType: 4,
       viewOnce: true
@@ -111,7 +111,7 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
 
   } catch (e) {
     console.error(e)
-    conn.reply(m.chat, `❌ Errore BLD-SYS: ${e.message}`, m)
+    conn.reply(m.chat, `❌ Errore 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃: ${e.message}`, m)
   }
 }
 
