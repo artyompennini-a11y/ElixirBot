@@ -160,7 +160,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃
 ┃ _Clicca sui pulsanti qui sotto per scaricare_
 ┃
-┃ > 𝐄𝐋𝐈𝐗𝐈𝐑 𝐁𝐎𝐓
+┃ > 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃
 ╰⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒`;
 
         // ── INVIO SCHEDA CON PULSANTI ──
@@ -224,7 +224,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃ 🔗 ${originalLink}
 ┃
 ┃ _Pulsanti per scaricare qui sotto_ 👇
-┃ > 𝐄𝐋𝐈𝐗𝐈𝐑 𝐁𝐎𝐓
+┃ > 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃
 ╰⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒`;
 
                 await conn.sendMessage(m.chat, {
