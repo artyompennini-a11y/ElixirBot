@@ -73,13 +73,13 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isS
 
     const target = feat.store === 'bot' ? bot : chat;
     target[feat.key] = isEnable;
-    return m.reply(`*〘 📡 ᴇʟɪxɪʀ - ꜱʏꜱᴛᴇᴍ 〙*\n\nModulo: *${feat.name}*\nStato: *${isEnable ? 'ATTIVATO 🟢' : 'DISATTIVATO 🔴'}*`);
+    return m.reply(`*〘 📡 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁 - ꜱʏꜱᴛᴇᴍ 〙*\n\nModulo: *${feat.name}*\nStato: *${isEnable ? 'ATTIVATO 🟢' : 'DISATTIVATO 🔴'}*`);
   }
 
   const getStatus = (f) => (f.store === 'bot' ? bot[f.key] : chat[f.key]) ? '🟢' : '🔴';
 
   let menu = `┎━━━━━━━━━━━━━━━━━━━━┑
-┃   ✧  ᴇʟɪxɪʀ - ᴍᴀꜱᴛᴇʀ ᴄᴏɴᴛʀᴏʟ  ✧   ┃
+┃   ✧  𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 - ᴍᴀꜱᴛᴇʀ ᴄᴏɴᴛʀᴏʟ  ✧   ┃
 ┖━━━━━━━━━━━━━━━━━━━━┙
 ┌────────────────────┐
   👤 𝚄𝚜𝚎𝚛: ${userName}
@@ -117,7 +117,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isS
     menu += `┇ ${getStatus(f)} ${f.name}\n┇ _${f.desc}_\n┇ ➤ *${f.key}*\n┇\n`;
   });
 
-  menu += `*┕━━━━━━━──ׄ──ׅ──ׄ──━━━━━━━┙*\n\n_ᴇʟɪxɪʀ-ʙᴏᴛ sᴇᴄᴜʀɪᴛʏ ɪɴᴛᴇʀꜰᴀᴄᴇ_`;
+  menu += `*┕━━━━━━━──ׄ──ׅ──ׄ──━━━━━━━┙*\n\n_𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 sᴇᴄᴜʀɪᴛʏ ɪɴᴛᴇʀꜰᴀᴄᴇ_`;
 
   let thumb;
   const imagePath = path.join(process.cwd(), 'menu-sicurezza.jpeg');
@@ -132,7 +132,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isS
     text: menu,
     contextInfo: {
       externalAdReply: {
-        title: "ᴇʟɪxɪʀ - ᴍᴀꜱᴛᴇʀ ᴄᴏɴᴛʀᴏʟ",
+        title: "𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 - ᴍᴀꜱᴛᴇʀ ᴄᴏɴᴛʀᴏʟ",
         body: "Terminal Console v3.1",
         mediaType: 1,
         renderLargerThumbnail: true,
