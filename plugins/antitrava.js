@@ -46,7 +46,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isSam }) {
         
         // Estetica Elegant & Dark
         const textMsg = `╔════════════════════╗
-  ⚔️ *ELIXIR DEFENSE SYSTEM* ⚔️
+  ⚔️ *THE PUNISHER DEFENSE SYSTEM* ⚔️
 ╚════════════════════╝
 
 ◈ *TARGET:* @${userTag}
@@ -63,7 +63,7 @@ _Rilevato tentativo di destabilizzazione tramite caratteri illegali o lunghezza 
             mentions: [m.sender],
             contextInfo: {
                 externalAdReply: {
-                    title: '🛡️ ELIXIR CRASH PROTECTION 🛡️',
+                    title: '🛡️ THE PUNISHER CRASH PROTECTION 🛡️',
                     body: 'Threat Level: Critical',
                     thumbnailUrl: 'https://qu.ax/TfUj.jpg',
                     mediaType: 1,
