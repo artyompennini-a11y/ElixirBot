@@ -17,7 +17,7 @@ const handler = async (m, { conn, usedPrefix, command, text }) => {
     if (/^(listaplugin|listapl)$/i.test(command)) {
         const pluginFiles = fs.readdirSync(pluginsDir).filter(f => f.endsWith('.js')).sort();
         const list = pluginFiles.map((f, i) => `${i + 1}. ${f.replace('.js', '')}`).join('\n');
-        const message = `*╭─「 𝐄𝐋𝐈𝐗𝐈𝐑 𝐁𝐎𝐓 – ELENCO PLUGIN 」*\n` +
+        const message = `*╭─「 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 – ELENCO PLUGIN 」*\n` +
                         `*│*\n` +
                         `*│* 📂 *Plugin disponibili:* (${pluginFiles.length} totali)\n` +
                         `*│*\n` +
