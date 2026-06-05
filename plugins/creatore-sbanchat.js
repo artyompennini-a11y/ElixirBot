@@ -4,7 +4,7 @@ let chat = global.db.data.chats[m.chat]
 if (!chat.isBanned) return conn.reply(m.chat, '《★》Il bot non è bannato in questa chat', m)
 chat.isBanned = false
 await global.db.write()
-await conn.reply(m.chat, `《★》elixirbot è stato sbannato in questa chat.`, m)
+await conn.reply(m.chat, `《★》𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 è stato sbannato in questa chat.`, m)
 }
 handler.help = ['sbanchat'];
 handler.tags = ['creatore'];
