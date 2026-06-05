@@ -46,7 +46,7 @@ let handler = async (m, { conn, text }) => {
         image: { url: app.icon },
         title: `- \`${app.title.substring(0, 60) + (app.title.length > 60 ? '...' : '')}\``,
         body: `『 👤 』 ${app.developer}\n『 💸 』 ${prezzo}\n『 ⭐ 』 ${rating}\n『 📥 』 ${downloads}\n『 🏷️ 』 ${genre}\n\n\`${app.summary ? app.summary.substring(0, 100) + '...' : 'Nessuna descrizione disponibile'}\``,
-        footer: '˗ˏˋ ☾ ᴇʟɪxɪʀʙᴏᴛ ☽ ˎˊ˗',
+        footer: '˗ˏˋ ☾ 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 ☽ ˎˊ˗',
         buttons: [
           {
             name: "cta_url",
