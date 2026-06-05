@@ -7,7 +7,7 @@ let handler = async (m, { conn, text, usedPrefix }) => {
   try {
     if (!text) {
       let name = conn.getName(m.sender)
-      text = `${name}|𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿`
+      text = `${name}|𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃`
     }
     
     let [packname, ...author] = text.split('|')
