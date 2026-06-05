@@ -117,7 +117,7 @@ handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner, isSam 
 \`⚡\` *Motivo:* \`${reason}\`
 \`🔨\` *Azione:* \`ESPULSIONE [ 5/5 WARN ]\`
 \`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
-\`🔐\` *SISTEMA ELIXIR*`,
+\`🔐\` *SISTEMA THE PUNISHER*`,
                 mentions: [decodedSender]
             }).catch(() => {})
         } else {
@@ -138,7 +138,7 @@ handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner, isSam 
 \`🔇\` *Muto:* \`10 minuti\`
 \`⚠️\` *Warn DB:* \`${userDb.warn}/5\`
 \`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
-\`🔐\` *SISTEMA ELIXIR*`,
+\`🔐\` *SISTEMA THE PUNISHER*`,
                     mentions: [decodedSender]
                 }).catch(() => {})
             } else if (userData.warningCount >= 2 && now - userData.lastWarnTime < 60000) {
@@ -151,7 +151,7 @@ handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner, isSam 
 \`⚡\` *Motivo:* \`${reason}\`
 \`⚠️\` *Warn DB:* \`${userDb.warn}/5\`
 \`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
-\`🔐\` *SISTEMA ELIXIR*`,
+\`🔐\` *SISTEMA THE PUNISHER*`,
                     mentions: [decodedSender]
                 }).catch(() => {})
             }
