@@ -32,7 +32,7 @@ let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin, usedPre
 
         await conn.sendMessage(m.chat, {
             text: skipText,
-            footer: '𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿',
+            footer: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃',
             interactiveButtons: playAgainButtons()
         }, { quoted: m });
         delete global.bandieraGame[m.chat];
@@ -143,7 +143,7 @@ let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin, usedPre
         let msg = await conn.sendMessage(m.chat, {
             image: { url: scelta.url },
             caption: startCaption,
-            footer: '𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿'
+            footer: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃'
         }, { quoted: m });
         
         global.bandieraGame = global.bandieraGame || {};
@@ -163,7 +163,7 @@ let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin, usedPre
                     
                     await conn.sendMessage(m.chat, {
                         text: timeoutText,
-                        footer: '𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿',
+                        footer: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃',
                         interactiveButtons: playAgainButtons()
                     }, { quoted: msg });
                     delete global.bandieraGame[m.chat];
@@ -278,7 +278,7 @@ handler.before = async (m, { conn, usedPrefix, command }) => {
         
         await conn.sendMessage(chat, {
             text: congratsMessage,
-            footer: '𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿',
+            footer: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃',
             interactiveButtons: playAgainButtons()
         }, { quoted: m });
         delete global.bandieraGame[chat];
@@ -295,7 +295,7 @@ handler.before = async (m, { conn, usedPrefix, command }) => {
         
         await conn.sendMessage(chat, {
             text: failText,
-            footer: '𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿',
+            footer: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃',
             interactiveButtons: playAgainButtons()
         }, { quoted: m });
         delete global.bandieraGame[chat];
