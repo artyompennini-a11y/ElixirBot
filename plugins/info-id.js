@@ -12,7 +12,7 @@ let handler = async (m, { conn }) => {
         text += `┆  『 👥 』 \`gruppo\` ─ ${groupId}\n`
     }
     
-    text += `╰┈➤ 『 📦 』 \`elixirbot system\``
+    text += `╰┈➤ 『 📦 』 \`𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 system\``
 
     await conn.sendMessage(m.chat, { 
         text: text,
