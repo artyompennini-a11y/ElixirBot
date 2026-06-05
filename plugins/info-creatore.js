@@ -19,13 +19,13 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ecco i riferimenti ufficiali del mio creatore.
 
 *┏━━━━━━━━━━━━━━━━┓*
-*┃* 👤 *OWNER:* Elixir
+*┃* 👤 *OWNER:* 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁
 *┃* 🪐 *STATUS:* Online
 *┃* 💻 *DEV:* JavaScript / Node.js
 *┗━━━━━━━━━━━━━━━━┛*
 
 ━━━━━━━━━━━━━━━━━━━━
-   *😈 ᴇʟɪxɪʀ ᴅᴏᴍɪɴᴀ ⚡*
+   *😈 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁 ᴅᴏᴍɪɴᴀ ⚡*
 ━━━━━━━━━━━━━━━━━━━━`.trim()
 
   const buttons = [
@@ -37,7 +37,7 @@ ecco i riferimenti ufficiali del mio creatore.
 
   const buttonMessage = {
       text: text,
-      footer: 'ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴇʟɪxɪʀ ʙᴏᴛ',
+      footer: 'ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃',
       buttons: buttons,
       headerType: 1,
       mentions: [m.sender]
