@@ -1,22 +1,22 @@
 let handler = async (m, { conn }) => {
-    let staff = `*⋆｡˚✦『 𝐒𝐓𝐀𝐅𝐅 𝐄𝐋𝐈𝐗𝐈𝐑 𝐁𝐎𝐓 』✦˚｡⋆*
+    let staff = `*⋆｡˚✦『 𝐒𝐓𝐀𝐅𝐅 THE PUNISHER 𝐁𝐎𝐓 』✦˚｡⋆*
 
 ╭───────────────╮
-│ 🤖 𝐁𝐨𝐭: 𝐸𝑙ɪxⁱʳ-𝔅o͜͡ꪻ
+│ 🤖 𝐁𝐨𝐭: 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃
 │ 🆚 𝐕𝐞𝐫𝐬𝐢𝐨𝐧𝐞: ${global.versione}
 ╰───────────────╯
 
 ╭─── 👑 𝐂𝐑𝐄𝐀𝐓𝐎𝐑𝐄 ────╮
-│ ✦ 𝐍𝐨𝐦𝐞: Elixⁱʳ
+│ ✦ 𝐍𝐨𝐦𝐞: 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁
 │ ✦ 𝐑𝐮𝐨𝐥𝐨: Creatore / Developer
 │ ✦ 𝐂𝐨𝐧𝐭𝐚𝐭𝐭𝐨: @447529461874
 ╰──────────────────╯
 
 ╭─── 📌 𝐈𝐍𝐅𝐎 𝐔𝐓𝐈𝐋𝐈 ───╮
-│ ✦ 𝐆𝐢𝐭𝐇𝐮𝐛: https://github.com/Elixir-png/Elixir-Bot1
+│ ✦ 𝐆𝐢𝐭𝐇𝐮𝐛: https://github.com/artyompennini-a11y/ThePunisherBot
 ╰─────────────────╯
 
-> 𝐄𝐋𝐈𝐗𝐈𝐑 𝐁𝐎𝐓`
+> 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃`
 
     await conn.reply(
         m.chat,
