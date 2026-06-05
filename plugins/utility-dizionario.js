@@ -13,7 +13,7 @@ let handler = async (m, { conn, args, usedPrefix }) => {
 
   if (!args[0]) {
     return conn.reply(m.chat, `┏━━━━━━━━━━━━━━━━━━━━┓
- 💉 ᴇʟɪxɪʀ - ᴅɪᴢɪᴏ 💉
+ 💉 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 - DIZIO 💉
 ┗━━━━━━━━━━━━━━━━━━━━┛
  ┌───────────────────
  │ 📖 *Comando:* ${usedPrefix}dizio
@@ -87,7 +87,7 @@ _☣️ Definizioni in italiano e inglese._`, m)
 
     await conn.sendMessage(m.chat, {
       text: `┏━━━━━━━━━━━━━━━━━━━━┓
- 💉 ᴇʟɪxɪʀ - ᴅɪᴢɪᴏ 💉
+ 💉 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 - DIZIO 💉
 ┗━━━━━━━━━━━━━━━━━━━━┛
  ┌───────────────────
  │ 📖 *Parola:* ${parolaUfficiale}${fonetica ? `\n │ 🔊 *Fonetica:* ${fonetica}` : ''}
@@ -103,7 +103,7 @@ _☣️ Definizione estratta._`
     console.error('[Dizio Plugin] Errore:', e.message)
 
     let msg = `┏━━━━━━━━━━━━━━━━━━━━┓
- 💉 ᴇʟɪxɪʀ - ᴇʀʀᴏʀᴇ 💉
+ 💉 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 - ERROR 💉
 ┗━━━━━━━━━━━━━━━━━━━━┛
 `
     if (e.response?.status === 404 || e.message?.includes('non trovata')) {
