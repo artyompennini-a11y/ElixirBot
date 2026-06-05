@@ -10,7 +10,7 @@ const localImg = join(process.cwd(), 'menu-download.jpeg');
 const defaultMenu = {
   before: `
 ┎━━━━━━━━━━━━━━━━━━━┑
-┃ ✧ ᴇʟɪxɪʀ - ᴅᴏᴡɴʟᴏᴀᴅ ✧  ┃
+┃ ✧ 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 - ᴅᴏᴡɴʟᴏᴀᴅ ✧  ┃
 ┖━━━━━━━━━━━━━━━━━━━┙
 ┌───────────────────┐
   👤 𝚄𝚜𝚎𝚛: %name
@@ -23,7 +23,7 @@ const defaultMenu = {
   header: '┍━━━〔 %category 〕━━━┑',
   body: '┇ 📥  *%cmd*',
   footer: '┕━━━━━──ׄ──ׅ──ׄ──━━━━━┙\n',
-  after: `_ᴇʟɪxɪʀ-ʙᴏᴛ ɴᴇᴛᴡᴏʀᴋ ᴅᴀᴛᴀ_`
+  after: `_𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 ɴᴇᴛᴡᴏʀᴋ ᴅᴀᴛᴀ_`
 }
 
 let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
