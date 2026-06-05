@@ -86,7 +86,7 @@ let handler = async (m, { conn, args, usedPrefix }) => {
 
   if (!args[0]) {
     return conn.reply(m.chat, `┏━━━━━━━━━━━━━━━━━━━━┓
- 💉 ᴇʟɪxɪʀ - ᴘᴀꜱꜱ 💉
+ 💉 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 - PASS 💉
 ┗━━━━━━━━━━━━━━━━━━━━┛
  ┌───────────────────
  │ 🔑 *Comando:* ${usedPrefix}password
@@ -109,7 +109,7 @@ let handler = async (m, { conn, args, usedPrefix }) => {
   \`-l\`  → solo minuscole
   \`1-5\` → quante password generare
 
-_☣️ Elixir Bot - Generazione sicura._`, m)
+_☣️ 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 - Generazione sicura._`, m)
   }
 
   await m.react('🔑')
@@ -129,7 +129,7 @@ _☣️ Elixir Bot - Generazione sicura._`, m)
 
   await conn.sendMessage(m.chat, {
     text: `┏━━━━━━━━━━━━━━━━━━━━┓
- 💉 ᴇʟɪxɪʀ - ᴘᴀꜱꜱ 💉
+ 💉 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 - PASS 💉
 ┗━━━━━━━━━━━━━━━━━━━━┛
  ┌───────────────────
  │ 🔑 *Lunghezza:* ${lunghezza} caratteri
@@ -139,7 +139,7 @@ _☣️ Elixir Bot - Generazione sicura._`, m)
 
 ${lista}
 
-_☣️ Password generata da Elixir Bot._`
+_☣️ Password generata da 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃._`
   }, { quoted: m })
 }
 
