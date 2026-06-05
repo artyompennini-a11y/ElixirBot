@@ -43,7 +43,7 @@ let handler = async (m, { conn, usedPrefix: _p, command, args, isOwner, isAdmin 
   if (!args.length || /menu|help/i.test(args[0])) {
     let text = `
 ┎━━━━━━━━━━━━━━━━━━━━┑
-┃   ✧  ᴇʟɪxɪʀ - ᴍᴀꜱᴛᴇʀ ᴄᴏɴᴛʀᴏʟ  ✧   ┃
+┃   ✧  𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 - ᴍᴀꜱᴛᴇʀ ᴄᴏɴᴛʀᴏʟ  ✧   ┃
 ┖━━━━━━━━━━━━━━━━━━━━┙
 ┌────────────────────┐
   👤 𝚄𝚜𝚎𝚛: ${userName}
