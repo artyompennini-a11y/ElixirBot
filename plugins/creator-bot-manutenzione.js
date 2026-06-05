@@ -10,7 +10,7 @@ let handler = async (m, { conn, args, isOwner, isROwner }) => {
             errMsg += `━━━━━━━━━━━━━━━━\n\n`
             errMsg += `\`⚠️\` *Motivo:*\n`
             errMsg += `└─⭓ Comando riservato al proprietario\n\n`
-            errMsg += `> elixir ✧ bot`
+            errMsg += `> 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃`
             return m.reply(errMsg)
         }
 
@@ -34,7 +34,7 @@ let handler = async (m, { conn, args, isOwner, isROwner }) => {
 \`🔒\` Solo il proprietario può operare
 \`⏳\` Il bot non risponde ai comandi
 \`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
-\`🔐\` *SISTEMA ELIXIR*`
+\`🔐\` *SISTEMA THE PUNISHER*`
             return m.reply(msg)
         } else {
             settings.maintenance = false
@@ -48,7 +48,7 @@ let handler = async (m, { conn, args, isOwner, isROwner }) => {
 \`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
 \`🔓\` Operatività normale ripristinata
 \`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
-\`🔐\` *SISTEMA ELIXIR*`
+\`🔐\` *SISTEMA THE PUNISHER*`
             return m.reply(msg)
         }
     } catch (e) {
@@ -57,7 +57,7 @@ let handler = async (m, { conn, args, isOwner, isROwner }) => {
         errMsg += `━━━━━━━━━━━━━━━━\n\n`
         errMsg += `\`⚠️\` *Si è verificato un errore*\n`
         errMsg += `\`📝\` *Tipo:* ${e.message}\n\n`
-        errMsg += `> elixir ✧ bot`
+        errMsg += `> 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃`
         return m.reply(errMsg)
     }
 }
