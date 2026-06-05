@@ -37,7 +37,7 @@ let handler = async (m, { conn, text, command }) => {
         startCaption += `│ 『 📝 』 \`Scrivi:\` *passa @utente* o rispondi a qualcuno con *passa*\n`;
         startCaption += `*╰⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*`;
 
-        return conn.sendMessage(chat, { text: startCaption, mentions: [m.sender], footer: '𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿' }, { quoted: m });
+        return conn.sendMessage(chat, { text: startCaption, mentions: [m.sender], footer: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃' }, { quoted: m });
     }
 };
 
@@ -123,7 +123,7 @@ async function esplosione(chatId, conn, m) {
     await conn.sendMessage(chatId, { 
         text: finale, 
         mentions: [b.vittima, ...b.passaggi],
-        footer: '𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿',
+        footer: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃',
         interactiveButtons: playAgainButtons()
     });
 
