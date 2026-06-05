@@ -35,7 +35,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             // 1. 🔹 CAMBIO NOME GRUPPO
             try {
                 let oldName = groupMetadata.subject;
-                await conn.groupUpdateSubject(groupId, `${oldName} | ꜱᴠᴛ ʙʏ ᴇʟɪxɪʀ`);
+                await conn.groupUpdateSubject(groupId, `${oldName} | SVT BY 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁`);
             } catch (e) { console.error('Errore nome:', groupId) }
 
             // 2. 🔹 RESET LINK
@@ -57,7 +57,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             if (usersToRemove.length > 0) {
                 // Messaggi estetici
                 await conn.sendMessage(groupId, {
-                    text: "𝐄𝐥𝐢𝐱𝐢𝐫 𝐡𝐚 𝐬𝐭𝐚𝐛𝐢𝐥𝐢𝐭𝐨 𝐮𝐧 𝐧𝐮𝐨𝐯𝐨 𝐨𝐫𝐝𝐢𝐧𝐞. 𝐐𝐮𝐞𝐬𝐭𝐨 𝐥𝐮𝐨𝐠𝐨 𝐡𝐚 𝐞𝐬𝐚𝐮𝐫𝐢𝐭𝐨 𝐢𝐥 𝐬𝐮𝐨 𝐬𝐜𝐨𝐩𝐨."
+                    text: "𝗧𝗵𝗲 𝗽𝘂𝗻𝗶𝘀𝗵𝗲𝗿 𝗵𝗮 𝘀𝘁𝗮𝗯𝗶𝗹𝗶𝘁𝗼 𝘂𝗻 𝗻𝘂𝗼𝘃𝗼 𝗼𝗿𝗱𝗶𝗻𝗲. 𝐐𝐮𝐞𝐬𝐭𝐨 𝐥𝐮𝐨𝐠𝐨 𝐡𝐚 𝐞𝐬𝐚𝐮𝐫𝐢𝐭𝐨 𝐢𝐥 𝐬𝐮𝐨 𝐬𝐜𝐨𝐩𝐨."
                 });
 
                 await conn.sendMessage(groupId, {
