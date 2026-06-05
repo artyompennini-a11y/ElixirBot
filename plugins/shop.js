@@ -44,7 +44,7 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
     let itemKey = args[1]?.toLowerCase()
 
     if (!items[category]) {
-        let msg = `💎 *ELIXIR LUXURY SHOP*\n`
+        let msg = `💎 *THE PUNISHER LUXURY SHOP*\n`
         msg += `━━━━━━━━━━━━━━━━━━━━\n\n`
         msg += `🏙️ \`${usedPrefix + command} case\`\n`
         msg += `🏰 \`${usedPrefix + command} ville\`\n`
