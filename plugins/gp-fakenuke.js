@@ -18,7 +18,7 @@ let handler = async (m, { conn, command }) => {
 
         await conn.groupUpdateDescription(
             m.chat,
-            "⚡ 𝘾𝙊𝙉𝙏𝙍𝙊𝙇𝙇𝙊 𝘼𝘾𝙌𝙐𝙄𝙎𝙄𝙏𝙊 𝘿𝘼 𝙀𝙇𝙄𝙓𝙄𝙍 𝘽𝙊𝙏 ⚡"
+            "⚡ 𝘾𝙊𝙉𝙏𝙍𝙊𝙇𝙇𝙊 𝘼𝘾𝙌𝙐𝙄𝙎𝙄𝙏𝙊 𝘿𝘼 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 ⚡"
         )
 
         await conn.groupSettingUpdate(m.chat, 'announcement')
@@ -40,7 +40,7 @@ let handler = async (m, { conn, command }) => {
         await new Promise(r => setTimeout(r, 2000))
 
         let nukeMsg = `
-⚡ ─── ╳ 𝗘𝗟𝗜𝗫𝗜𝗥 𝗕𝗢𝗧 ╳ ─── ⚡
+⚡ ─── ╳ 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 ╳ ─── ⚡
 
 ☣️ *CHAT WIPED SUCCESSFULLY*
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -49,7 +49,7 @@ let handler = async (m, { conn, command }) => {
 📢 *UNISCITI AL QUARTIER GENERALE:*
 🔗 ${link}
 
-⚠️ _System Hijacked by Elixir_
+⚠️ _System Hijacked by 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁_
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 `.trim()
 
