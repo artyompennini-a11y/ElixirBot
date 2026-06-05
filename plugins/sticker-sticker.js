@@ -18,8 +18,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       if (!img) return conn.reply(m.chat, '『 📸 』- `Per favore, invia un\'immagine, video o GIF per creare uno sticker.`', m);
       
       try {
-        const packName = global.authsticker || '✧˚🩸 𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿 🕊️˚✧';
-        const authorName = global.nomepack || '✧˚🩸 𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿 🕊️˚✧';
+        const packName = global.authsticker || '✧˚🩸 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 🕊️˚✧';
+        const authorName = global.nomepack || '✧˚🩸 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 🕊️˚✧';
         if (!global.support) {
           global.support = {
             ffmpeg: true,
@@ -46,7 +46,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
           
           if (typeof out === 'string') {
             const packName = global.authsticker || '✧˚🩸 varebot 🕊️˚✧';
-            const authorName = global.nomepack || '✧˚🩸 𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿 🕊️˚✧';
+            const authorName = global.nomepack || '✧˚🩸 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 🕊️˚✧';
             stiker = await sticker(false, out, packName, authorName);
           }
         } catch (uploadError) {
@@ -56,8 +56,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       }
     } else if (args[0]) {
       if (isUrl(args[0])) {
-        const packName = global.authsticker || '✧˚🩸 𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿 🕊️˚✧';
-        const authorName = global.nomepack || '✧˚🩸 𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿 🕊️˚✧';
+        const packName = global.authsticker || '✧˚🩸 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 🕊️˚✧';
+        const authorName = global.nomepack || '✧˚🩸 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 🕊️˚✧';
         if (!global.support) {
           global.support = {
             ffmpeg: true,
