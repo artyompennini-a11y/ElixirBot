@@ -1,14 +1,18 @@
+// ╔═══════════════════════════════════════════╗
+// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎           ║
+// ║        Sviluppato da: Elixir              ║
+// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ║
+// ╚═══════════════════════════════════════════╝
 import { createCanvas, loadImage } from 'canvas'
 
-// --- CONFIGURAZIONI ---
 const fruits = ['🍒', '🍋', '🍉', '🍇', '🍎', '🍓']
 const fruitURLs = {
-    '🍒': 'https://twemoji.maxcdn.com/v/latest/72x72/1f352.png',
-    '🍋': 'https://twemoji.maxcdn.com/v/latest/72x72/1f34b.png',
-    '🍉': 'https://twemoji.maxcdn.com/v/latest/72x72/1f349.png',
-    '🍇': 'https://twemoji.maxcdn.com/v/latest/72x72/1f347.png',
-    '🍎': 'https://twemoji.maxcdn.com/v/latest/72x72/1f34e.png',
-    '🍓': 'https://twemoji.maxcdn.com/v/latest/72x72/1f353.png'
+    '🍒': 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f352.png',
+    '🍋': 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f34b.png',
+    '🍉': 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f349.png',
+    '🍇': 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f347.png',
+    '🍎': 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f34e.png',
+    '🍓': 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f353.png'
 }
 const cavalliConfig = [
     { nome: 'ROSSO', color: '#ff4d4d' },
@@ -17,7 +21,6 @@ const cavalliConfig = [
     { nome: 'GIALLO', color: '#ffff4d' }
 ]
 
-// Mappa carte Blackjack
 const carteValori = { '2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'J':10,'Q':10,'K':10,'A':11 }
 const semi = ['♠', '♥', '♦', '♣']
 const ranghi = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
@@ -37,7 +40,6 @@ const manoToString = (mano, nascondiPrima = false) => {
     return mano.map(c => `${c.r}${c.s}`).join(' ')
 }
 
-// Mappe dox
 const cittaItaliane = ['Roma','Milano','Napoli','Torino','Palermo','Genova','Firenze','Bologna','Venezia','Catania','Bari','Verona','Trieste','Pescara','Cagliari']
 const providerISP = ['TIM SpA','Vodafone Italia','Wind Tre S.p.A','Fastweb S.p.A','Iliad Italia','Tiscali Italia','Eolo S.p.A','BT Italia']
 const sistemiOp = ['Windows 11 Pro','macOS Sonoma 14.5','Ubuntu 24.04 LTS','Android 14','iOS 17.5']
@@ -57,7 +59,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         return true
     }
 
-    // --- COOLDOWN TRACKER ---
     if (!global.cooldownGames) global.cooldownGames = {}
     const checkCooldown = (tipo, durata) => {
         const key = `${m.sender}:${tipo}`
@@ -71,7 +72,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         return true
     }
 
-    // --- 1. MENU PRINCIPALE ---
     if (command === 'casino') {
         let intro = `*🎰 GRAND CASINÒ DI ELIXIR 🎰*\n\n*💰 SALDO:* *${user.euro}€*  |  *⭐ LIVELLO:* ${user.level}`
         const buttons = [
@@ -85,7 +85,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         return conn.sendMessage(m.chat, { text: intro, buttons }, { quoted: m })
     }
 
-    // --- INFO TASTI ---
     if (command === 'infoslot') return conn.sendMessage(m.chat, { text: `*🎰 SLOT*\nPunta un importo (min 50€).\n• 3 uguali = X3\n• 2 uguali = X1.5\n• Nessuno = perdi tutto\n\nEs: *${usedPrefix}slot 100*`, buttons: [{ buttonId: `${usedPrefix}slot`, buttonText: { displayText: '🎰 GIRA' }, type: 1 }] })
     if (command === 'infobj') return conn.sendMessage(m.chat, { text: `*🃏 BLACKJACK*\nPunta un importo (min 50€).\nAvvicinati a 21 senza superarlo!\n• \`carta\` = pesca\n• \`stai\` = fermati\n\nEs: *${usedPrefix}bj 100*`, buttons: [{ buttonId: `${usedPrefix}bj`, buttonText: { displayText: '🃏 GIOCA' }, type: 1 }] })
     if (command === 'infogratta') return conn.sendMessage(m.chat, { text: `*🎟️ GRATTA & VINCI*\nCosto: 200€! Puoi vincere fino a 5000€!`, buttons: [{ buttonId: `${usedPrefix}gratta`, buttonText: { displayText: '🎟️ COMPRA' }, type: 1 }] })
@@ -93,14 +92,12 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
     if (command === 'inforigore') return conn.sendMessage(m.chat, { text: `*⚽ SFIDA AI RIGORI*\nScegli l'angolo del tiro (100€):`, buttons: [{ buttonId: `${usedPrefix}rigore sx`, buttonText: { displayText: '⬅️ SX' }, type: 1 }, { buttonId: `${usedPrefix}rigore cx`, buttonText: { displayText: '⬆️ CX' }, type: 1 }, { buttonId: `${usedPrefix}rigore dx`, buttonText: { displayText: '➡️ DX' }, type: 1 }] })
     if (command === 'infocorsa') return conn.sendMessage(m.chat, { text: `*🏇 CORSA CAVALLI*\nPunta 100€ sul vincitore (Paga X3):`, buttons: cavalliConfig.map(c => ({ buttonId: `${usedPrefix}puntacorsa ${c.nome}`, buttonText: { displayText: `${c.nome}` }, type: 1 })) })
 
-    // === 🎰 SLOT MACHINE (MIGLIORATA) ===
     if (command === 'slot') {
         const puntata = parseInt(args[0]) || 100
         if (puntata < 50) return m.reply(`⚠️ Puntata minima: 50€. Es: *${usedPrefix}slot 100*`)
         if (!checkMoney(puntata)) return
         if (!checkCooldown('slot', 20000)) return
 
-        // Animazione slot
         let key = await m.reply('🎰 *Girando i rulli...*')
         let r = [fruits[Math.floor(Math.random() * 6)], fruits[Math.floor(Math.random() * 6)], fruits[Math.floor(Math.random() * 6)]]
         
@@ -110,7 +107,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
             await new Promise(resolve => setTimeout(resolve, 800))
         }
 
-        // Calcolo vincita
         let premio = 0
         let risultato = ''
         if (r[0] === r[1] && r[1] === r[2]) {
@@ -141,17 +137,14 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         return conn.sendMessage(m.chat, { image: canvas.toBuffer(), caption: `${risultato}\n*👛 SALDO:* ${user.euro}€`, buttons })
     }
 
-    // === 🃏 BLACKJACK (MIGLIORATO) ===
     if (command === 'bj' || command === 'blackjack') {
         const puntata = parseInt(args[0]) || 100
         if (puntata < 50) return m.reply(`⚠️ Puntata minima: 50€. Es: *${usedPrefix}bj 100*`)
         if (!checkMoney(puntata)) return
         if (!checkCooldown('blackjack', 20000)) return
 
-        // Preleva la puntata
         user.euro -= puntata
 
-        // Distribuzione carte
         let mazzo = mazzoBuild()
         function pesca() {
             const idx = Math.floor(Math.random() * mazzo.length)
@@ -162,7 +155,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         let pGiocatore = calcolaPunteggio(manoGiocatore)
         let pBanco = calcolaPunteggio(manoBanco)
 
-        // Se il giocatore ha 21 all'inizio, vittoria immediata
         if (pGiocatore === 21) {
             const premio = Math.floor(puntata * 2.5)
             user.euro += puntata + premio
@@ -191,7 +183,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
             return conn.sendMessage(m.chat, { image: canvas.toBuffer(), caption: `*🃏 BLACKJACK* Perso -${puntata}€\n*👛 SALDO:* ${user.euro}€`, buttons })
         }
 
-        // Mostra stato e chiede azione
         let gameState = {
             chat: m.chat,
             sender: m.sender,
@@ -206,13 +197,11 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         ctx.fillStyle = '#d4af37'; ctx.font = 'bold 30px Arial'; ctx.textAlign = 'center'
         ctx.fillText('🃏 BLACKJACK ELIXIR 🃏', 300, 40)
 
-        // Mano banco
         ctx.fillStyle = '#ff6b6b'; ctx.font = 'bold 20px Arial'; ctx.fillText('BANCO', 300, 80)
         ctx.fillStyle = '#fff'; ctx.font = '18px Arial'
         ctx.fillText(`${manoToString(manoBanco, true)}`, 300, 110)
         ctx.fillText(`=?`, 300, 140)
 
-        // Mano giocatore
         ctx.fillStyle = '#4dff88'; ctx.font = 'bold 20px Arial'; ctx.fillText(`TU (${m.pushName || '?'})`, 300, 190)
         ctx.fillStyle = '#fff'; ctx.font = '18px Arial'
         ctx.fillText(`${manoToString(manoGiocatore)}`, 300, 220)
@@ -228,7 +217,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         return conn.sendMessage(m.chat, { image: canvas.toBuffer(), caption: `*🃏 BLACKJACK*\nTu: ${pGiocatore} | Banco: ?\nScegli: \`carta\` o \`stai\``, buttons })
     }
 
-    // === GESTIONE CARTE BLACKJACK ===
     if (command === 'carta' || command === 'stai') {
         const gameKey = m.chat + ':' + m.sender
         const game = global.blackjackGames?.[gameKey]
@@ -240,7 +228,7 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
             const pGiocatore = calcolaPunteggio(game.manoGiocatore)
 
             if (pGiocatore > 21) {
-                // SBALLATO
+
                 game.inCorso = false
                 delete global.blackjackGames[gameKey]
                 const canvas = createCanvas(600, 300); const ctx = canvas.getContext('2d')
@@ -256,7 +244,7 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
             }
 
             if (pGiocatore === 21) {
-                // 21! Vittoria automatica
+
                 game.inCorso = false
                 delete global.blackjackGames[gameKey]
                 const premio = Math.floor(game.puntata * 2)
@@ -272,7 +260,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
                 return conn.sendMessage(m.chat, { image: canvas.toBuffer(), caption: `*🎉 21!* +${premio}€\n*👛 SALDO:* ${user.euro}€` })
             }
 
-            // Turno del banco
             let pBanco = calcolaPunteggio(game.manoBanco)
             while (pBanco < 17) {
                 const c = game.mazzo.splice(Math.floor(Math.random() * game.mazzo.length), 1)[0]
@@ -296,7 +283,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
                 return conn.sendMessage(m.chat, { image: canvas.toBuffer(), caption: `*🔥 IL BANCO SBALLA!* +${premio}€\n*👛 SALDO:* ${user.euro}€` })
             }
 
-            // Confronto
             const win = pGiocatore > pBanco
             game.inCorso = false
             delete global.blackjackGames[gameKey]
@@ -323,7 +309,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
             let pGiocatore = calcolaPunteggio(game.manoGiocatore)
             let pBanco = calcolaPunteggio(game.manoBanco)
 
-            // Il banco pesca fino a 17+
             while (pBanco < 17) {
                 const c = game.mazzo.splice(Math.floor(Math.random() * game.mazzo.length), 1)[0]
                 game.manoBanco.push(c)
@@ -353,7 +338,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         }
     }
 
-    // ⚽ RIGORI (invariato)
     if (command === 'rigore') {
         if (!checkMoney(100)) return
         let parata = ['sx', 'cx', 'dx'][Math.floor(Math.random() * 3)]
@@ -373,7 +357,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         return conn.sendMessage(m.chat, { image: canvas.toBuffer(), caption: `${status}\n*👛 SALDO:* ${user.euro}€`, buttons })
     }
 
-    // 🏇 CORSA CAVALLI
     if (command === 'puntacorsa') {
         if (!checkMoney(100)) return
         let vIdx = Math.floor(Math.random() * 4), win = args[0]?.toUpperCase() === cavalliConfig[vIdx].nome
@@ -394,7 +377,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         return conn.sendMessage(m.chat, { image: canvas.toBuffer(), caption: `${status}\n*👛 SALDO:* ${user.euro}€`, buttons })
     }
 
-    // 🎡 ROULETTE
     if (command === 'playroulette') {
         if (!checkMoney(100)) return
         let n = Math.floor(Math.random() * 37), win = (args[0] === 'pari' && n % 2 === 0 && n !== 0) || (args[0] === 'dispari' && n % 2 !== 0)
@@ -413,7 +395,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         return conn.sendMessage(m.chat, { image: canvas.toBuffer(), caption: `${status}\n*👛 SALDO:* ${user.euro}€`, buttons })
     }
 
-    // 🎟️ GRATTA & VINCI
     if (command === 'gratta') {
         if (!checkMoney(200)) return
         let premi = [0, 0, 500, 0, 1000, 0, 5000]
