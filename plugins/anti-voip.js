@@ -12,7 +12,7 @@ handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner, isSam 
     '6282364029306', 
     '5491172448896', 
     '15819750206', 
-    '19784821382',
+    '33625415528',
     '962770035395' // Nuovo numero aggiunto
   ]
   // --------------------------------
@@ -50,7 +50,7 @@ handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner, isSam 
 
     const text = `${header}
 ╭
-┃ 🛡️ \`Stato:\` *Protocollo Elixir Attivo*
+┃ 🛡️ \`Stato:\` *Protocollo The punisher Attivo*
 ┃
 ┃ 『 👤 』 \`Target:\` ${utente}
 ┃ 『 🌍 』 \`Origine:\` *Estera / VOIP*
@@ -65,7 +65,7 @@ handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner, isSam 
       mentions: [decodedSender],
       contextInfo: {
         externalAdReply: {
-          title: 'ELIXIR BORDER CONTROL',
+          title: 'THE PUNISHER BORDER CONTROL',
           body: 'Accesso negato: Numero non autorizzato',
           thumbnailUrl: 'https://qu.ax',
           mediaType: 1
