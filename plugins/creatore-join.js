@@ -11,7 +11,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     // Messaggio estetico di attesa
     let waitingMsg = `  ⋆｡˚『 ╭ \`INFILTRAZIONE\` ╯ 』˚｡⋆\n\n`
-    waitingMsg += `  │ 🤖 *Soggetto:* ELIXIR-BOT\n`
+    waitingMsg += `  │ 🤖 *Soggetto:* 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃\n`
     waitingMsg += `  │ 🎯 *Obiettivo:* Invasione Gruppo\n`
     waitingMsg += `  │ ⏳ *Stato:* Calcolo coordinate...\n`
     waitingMsg += `  ╰⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒`
