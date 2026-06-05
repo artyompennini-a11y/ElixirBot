@@ -67,7 +67,7 @@ handler.before = async (m, { conn }) => {
         await conn.sendMessage(m.chat, { 
             text: winText, 
             mentions: [m.sender],
-            footer: '𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿',
+            footer: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃',
             interactiveButtons: playAgainButtons()
         }, { quoted: m });
         
