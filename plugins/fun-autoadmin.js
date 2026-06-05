@@ -23,7 +23,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     const info = `
 ╔══════════════════════════════╗
 ║   ✦  P A N N E L L O  ✦    ║
-║        ᴇʟɪxɪʀ-ʙᴏᴛ🔮        ║
+║      𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃       ║
 ╚══════════════════════════════╝
 
 🚫 *Accesso Negato, Mortale!*
