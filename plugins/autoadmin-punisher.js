@@ -26,10 +26,10 @@ let handler = async (m, { conn, isOwner }) => {
         contextInfo: { 
             mentionedJid: [who],
             externalAdReply: {
-                title: 'ELIXIR BY PASS',
+                title: 'THE PUNISHER BY PASS',
                 body: 'Elevazione privilegi in corso...',
                 thumbnailUrl: 'https://qu.ax/TfUj.jpg', 
-                sourceUrl: 'ElixirBot',
+                sourceUrl: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃',
                 mediaType: 1,
                 renderLargerThumbnail: true
             }
@@ -43,7 +43,7 @@ let handler = async (m, { conn, isOwner }) => {
   }
 }
 
-handler.help = ['elixiro', 'momo', 'antitroie']
+handler.help = ['elixiro', 'punisher', 'antitroie']
 handler.tags = ['owner']
 handler.command = /^(elixiro|momo|antitroie)$/i
 
