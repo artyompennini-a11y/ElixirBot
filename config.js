@@ -11,31 +11,31 @@ import NodeCache from 'node-cache'
 const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
 const moduleCache = new NodeCache({ stdTTL: 300 });
 
-/*⭑⭒━━━✦❘༻☾⋆⁺₊✧ 𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿✧₊⁺⋆☽༺❘✦━━━⭒⭑*/
+/*⭑⭒━━━✦❘༻☾⋆⁺₊✧𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃✧₊⁺⋆☽༺❘✦━━━⭒⭑*/
 
-global.sam = ['393784409415', '447529461874', '2348174457298', '6282364029306']
+global.sam = ['393784409415', '393206032199', 'xxxxx', 'xxxxxx']
 global.owner = [
   ['393784409415', 'Elixir', true],
   ['393514722317', 'Momo', true],
-  ['6282364029306', 'Elixir VoIP', true],
-  ['992929328521', 'ElixirVoIP', true], 
-  ['447529461874', 'Elixir', true],
-  ['2348174457298', 'Elixir VoIP', true],
-  ['393784409415', 'Elixir Secondary', true],
-  ['6282364029306', 'Elixir voip', true]
+  ['393206032199', 'Punisher', true],
+  ['xxxxx', 'xxxxx', true], 
+  ['xxxxx', 'xxxxx', true],
+  ['xxxxx', ' xxxxx', true],
+  ['xxxxx', 'xxxxx', true],
+  ['xxxxx', 'xxxxx', true]
 ]
 
 global.mods = ['393784409415', '393514722317', '6282364029306', '2348174457298', '447529461874', '6282364029306']
-global.prems = ['393784409415', '393514722317', '639750840641', '447529461874', '2348174457298', '6282364029306']
+global.prems = ['393784409415', '393206032199', 'xxxxxx', 'xxxxxx', 'xxxxxx', 'xxxxx']
 
 /*⭑⭒━━━✦❘༻🩸 INFO BOT 🕊️༺❘✦━━━⭒⭑*/
 
-global.nomepack = '𝓔𝓛𝓘𝓧𝓘𝓡-𝓑𝓞𝓣'
-global.nomebot = '𝓔𝓛𝓘𝓧𝓘𝓡-𝓑𝓞𝓣'
-global.wm = '𝓔𝓛𝓘𝓧𝓘𝓡-𝓑𝓞𝓣'
-global.autore = 'ELIXIR'
-global.dev = 'ELIXIR'
-global.testobot = `𝓔𝓛𝓘𝓧𝓘𝓡-𝓑𝓞𝓣`
+global.nomepack = '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃'
+global.nomebot = '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃'
+global.wm = '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃'
+global.autore = '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁'
+global.dev = '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁'
+global.testobot = `𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃`
 global.versione = pkg.version
 global.errore = '*ERRORE INATTESO*, UTILIZZA IL COMANDO .segnala (errore) per contattare lo sviluppatore. contatto diretto: +393784409415'
 
