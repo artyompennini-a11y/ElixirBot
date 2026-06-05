@@ -1,3 +1,8 @@
+// ╔═══════════════════════════════════════════╗
+// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎           ║
+// ║        Sviluppato da: Elixir              ║
+// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ║
+// ╚═══════════════════════════════════════════╝
 import { canLevelUp, xpRange } from '../lib/levelling.js'
 import { createCanvas, loadImage } from 'canvas'
 
@@ -23,7 +28,7 @@ export async function before(m, { conn }) {
                 profilePic = await conn.profilePictureUrl(m.sender, 'image')
             } catch {
                 
-                profilePic = 'https://i.ibb.co/BKHtdBNp/default-avatar-profile-icon-1280x1280.jpg'
+                profilePic = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Portrait_Placeholder.png/240px-Portrait_Placeholder.png'
             }
             
             const width = 1200
