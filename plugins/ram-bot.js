@@ -62,7 +62,7 @@ const handler = async (m, { conn }) => {
     hour: '2-digit', minute: '2-digit', second: '2-digit'
   })
 
-  const testo = `⋆｡˚『 ╭ ᴇʟɪxɪʀ · sʏsᴛᴇᴍ sᴛᴀᴛs ╯ 』˚｡⋆
+  const testo = `⋆｡˚『 ╭ 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁 · SYSTEM STATS ╯ 』˚｡⋆
 ╭─────────────────────────
 ┃  ⚡ *Velocità* ›  ${speed} ms
 ┃  ⏱️ *Uptime*   ›  ${uptime}
@@ -80,7 +80,7 @@ const handler = async (m, { conn }) => {
 ┃  📊 *Load*  ›  ${loadLabel}
 ┃  🖥️ *OS*    ›  ${os.type()} ${os.arch()}
 ╰⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒
-_ᴇʟɪxɪʀ-ʙᴏᴛ · sʏsᴛᴇᴍ ᴍᴏɴɪᴛᴏ r_`
+_𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 · SYSTEM MONITOR_`
 
   await conn.sendMessage(m.chat, { text: testo }, { quoted: m })
 }
