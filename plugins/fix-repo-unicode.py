@@ -10,7 +10,7 @@ def bold_italic_char(c):
 def bold_italic(text):
     return ''.join(bold_italic_char(c) for c in text)
 
-ELIXIR_BOLD = bold_italic('ELIXIR')
+ELIXIR_BOLD = bold_italic('THE PUNISHER')
 BOT_BOLD = bold_italic('BOT')
 
 content = f"""let handler = async (m, {{ conn }}) => {{
@@ -23,9 +23,9 @@ content = f"""let handler = async (m, {{ conn }}) => {{
 
 *https://whatsapp.com/channel/0029Vb7NyC67tkj0robcbw24* 
 
-*🌟 𝐒𝐮𝐩𝐩𝐨𝐫𝐭𝐚 𝐥𝐨 𝐬𝐯𝐢𝐥𝐮𝐩𝐩𝐨 𝐝𝐢 𝐸𝑙ɪxⁱʳ-𝔅o͜͡ꪻ 𝐜𝐨𝐧 𝐮𝐧𝐚 𝐬𝐭𝐞𝐥𝐥𝐚 𝐬𝐮 𝐆𝐢𝐭𝐇𝐮𝐛
+*🌟 𝐒𝐮𝐩𝐩𝐨𝐫𝐭𝐚 𝐥𝐨 𝐬𝐯𝐢𝐥𝐮𝐩𝐩𝐨 𝐝𝐢 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 𝐜𝐨𝐧 𝐮𝐧𝐚 𝐬𝐭𝐞𝐥𝐥𝐚 𝐬𝐮 𝐆𝐢𝐭𝐇𝐮𝐛
 
-> *{ELIXIR_BOLD} {BOT_BOLD}*`,
+> *{THE PUNISHER_BOLD} {BOT_BOLD}*`,
     contextInfo: global.rcanal?.contextInfo || {{}}
   }}, {{ quoted: m }})
 }}
