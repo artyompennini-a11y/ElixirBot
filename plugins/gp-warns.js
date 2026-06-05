@@ -51,7 +51,7 @@ let handler = async (m, { conn, isOwner }) => {
 \`👥\` *Totale:* \`${adv.length}\` ${adv.length === 1 ? 'utente' : 'utenti'}
 \`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
 ${userList}\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
-\`🔐\` *SISTEMA ELIXIR*`;
+\`🔐\` *SISTEMA THE PUNISHER*`;
 
     await conn.reply(m.chat, caption, m, {
         mentions: await conn.parseMention(caption),
