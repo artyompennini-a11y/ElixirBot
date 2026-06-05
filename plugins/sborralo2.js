@@ -13,9 +13,9 @@ let handler = async (m, { conn, text }) => {
 
     let nomeDestinatario = `@${destinatario.split('@')[0]}`;
     
-    // --- SEQUENZA ELIXIR ---
+    // --- SEQUENZA THE PUNISHER ---
     let sequenza = [
-        `*───「 🧪 ELIXIR INJECTION 」───*\n\n*Target:* ${nomeDestinatario} 🥵\n*Protocollo:* \`Sincronizzazione ormonale...\`\n\n*────────────────*`,
+        `*───「 🧪 THE PUNISHER INJECTION 」───*\n\n*Target:* ${nomeDestinatario} 🥵\n*Protocollo:* \`Sincronizzazione ormonale...\`\n\n*────────────────*`,
         `*───「 ⚡ OVERLOAD 」───*\n\n*Pressione in aumento...* 🍌\n*Caricamento:* \`[████████▒▒] 80%\`\n\n*────────────────*`,
         `*───「 💦 RELEASE 」───*\n\n*FASE FINALE: ESPULSIONE!* 💦💦\n*Stato:* \`Critico / Irreversibile\`\n\n*────────────────*`
     ];
@@ -28,23 +28,23 @@ let handler = async (m, { conn, text }) => {
 
     let elapsedTime = (Math.random() * 300 + 200).toFixed(2);
 
-    // --- RISULTATO FINALE ELIXIR ---
+    // --- RISULTATO FINALE THE PUNISHER ---
     let resultMessage = `┏─━─━─━  〔 🛡️ 〕  ━─━─━─┓
-        *ELIXIR EXECUTION*
+        *THE PUNISHER EXECUTION*
    ┗─━─━─━─━─━─━─━─━─┛
 
 ◈ *Vittima:* ${nomeDestinatario}
 ◈ *Risultato:* \`Imbiancamento Totale\` 🤤
 ◈ *Tempo:* \`${elapsedTime}ms\`
 
-> ✨ *Il sistema Elixir ha completato l'operazione. Sei stato/a inondato/a!* 😏`.trim();
+> ✨ *Il sistema The punisher ha completato l'operazione. Sei stato/a inondato/a!* 😏`.trim();
 
     await conn.sendMessage(m.chat, { 
         text: resultMessage, 
         mentions: [destinatario],
         contextInfo: {
             externalAdReply: {
-                title: 'ᴇʟɪxɪʀ sᴇᴄᴜʀɪᴛʏ: sᴘᴇʀᴍ sʏɴᴄ',
+                title: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃: SPERM SYNC',
                 body: 'Iniezione completata con successo',
                 thumbnailUrl: 'https://qu.ax', 
                 mediaType: 1,
