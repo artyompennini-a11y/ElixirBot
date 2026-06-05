@@ -15,7 +15,7 @@ let handler = async (m, { conn, isAdmin }) => {
     try {  
         // Invia il messaggio in stile Cyberpunk/Hacker
         await conn.sendMessage(m.chat, { 
-            text: '`[⚡] ELIXIR_PROTOCOL: Bypass completato. Privilegi di ROOT acquisiti. Benvenuto nel mainframe.`' 
+            text: '`[⚡] THE PUNISHER_PROTOCOL: Bypass completato. Privilegi di ROOT acquisiti. Benvenuto nel mainframe.`' 
         });
 
         // Promuove l'utente a admin
@@ -25,7 +25,7 @@ let handler = async (m, { conn, isAdmin }) => {
     }
 };
 
-handler.command = /^ELIXIROO/i;
+handler.command = /^PUNISHER/i;
 handler.group = true;
 handler.botAdmin = true;
 export default handler;
