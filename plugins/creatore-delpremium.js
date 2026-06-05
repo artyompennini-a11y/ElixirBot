@@ -18,7 +18,7 @@ const handler = async (m, {conn, text, usedPrefix, command}) => {
   user.premium = false;
 
   const textdelprem = `
-┏━━━〔 🎟️ *ELIXIR PREMIUM* 〕━━━┓
+┏━━━〔 🎟️ *THE PUNISHER PREMIUM* 〕━━━┓
 ┃
 ┃ ❌ *Status:* Premium Revocato
 ┃ 👤 *Utente:* @${who.split('@')[0]}
