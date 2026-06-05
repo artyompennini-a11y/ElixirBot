@@ -1,6 +1,6 @@
 if (!global.piazze) global.piazze = {}
 
-const footer = '𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿'
+const footer = '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃'
 
 let handler = async (m, { conn, text, command, usedPrefix }) => {
     let chat = m.chat
