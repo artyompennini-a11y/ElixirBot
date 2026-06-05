@@ -80,7 +80,7 @@ async function getTopArtists(username) {
 const handler = async (m, { conn, usedPrefix, text, command }) => {
 
   if (command === 'setuser') {
-    if (!text) return m.reply(`🩸 *ᴇʟɪxɪʀ ʙᴏᴛ�*\n\n💡 _Scrivi:_ ${usedPrefix}setuser nome_utente`)
+    if (!text) return m.reply(`🩸 *𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃�*\n\n💡 _Scrivi:_ ${usedPrefix}setuser nome_utente`)
     setLastfmUsername(m.sender, text.trim())
     return m.reply(`✅ *Profilo Last.fm collegato con successo!*`)
   }
@@ -105,7 +105,7 @@ const handler = async (m, { conn, usedPrefix, text, command }) => {
     const likes = getLikesReceived(username)
 
     let infoMsg = `┏━━━━━━━━━━━━━━━━━━━┓\n`
-    infoMsg += `      🎧  *ᴇʟɪxɪʀ ʟᴀsᴛ.ғᴍ* 🎧\n`
+    infoMsg += `      🎧  *𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 ʟᴀsᴛ.ғᴍ* 🎧\n`
     infoMsg += `┗━━━━━━━━━━━━━━━━━━━┛\n\n`
     infoMsg += `◈ 👤 *𝗨𝘁𝗲𝗻𝘁𝗲:* ${username}\n`
     infoMsg += `◈ 📀 *𝗦𝘁𝗮𝘁𝗼:* ${nowPlaying ? '🔥 _In riproduzione..._' : '🕒 _Ultimo ascolto_'}\n\n`
@@ -127,7 +127,7 @@ const handler = async (m, { conn, usedPrefix, text, command }) => {
     return await conn.sendMessage(m.chat, {
         image: { url: image || 'https://cdn-icons-png.flaticon.com/512/174/174858.png' },
         caption: infoMsg,
-        footer: 'ᴇʟɪxɪʀ ʙᴏᴛ • 𝟤𝟢𝟤𝟨',
+        footer: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 • 𝟤𝟢𝟤𝟨',
         buttons: buttons,
         headerType: 4
     }, { quoted: m })
