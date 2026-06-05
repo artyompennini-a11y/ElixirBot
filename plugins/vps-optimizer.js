@@ -14,7 +14,7 @@ let handler = async (m, { conn }) => {
   const sep = '▸'
   
   const msg = `╔══════════════════════════╗
-║   ⚡ *ELIXIR VPS OPTIMIZER* ⚡
+║   ⚡ *THE PUNISHER VPS OPTIMIZER* ⚡
 ╚══════════════════════════╝
 
 ━━━━━━━━━━━━━━━━━━━
