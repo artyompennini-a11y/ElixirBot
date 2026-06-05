@@ -129,7 +129,7 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
             }
 
             output += `\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
-\`🔐\` *SISTEMA ELIXIR*`
+\`🔐\` *SISTEMA THE PUNISHER*`
 
             await conn.sendMessage(m.chat, {
                 text: output,
@@ -138,7 +138,7 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
         }
     } catch (e) {
         console.error(e)
-        m.reply(`*⛔ ERRORE*\n\`━━━━━━━━━━━━━━━━\`\n\n\`⚠️\` ${e.message || 'Errore sconosciuto.'}\n\n\`🔐\` *SISTEMA ELIXIR*`)
+        m.reply(`*⛔ ERRORE*\n\`━━━━━━━━━━━━━━━━\`\n\n\`⚠️\` ${e.message || 'Errore sconosciuto.'}\n\n\`🔐\` *SISTEMA THE PUNISHER*`)
     }
 }
 
