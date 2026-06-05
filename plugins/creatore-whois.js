@@ -65,27 +65,29 @@ let handler = async (m, { conn, text, command }) => {
         let lineType = 'N/D'
         let apiOnline = false
 
-        const apiKey = process.env.NUMLOOKUP_API_KEY || 'num_live_pfFdkRldn2QwGOY2BD59lH3bTrPgAntqnynbdVgI'
+        const apiKey = process.env.NUMLOOKUP_API_KEY
 
-        try {
-            let apiUrl = `https://numlookupapi.com{phoneNumber}?apikey=${apiKey}`
-            let res = await fetch(apiUrl)
-            if (res.ok) {
-                let json = await res.json()
-                if (json && json.data) {
-                    countryName = json.data.country_name || 'N/D'
-                    carrier = json.data.carrier || 'N/D'
-                    lineType = json.data.line_type || 'N/D'
-                    apiOnline = true
-                } else if (json) {
-                    countryName = json.country_name || 'N/D'
-                    carrier = json.carrier || 'N/D'
-                    lineType = json.line_type || 'N/D'
-                    apiOnline = true
+        if (apiKey) {
+            try {
+                let apiUrl = `https://numlookupapi.com{phoneNumber}?apikey=${apiKey}`
+                let res = await fetch(apiUrl)
+                if (res.ok) {
+                    let json = await res.json()
+                    if (json && json.data) {
+                        countryName = json.data.country_name || 'N/D'
+                        carrier = json.data.carrier || 'N/D'
+                        lineType = json.data.line_type || 'N/D'
+                        apiOnline = true
+                    } else if (json) {
+                        countryName = json.country_name || 'N/D'
+                        carrier = json.carrier || 'N/D'
+                        lineType = json.line_type || 'N/D'
+                        apiOnline = true
+                    }
                 }
+            } catch (e) {
+                apiOnline = false
             }
-        } catch (e) {
-            apiOnline = false
         }
 
         let warnTag = localWarn >= 5 ? 'ESPULSO' : `${localWarn}/5`
