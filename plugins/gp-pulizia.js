@@ -91,7 +91,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ┃ 🗑️ Messaggi rimossi: *${targets.length}*
 ┃ 👤 Eseguito da: @${m.sender.split('@')[0]}
 ┃
-> 𝐄𝐋𝐈𝐗𝐈𝐑 𝐁𝐎𝐓
+> 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃
 ╰⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒`;
 
         await conn.sendMessage(m.chat, { 
