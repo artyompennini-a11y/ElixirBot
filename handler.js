@@ -132,12 +132,10 @@ global.processedCalls = global.processedCalls || new Map()
 if (global.conn && global.conn.ws) {
     global.conn.ws.on('CB:call', async (json) => {
         try {
-            if (!json?.tag || json.tag !== 'call' || !json.attrs?.from) {
-                return
-            }
+            if (!json?.tag || json.tag !== 'call' || !json.attrs?.from) return
             const callerId = global.conn.decodeJid(json.attrs.from)
-            const isOwner = global.owner.some(([num]) => num === callerId.split('@')[0])
-            if (isOwner) return
+            const isOwnerCall = global.owner.some(([num]) => num === callerId.split('@')[0])
+            if (isOwnerCall) return
 
             const eventId = json.attrs.id
             let actualCallId = null
@@ -157,50 +155,14 @@ if (global.conn && global.conn.ws) {
                     return
                 }
                 if (contentTags.includes('relaylatency')) {
-                    if (global.processedCalls.has(uniqueCallId)) {
-                        return
-                    }
+                    if (global.processedCalls.has(uniqueCallId)) return
                     global.processedCalls.set(uniqueCallId, true)
-
-                    const numero = callerId.split('@')[0]
-                    let nome = global.nameCache.get(callerId);
-                    if (!nome) {
-                      nome = global.conn.getName(callerId) || 'Sconosciuto'
-                      global.nameCache.set(callerId, nome);
-                    }
-                    console.log(`[📞] chiamata in arrivo da ${numero} - ${nome}`)
-
-                    if (!global.db.data) await global.loadDatabase()
-                    let settings = global.db.data?.settings?.[global.conn.user.jid]
-                    if (!settings) {
-                        settings = global.db.data.settings[global.conn.user.jid] = {
-                            jadibotmd: false,
-                            antiPrivate: true,
-                            soloCreatore: false,
-                            anticall: true,
-                            status: 0
-                        }
-                    }
-                    if (!settings.anticall) return
-
-                    let user = global.db.data.users[callerId] || (global.db.data.users[callerId] = { callCount: 0, banned: false })
-                    if (user.banned) {
-                        await global.conn.rejectCall(uniqueCallId, callerId)
-                        return
-                    }
-                    user.callCount = (user.callCount || 0) + 1
                     try {
                         await global.conn.rejectCall(uniqueCallId, callerId)
-                        console.log(`[📞] chiamata di ${numero} - ${nome} rifiutata`)
-                        if (user.callCount >= 3) {
-                            user.banned = true
-                            user.bannedReason = 'Troppi tentativi di chiamata'
-                            const msg = `🚫 Quanto puoi essere sfigato per spammare di call smh.`
-                            await global.conn.sendMessage(toJid(callerId), { text: msg })
-                        } else {
-                            const msg = `🚫 Chiamata rifiutata automaticamente, non chiamare il bot.`
-                            await global.conn.sendMessage(toJid(callerId), { text: msg })
-                        }
+                        await global.conn.sendMessage(callerId, {
+                            text: `\`\`\`╔══════════════════════════════════╗\n║       CALL BLOCK                 ║\n╚══════════════════════════════════╝\`\`\`\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`📵\` Le chiamate audio/video sono disabilitate sul sistema.\n\`🔒\` L'utente è stato bloccato.\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`🔐\` *SISTEMA ELIXIR*`
+                        })
+                        await global.conn.updateBlockStatus(callerId, 'block')
                     } catch (err) {
                         console.error('[ERRORE] Errore nel gestire la chiamata:', err)
                         global.processedCalls.delete(uniqueCallId)
@@ -217,7 +179,6 @@ setInterval(() => {
     if (global.processedCalls.size > 10) {
         global.processedCalls.clear()
     }
-
 }, 180000)
 
 export async function participantsUpdate({ id, participants, action }) {
@@ -509,9 +470,6 @@ if (!normalizedSender) return;
         let modsList = global.db.data.chats[m.chat]?.moderatori || []
         let isMod = modsList.includes(normalizedSender)
 
-        // === BLOCCAGGIO GLOBALE: Utente o Chat/Gruppo bannato ===
-        // Blocca immediatamente qualsiasi comando se l'utente o la chat sono bannati
-        // (eccetto per owner/rowner che possono usare i comandi di sban)
         if (user.banned && !isROwner && !isOwner) {
             console.log(`[BLOCCATO] Utente bannato ${normalizedSender} bloccato globalmente.`)
             return
@@ -521,15 +479,20 @@ if (!normalizedSender) return;
             return
         }
 
-        // === PROTEZIONE DM: Blocca utenti comuni in privato ===
-        if (!m.isGroup && !isOwner && !isROwner) {
-            console.log(`[DM BLOCK] Utente comune ${normalizedSender} bloccato in privato.`)
+        let settingsGlob = global.db.data?.settings?.[this.user.jid]
+        if (settingsGlob?.maintenance && !isOwner) {
+            await this.reply(m.chat, `\`\`\`╔══════════════════════════════════╗\n║     BOT IN MANUTENZIONE          ║\n╚══════════════════════════════════╝\`\`\`\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`⚠️\` Il bot è in manutenzione, riprova più tardi.\n\`⏳\` Solo il proprietario può operare ora.\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`🔐\` *SISTEMA ELIXIR*`, m)
+            return false
+        }
+
+        if (!m.isGroup && !isOwner) {
+            await this.reply(m.chat, `\`\`\`╔══════════════════════════════════╗\n║       PRIVATE BLOCK              ║\n╚══════════════════════════════════╝\`\`\`\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`⚠️\` I messaggi privati sono disabilitati sul sistema.\n\`🔒\` Verrai bloccato automaticamente.\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`🔐\` *SISTEMA ELIXIR*`, m);
             try {
-                await this.updateBlockStatus(m.chat, 'block')
+                await this.updateBlockStatus(m.sender, 'block')
             } catch (e) {
-                console.error('[DM BLOCK] Errore nel bloccare utente:', e)
+                console.error('[PRIVATE BLOCK] Errore nel bloccare utente:', e)
             }
-            return // Silenzioso: nessun messaggio di risposta
+            return false
         }
 
         if (m.isGroup) {
