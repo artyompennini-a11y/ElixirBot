@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Cinzel+Decorative&size=50&pause=1000&color=D4AF37&center=true&vCenter=true&width=750&height=130&lines=✧+ELIXIR-BOT+✧;L'ECCELLENZA+DELL'AUTOMAZIONE;DESIGN+ED+ELEGANZA+SUPREMA" alt="The Punisher Bot Title" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Cinzel+Decorative&size=50&pause=1000&color=D4AF37&center=true&vCenter=true&width=750&height=130&lines=✧+The Punisher Bot+✧;L'ECCELLENZA+DELL'AUTOMAZIONE;DESIGN+ED+ELEGANZA+SUPREMA" alt="The Punisher Bot Title" />
 </p>
 
 <p align="center">
