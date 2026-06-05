@@ -15,7 +15,7 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         let itemKey = args[1]?.toLowerCase()
 
         if (!who || !itemKey || !items[itemKey]) {
-            let list = `🤝 *SOCIETÀ ELIXIR*\n━━━━━━━━━━━━━━━━━━━━\n\n`
+            let list = `🤝 *SOCIETÀ THE PUNISHER*\n━━━━━━━━━━━━━━━━━━━━\n\n`
             list += `Usa: \`${usedPrefix + command} @tag <id>\`\n\n`
             for (let k in items) list += `▫️ \`${k}\` - ${(items[k].price / 2).toLocaleString()} 🪙 (Quota 50%)\n`
             return m.reply(list)
