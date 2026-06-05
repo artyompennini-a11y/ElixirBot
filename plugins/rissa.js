@@ -1,7 +1,7 @@
 // Plugin Rissa Arena - Adattato con sistema economico Euro/Exp
 let rissaInCorso = {};
 
-const footer = '𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿';
+const footer = '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃';
 
 let handler = async (m, { conn, command, args, usedPrefix }) => {
     let chat = m.chat;
