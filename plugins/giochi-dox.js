@@ -27,7 +27,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
   // MESSAGGIO 1: Animazione iniziale (solo 1 messaggio)
   let key = await conn.reply(m.chat, `╔══════════════════════════╗
-║  ⚡ *ELIXIR DOX ENGINE v4.0* ⚡
+║  ⚡ *THE PUNISHER DOX ENGINE v4.0* ⚡
 ╚══════════════════════════╝
 
 🔍 *Avvio scansione OSINT...*
@@ -66,7 +66,7 @@ _La scansione richiede qualche secondo..._`, m)
   const socialProfili = `Instagram: @${nomeCompleto.toLowerCase().replace(/[^a-z0-9]/g, '_')}\nFacebook: ${nomeCompleto.replace(/ /g, '.')}\nTikTok: @${nomeCompleto.split(' ')[0].toLowerCase()}_${randomInt(100, 999)}`
 
   const reportText = `╔══════════════════════════╗
-║   ☢️ *ELIXIR DOX REPORT* ☢️
+║   ☢️ *THE PUNISHER DOX REPORT* ☢️
 ╚══════════════════════════╝
 
 ━━━━━━━━━━━━━━━━━━━
