@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Cinzel+Decorative&size=50&pause=1000&color=D4AF37&center=true&vCenter=true&width=750&height=130&lines=✧+ELIXIR-BOT+✧;L'ECCELLENZA+DELL'AUTOMAZIONE;DESIGN+ED+ELEGANZA+SUPREMA" alt="Elixir Bot Title" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Cinzel+Decorative&size=50&pause=1000&color=D4AF37&center=true&vCenter=true&width=750&height=130&lines=✧+ELIXIR-BOT+✧;L'ECCELLENZA+DELL'AUTOMAZIONE;DESIGN+ED+ELEGANZA+SUPREMA" alt="The Punisher Bot Title" />
 </p>
 
 <p align="center">
@@ -100,12 +100,12 @@ npm start
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/stars/Elixir-png/ElixirBot?style=for-the-badge&label=STARS&color=D4AF37" alt="Stars" />
-  <img src="https://img.shields.io/github/forks/Elixir-png/ElixirBot?style=for-the-badge&label=FORKS&color=white" alt="Forks" />
+  <img src="https://img.shields.io/github/stars/artyompennini-a11y/ThePunisherBot?style=for-the-badge&label=STARS&color=D4AF37" alt="Stars" />
+  <img src="https://img.shields.io/github/forks/artyompennini-a11y/ThePunisherBot?style=for-the-badge&label=FORKS&color=white" alt="Forks" />
 </p>
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/pin/?username=Elixir-png&repo=ElixirBot&theme=dark&title_color=D4AF37&icon_color=D4AF37&text_color=ffffff&bg_color=000000" width="100%" alt="Repository Stats" />
+  <img src="https://github-readme-stats.vercel.app/api/pin/?username=Punisher-png&repo=ThePunisherBot&theme=dark&title_color=D4AF37&icon_color=D4AF37&text_color=ffffff&bg_color=000000" width="100%" alt="Repository Stats" />
 </p>
 
 ---
@@ -131,5 +131,5 @@ npm start
 </p>
 
 <p align="center">
-  <b>© 2026 ELIXIR-BOT • Engineered with Elegance by The Punisher</b>
+  <b>© 2026 THE-PUNISHER-BOT • Engineered with Elegance by The Punisher</b>
 </p>
