@@ -1,4 +1,8 @@
-// by elixir
+// ╔═══════════════════════════════════════════╗
+// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎           ║
+// ║        Sviluppato da: Elixir              ║
+// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ║
+// ╚═══════════════════════════════════════════╝
 import { createCanvas, loadImage } from 'canvas';
 
 let handler = async (m, { conn, text }) => {
@@ -82,7 +86,7 @@ let handler = async (m, { conn, text }) => {
     try {
       ppUrl = await conn.profilePictureUrl(who, 'image');
     } catch {
-      ppUrl = 'https://getspace.space'; 
+      ppUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Portrait_Placeholder.png/240px-Portrait_Placeholder.png'; 
     }
 
     const canvas = createCanvas(950, 480);
