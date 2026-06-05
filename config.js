@@ -18,14 +18,14 @@ global.owner = [
   ['393784409415', 'Elixir', true],
   ['393514722317', 'Momo', true],
   ['393206032199', 'Punisher', true],
-  ['xxxxx', 'xxxxx', true], 
-  ['xxxxx', 'xxxxx', true],
+  ['962770035395', 'The punisher-bot', true], 
+  ['2348174457298', 'Elixir voip', true],
   ['xxxxx', ' xxxxx', true],
   ['xxxxx', 'xxxxx', true],
   ['xxxxx', 'xxxxx', true]
 ]
 
-global.mods = ['393784409415', '393514722317', '6282364029306', '2348174457298', '447529461874', '6282364029306']
+global.mods = ['393784409415', '393206032199', 'xxxxx', '2348174457298', 'xxxxxx', 'xxxxxx']
 global.prems = ['393784409415', '393206032199', 'xxxxxx', 'xxxxxx', 'xxxxxx', 'xxxxx']
 
 /*⭑⭒━━━✦❘༻🩸 INFO BOT 🕊️༺❘✦━━━⭒⭑*/
@@ -41,7 +41,7 @@ global.errore = '*ERRORE INATTESO*, UTILIZZA IL COMANDO .segnala (errore) per co
 
 /*⭑⭒━━━✦❘༻🌐 LINK 🌐༺❘✦━━━⭒⭑*/
 
-global.repobot ='https//wa.me/393784409415'
+global.repobot ='https//wa.me/393206032199'
 global.gruppo = 'https://chat.whatsapp.com/JOaqS04seMvFepBFp4Q4rL'
 global.insta = 'instagram.com/eli.xir_gg'
 
