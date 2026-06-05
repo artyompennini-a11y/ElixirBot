@@ -38,7 +38,7 @@ const handler = async (msg, { conn, command, text, isAdmin }) => {
   }
 
   if (mentionedJid === groupOwner || PROTECTED_USERS.includes(mentionedJid) || mentionedJid === botNumber) {
-    return conn.reply(chatId, `*───「 👑 TARGET PROTETTO 」───*\n\nL'utente selezionato è presente nel database delle protezioni di *Elixir*.\n*────────────────*`, msg);
+    return conn.reply(chatId, `*───「 👑 TARGET PROTETTO 」───*\n\nL'utente selezionato è presente nel database delle protezioni di *𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁*.\n*────────────────*`, msg);
   }
 
   if (!global.db.data.users[mentionedJid]) global.db.data.users[mentionedJid] = { warn: 0 };
@@ -61,7 +61,7 @@ const handler = async (msg, { conn, command, text, isAdmin }) => {
 \`🔨\` *Azione:* \`ESPULSIONE\`
 \`⚠️\` *Causa:* \`Accumulo ${MAX_WARN}/${MAX_WARN} Warn\`
 \`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
-\`🔐\` *SISTEMA ELIXIR*`,
+\`🔐\` *SISTEMA THE PUNISHER*`,
         mentions: [mentionedJid]
       });
     }
@@ -75,7 +75,7 @@ const handler = async (msg, { conn, command, text, isAdmin }) => {
 \`📝\` *Motivo:* \`${reason}\`
 \`⚠️\` *Stato:* \`${user.warn}/${MAX_WARN} Warn\`
 \`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
-\`🔐\` *SISTEMA ELIXIR*`,
+\`🔐\` *SISTEMA THE PUNISHER*`,
       mentions: [mentionedJid]
     });
   }
@@ -93,7 +93,7 @@ const handler = async (msg, { conn, command, text, isAdmin }) => {
 \`✅\` *Azione:* \`Rimozione 1 Warn\`
 \`📊\` *Nuovo Stato:* \`${user.warn}/${MAX_WARN} Warn\`
 \`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`
-\`🔐\` *SISTEMA ELIXIR*`,
+\`🔐\` *SISTEMA THE PUNISHER*`,
       mentions: [mentionedJid]
     });
   }
