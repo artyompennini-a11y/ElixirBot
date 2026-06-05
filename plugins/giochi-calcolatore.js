@@ -1,9 +1,13 @@
+// ╔═══════════════════════════════════════════╗
+// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎           ║
+// ║        Sviluppato da: Elixir              ║
+// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ║
+// ╚═══════════════════════════════════════════╝
 import { createCanvas, loadImage } from 'canvas';
 import fetch from 'node-fetch';
 
-const DEFAULT_AVATAR_URL = 'https://i.ibb.co/jH0VpAv/default-avatar-profile-icon-of-social-media-user-vector.jpg';
+const DEFAULT_AVATAR_URL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Portrait_Placeholder.png/240px-Portrait_Placeholder.png';
 
-// Helper per testo neon
 function drawNeonText(ctx, text, x, y, fontSize, color, align = 'center') {
     ctx.save();
     ctx.font = `bold ${fontSize}px Impact, sans-serif`;
@@ -19,7 +23,6 @@ function drawNeonText(ctx, text, x, y, fontSize, color, align = 'center') {
     ctx.restore();
 }
 
-// Sfondo Cyberpunk
 function generateCyberBackground(ctx, width, height, colors) {
     const bgGrad = ctx.createLinearGradient(0, 0, width, height);
     bgGrad.addColorStop(0, '#0a0a0c');
@@ -33,7 +36,6 @@ function generateCyberBackground(ctx, width, height, colors) {
     }
 }
 
-// DISEGNO DINAMICO DEL MEMBRO (Comando Cazzo)
 function drawMembro(ctx, x, y, size) {
     const baseSize = 55;
     const length = Math.max(40, size * 14); 
@@ -54,7 +56,6 @@ function drawMembro(ctx, x, y, size) {
     ctx.restore();
 }
 
-// DISEGNO DINAMICO DELLE TETTE (Comando Tette)
 function drawBoobs(ctx, x, y, size) {
     const radius = 60 + (size * 8); // Il raggio cresce con la misura
     ctx.save();
@@ -63,16 +64,14 @@ function drawBoobs(ctx, x, y, size) {
     ctx.shadowColor = 'rgba(255, 182, 193, 0.5)';
     ctx.shadowBlur = 15;
 
-    // Sinistra
     ctx.beginPath();
     ctx.arc(-radius * 0.9, 0, radius, 0, Math.PI * 2);
     ctx.fill();
-    // Destra
+
     ctx.beginPath();
     ctx.arc(radius * 0.9, 0, radius, 0, Math.PI * 2);
     ctx.fill();
 
-    // Capezzoli
     ctx.fillStyle = '#FFB6C1';
     ctx.beginPath();
     ctx.arc(-radius * 0.9, -radius * 0.1, radius * 0.15, 0, Math.PI * 2);
