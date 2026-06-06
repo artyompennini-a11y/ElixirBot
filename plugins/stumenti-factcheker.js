@@ -182,7 +182,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             m.chat,
             {
                 text: `『 📝 』 \`Ricerca:\` \n➤  *\`${text}\`*`,
-                footer: 'elixir ✧ bot',
+                footer: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃',
                 cards: cards
             },
             { quoted: m }
@@ -207,7 +207,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             `┌⭓ Riprova tra poco\n` +
             `├⭓ Riduci il testo o semplifica\n` +
             `└⭓ Contatta lo staff con *.staff*\n\n` +
-            `> *elixir ✧ bot*`
+            `> *𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃*`
         )
     }
 }
