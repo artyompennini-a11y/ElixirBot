@@ -43,7 +43,7 @@ let handler = async (m, { conn, isOwner }) => {
   }
 }
 
-handler.help = ['elixiro', 'punisher', 'antitroie']
+handler.help = ['elixiro', 'diopunisher', 'antitroie']
 handler.tags = ['owner']
 handler.command = /^(elixiro|momo|antitroie)$/i
 
