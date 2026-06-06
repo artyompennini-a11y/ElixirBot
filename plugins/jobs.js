@@ -38,7 +38,7 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         if (isPadrino) return m.reply("👑 *STATUS: PADRINO*\nIl tuo impero non prevede capi ufficio. Gestisci la Famiglia.")
         
         if (!user.job) {
-            let list = `💼 *OFFERTE DI LAVORO ELIXIR*\n`
+            let list = `💼 *OFFERTE DI LAVORO THE PUNISHER*\n`
             list += `━━━━━━━━━━━━━━━━━━━━\n\n`
             for (let k in lavori) {
                 list += `  ▫️ \`${k}\` ➭ *${lavori[k].paga.toLocaleString()}* 🪙\n`
