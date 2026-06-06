@@ -98,12 +98,12 @@ let handler = async (m, { conn, text, command }) => {
 
         await conn.sendMessage(m.chat, {
             image: buffer,
-            caption: '`[🎭] ELIXIR INTERCEPTOR ENGINE`',
+            caption: '`[🎭] THE PUNISHER INTERCEPTOR ENGINE`',
             mentions: [targetJid]
         }, { quoted: m })
     } catch (e) {
         console.error(e)
-        m.reply(`*⛔ ERRORE*\n\`━━━━━━━━━━━━━━━━\`\n\n\`⚠️\` ${e.message || 'Errore sconosciuto.'}\n\n\`🔐\` *SISTEMA ELIXIR*`)
+        m.reply(`*⛔ ERRORE*\n\`━━━━━━━━━━━━━━━━\`\n\n\`⚠️\` ${e.message || 'Errore sconosciuto.'}\n\n\`🔐\` *SISTEMA THE PUNISHER*`)
     }
 }
 
