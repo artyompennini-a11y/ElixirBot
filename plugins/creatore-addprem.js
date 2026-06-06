@@ -11,7 +11,7 @@ const handler = async (m, {conn, text, usedPrefix, command}) => {
   const duration = text.replace(/[@]?[0-9]+/, '').trim() || "1"; 
   const name = `@${who.split`@`[0]}`;
 
-  const ERROR = `❌ L'utente non è presente nel database di *Elixir Bot*.`;
+  const ERROR = `❌ L'utente non è presente nel database di *𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃*.`;
   if (!user) return m.reply(ERROR, null, {mentions: conn.parseMention(ERROR)});
 
   const n = parseInt(duration) || 1;
