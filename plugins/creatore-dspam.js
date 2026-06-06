@@ -30,7 +30,7 @@ https://chat.whatsapp.com/FmUTX8bHY2xJPH556zi3AZ
                             contextInfo: {
                                 mentionedJid: mentions,
                                 externalAdReply: {
-                                    title: 'ElixirBoT Broadcast',
+                                    title: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 Broadcast',
                                     body: 'Unisciti ora!',
                                     mediaType: 1,
                                     renderLargerThumbnail: true,
