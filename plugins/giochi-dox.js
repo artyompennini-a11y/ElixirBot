@@ -112,7 +112,7 @@ ${socialProfili}
 
 ━━━━━━━━━━━━━━━━━━━
 ⚠️ Report simulato a scopo ricreativo
-${new Date().toLocaleString('it-IT')} | ELIXIR-BOT`.trim()
+${new Date().toLocaleString('it-IT')} | 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃`.trim()
 
   // MESSAGGIO 2: Report finale + pulsante PDF
   const mentions = target.type === 'jid' ? [target.value] : []
