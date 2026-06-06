@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════
-//  🛡️  ELIXIR - ANTI-LINK2  🛡️
+//  🛡️  THE PUNISHER - ANTI-LINK2  🛡️
 //  Blocca: link social media (IG, TT, YT, TG, Discord…) + QR Code
 //  Chiave DB: chat.antiLink2
 //  Chiavi per piattaforma: chat.antiLink2_tiktok, chat.antiLink2_instagram, ecc.
