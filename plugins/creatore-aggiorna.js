@@ -1,7 +1,4 @@
 import { execSync } from 'child_process'
-import fs from 'fs'
-import path from 'path'
-import { pathToFileURL } from 'url'
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -12,19 +9,11 @@ function truncate(text = '', max = 3500) {
   return str.length > max ? str.slice(0, max) + '\n...' : str
 }
 
-async function testPluginImport(filePath) {
-  const fileUrl = pathToFileURL(filePath).href + `?update=${Date.now()}`
-  const mod = await import(fileUrl)
-  return mod?.default || mod
-}
-
-let handler = async (m, { conn, command, usedPrefix }) => {
+let handler = async (m, { conn }) => {
   try {
     await m.react('🔄')
 
-    const projectRoot = process.cwd()
-    const pluginsDir = path.join(projectRoot, 'plugins')
-
+    // Recupera lo stato della repository remota
     execSync('git fetch origin', { encoding: 'utf-8' })
 
     const diffStat = execSync('git diff --stat HEAD origin/main', {
@@ -37,6 +26,7 @@ let handler = async (m, { conn, command, usedPrefix }) => {
 
     const statMap = {}
 
+    // Mappa le righe aggiunte e rimosse per ogni file
     diffStat
       .split('\n')
       .map(line => line.trim())
@@ -48,6 +38,7 @@ let handler = async (m, { conn, command, usedPrefix }) => {
         statMap[file] = { plus, minus }
       })
 
+    // Genera la lista dei file modificati con i relativi log
     const updatedFiles = diffStatus
       .split('\n')
       .map(line => line.trim())
@@ -77,6 +68,7 @@ let handler = async (m, { conn, command, usedPrefix }) => {
         return `\`📄\` ${oldPath} \`(+${stats.plus}/-${stats.minus})\``
       })
 
+    // Esegue il reset e il pull forzato
     execSync('git reset --hard origin/main && git pull', {
       encoding: 'utf-8'
     })
@@ -94,54 +86,6 @@ let handler = async (m, { conn, command, usedPrefix }) => {
     resultMsg += `\n\n\`[⚡] THE PUNISHER SYSTEM\``
 
     await conn.reply(m.chat, truncate(resultMsg), m)
-
-    if (!fs.existsSync(pluginsDir)) {
-      await m.react('✅')
-      return
-    }
-
-    const allPlugins = fs.readdirSync(pluginsDir).filter(f => f.endsWith('.js'))
-    const pluginErrors = []
-
-    for (const file of allPlugins) {
-      const absPath = path.join(pluginsDir, file)
-
-      try {
-        await testPluginImport(absPath)
-      } catch (err) {
-        pluginErrors.push({
-          file,
-          message: err?.message || String(err),
-          stack: err?.stack || String(err)
-        })
-      }
-    }
-
-    if (pluginErrors.length > 0) {
-      for (const item of pluginErrors) {
-        const errorMsg =
-`\`── ❌ PLUGIN ERROR ──\`
-
-\`📌 File:\` ${item.file}
-\`💥 Messaggio:\` ${item.message}
-
-\`\`\`
-${truncate(item.stack, 2000)}
-\`\`\`
-
-\`[⚡] THE PUNISHER SYSTEM\``
-
-        await conn.reply(m.chat, errorMsg, m)
-
-        if (pluginErrors.length > 1) {
-          await sleep(1200)
-        }
-      }
-
-      await m.react('⚠️')
-      return
-    }
-
     await m.react('✅')
 
   } catch (err) {
