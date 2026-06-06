@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════
-//  🛡️  ELIXIR - ANTI-LINK UNI  🛡️
+//  🛡️  THE PUNISHER - ANTI-LINK UNI  🛡️
 //  Blocca: QUALSIASI link, URL, dominio, IP, short link + QR Code
 //  Chiave DB: chat.antiLinkUni
 // ═══════════════════════════════════════════════════════════════════
