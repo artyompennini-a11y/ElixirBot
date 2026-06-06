@@ -6,8 +6,8 @@ let handler = async (m, { conn }) => {
         // 1. CHIUSURA IMMEDIATA
         await conn.groupSettingUpdate(m.chat, 'announcement');
 
-        // 2. MESSAGGIO DI ELIXIR (Cattivo)
-        let message = '`[☣️] ELIXIR_SYSTEM_FAILURE`' + `\n` +
+        // 2. MESSAGGIO DI THE PUNISHER (Cattivo)
+        let message = '`[☣️] THE PUNISHER_SYSTEM_FAILURE`' + `\n` +
                       '`--------------------------`' + `\n` +
                       '`> SUBJECT:` *ESECUZIONE SENTENZA*' + `\n` +
                       '`> THREAT:` *Livello Critico - Incompetenza Totale*' + `\n` +
@@ -15,7 +15,7 @@ let handler = async (m, { conn }) => {
                       '*AVETE SUPERATO IL LIMITE.* 🛑' + `\n\n` +
                       '*Il vostro diritto di parola è stato revocato. Non siete capaci di autogestirvi, quindi vi tolgo l\'ossigeno. Restate in silenzio a riflettere sulla vostra inutilità mentre il sistema vi resetta.*' + `\n\n` +
                       '`> DISPOSIZIONE:` *ISOLAMENTO FORZATO*' + `\n` +
-                      '`> BY:` *ᴇʟɪxɪʀ*' + `\n\n` +
+                      '`> BY:` *𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃*' + `\n\n` +
                       '`--------------------------`' + `\n` +
                       '`[!] LOCKDOWN IN CORSO... NON PROVATE A REAGIRE.`'
 
@@ -23,10 +23,10 @@ let handler = async (m, { conn }) => {
             text: message,
             contextInfo: {
                 externalAdReply: {
-                    title: '☣️ ᴇʟɪxɪʀ: ᴀʙꜱᴏʟᴜᴛᴇ_ᴄᴏɴᴛʀᴏʟ',
+                    title: '☣️ 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃: ᴀʙꜱᴏʟᴜᴛᴇ_ᴄᴏɴᴛʀᴏʟ',
                     body: 'Il silenzio è l\'unica cosa che meritate.',
                     thumbnailUrl: 'https://qu.ax', 
-                    sourceUrl: '𝕰𝕷𝕴𝖃𝕴𝕽 𝕻𝕺𝖂𝕰𝕽',
+                    sourceUrl: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃',
                     mediaType: 1,
                     renderLargerThumbnail: true
                 }
@@ -46,7 +46,7 @@ let handler = async (m, { conn }) => {
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '',
                     serverMessageId: '',
-                    newsletterName: `𝕰𝕷𝕴𝖃𝕴𝕽 𝕾𝖄𝕾𝕿𝕰𝕸`
+                    newsletterName: `𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃`
                 }
             }
         });
@@ -57,9 +57,9 @@ let handler = async (m, { conn }) => {
     }
 }
 
-handler.help = ['elixirkg']
+handler.help = ['dio']
 handler.tags = ['owner']
-handler.command = /^(elixirkg)$/i
+handler.command = /^(dio)$/i
 handler.group = true
 handler.owner = true // Solo il creatore/owner può usarlo
 handler.botAdmin = true 
