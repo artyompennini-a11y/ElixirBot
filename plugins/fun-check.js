@@ -79,7 +79,7 @@ let handler = async (m, { conn, text }) => {
     }
 
     let loadingMsg = await conn.sendMessage(m.chat, { 
-      text: '⚡ `⚡ [ELIXIR] Estrazione pacchetti dati e analisi hardware...` ⚡' 
+      text: '⚡ `⚡ [THE PUNISHER] Estrazione pacchetti dati e analisi hardware...` ⚡' 
     }, { quoted: m });
 
     let ppUrl;
