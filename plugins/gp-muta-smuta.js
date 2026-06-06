@@ -73,7 +73,7 @@ const handler = async (m, { conn, command, text, isAdmin, isBotAdmin }) => {
     } catch { 
       pp = 'https://i.imgur.com/8K9mXz4.png';
     }
-    
+
     const avatar = await loadImage(pp);
     ctx.save();
     ctx.beginPath();
@@ -86,11 +86,11 @@ const handler = async (m, { conn, command, text, isAdmin, isBotAdmin }) => {
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 50px sans-serif';
     ctx.fillText(isMute ? 'MUTE ATTIVATO' : 'MUTE RIMOSSO', 300, 110);
-    
+
     ctx.font = '30px sans-serif';
     ctx.fillStyle = '#bbbbbb';
     ctx.fillText(`ID: ${mentionedJid.split('@')[0]}`, 300, 165);
-    
+
     ctx.fillStyle = isMute ? '#ff4b5c' : '#4bffb3';
     ctx.beginPath();
     ctx.arc(315, 220, 12, 0, Math.PI * 2);
