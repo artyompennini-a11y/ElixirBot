@@ -3,8 +3,6 @@ import fs from 'fs'
 import path from 'path'
 import { pathToFileURL } from 'url'
 
-if (!global.updateDebugErrors) global.updateDebugErrors = {}
-
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -20,35 +18,7 @@ async function testPluginImport(filePath) {
   return mod?.default || mod
 }
 
-function createDebugId() {
-  return `dbg_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
-}
-
 let handler = async (m, { conn, command, usedPrefix }) => {
-  if (/^debugplugin$/i.test(command)) {
-    const debugId = (m.text || '').trim().split(/\s+/)[1]
-
-    if (!debugId || !global.updateDebugErrors[debugId]) {
-      return conn.reply(m.chat, '`[✖] Debug non trovato o scaduto.`', m)
-    }
-
-    const item = global.updateDebugErrors[debugId]
-
-    const fullMsg =
-`\`── 🛠 DEBUG REPORT ──\`
-
-\`📌 File:\` ${item.file}
-\`💥 Messaggio:\` ${item.message}
-
-\`\`\`
-${truncate(item.stack, 3000)}
-\`\`\`
-
-\`[⚡] THE PUNISHER SYSTEM\``
-
-    return conn.reply(m.chat, fullMsg, m)
-  }
-
   try {
     await m.react('🔄')
 
@@ -149,33 +119,19 @@ ${truncate(item.stack, 3000)}
 
     if (pluginErrors.length > 0) {
       for (const item of pluginErrors) {
-        const debugId = createDebugId()
-
-        global.updateDebugErrors[debugId] = {
-          ...item,
-          createdAt: Date.now()
-        }
-
-        const shortMsg =
+        const errorMsg =
 `\`── ❌ PLUGIN ERROR ──\`
 
 \`📌 File:\` ${item.file}
 \`💥 Messaggio:\` ${item.message}
 
+\`\`\`
+${truncate(item.stack, 2000)}
+\`\`\`
+
 \`[⚡] THE PUNISHER SYSTEM\``
 
-        await conn.sendMessage(m.chat, {
-          text: shortMsg,
-          footer: '`[⚡] THE PUNISHER SYSTEM`',
-          buttons: [
-            {
-              buttonId: `${usedPrefix}debugplugin ${debugId}`,
-              buttonText: { displayText: '🛠 Debug completo' },
-              type: 1
-            }
-          ],
-          headerType: 1
-        }, { quoted: m })
+        await conn.reply(m.chat, errorMsg, m)
 
         if (pluginErrors.length > 1) {
           await sleep(1200)
@@ -199,9 +155,9 @@ ${truncate(item.stack, 3000)}
   }
 }
 
-handler.help = ['aggiorna', 'debugplugin <id>']
+handler.help = ['aggiorna']
 handler.tags = ['owner']
-handler.command = /^(aggiorna|update|aggiornabot|debugplugin)$/i
+handler.command = /^(aggiorna|update|aggiornabot)$/i
 handler.owner = true
 
 export default handler
