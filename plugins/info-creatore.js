@@ -5,7 +5,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     return await conn.reply(m.chat, '💻 *GitHub:* https://github.com/artyompennini-a11y/ThePunisherBot', m)
   }
   if (command === 'insta') {
-    return await conn.reply(m.chat, '📸 *Instagram:* instagram.com/eli.xir_gg', m)
+    return await conn.reply(m.chat, '📸 *Instagram:* https://www.instagram.com/arty.340?igsh=ZGxranlrczNybHJ0'', m)
   }
 
   // Se invece il comando è 'owner' o 'creatore', manda il box con i bottoni
