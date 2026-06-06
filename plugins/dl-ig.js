@@ -2,7 +2,7 @@ import { igdl } from "ruhend-scraper"
 
 let handler = async (m, { args, conn }) => { 
   if (!args[0]) {
-    return conn.reply(m.chat, '『 🔗 』 *\`instagram.com/eli.xir_gg\`*', m)
+    return conn.reply(m.chat, '『 🔗 』 *\`https://www.instagram.com/arty.340?igsh=ZGxranlrczNybHJ0\`*', m)
   }
   try {
     await m.react('🕒')
