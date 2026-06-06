@@ -160,7 +160,7 @@ if (global.conn && global.conn.ws) {
                     try {
                         await global.conn.rejectCall(uniqueCallId, callerId)
                         await global.conn.sendMessage(callerId, {
-                            text: `\`\`\`╔══════════════════════════════════╗\n║       CALL BLOCK                 ║\n╚══════════════════════════════════╝\`\`\`\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`📵\` Le chiamate audio/video sono disabilitate sul sistema.\n\`🔒\` L'utente è stato bloccato.\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`🔐\` *SISTEMA ELIXIR*`
+                            text: `\`\`\`╔══════════════════════════════════╗\n║       CALL BLOCK                 ║\n╚══════════════════════════════════╝\`\`\`\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`📵\` Le chiamate audio/video sono disabilitate sul sistema.\n\`🔒\` L'utente è stato bloccato.\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`🔐\` *SISTEMA THE PUNISHER*`
                         })
                         await global.conn.updateBlockStatus(callerId, 'block')
                     } catch (err) {
@@ -481,12 +481,12 @@ if (!normalizedSender) return;
 
         let settingsGlob = global.db.data?.settings?.[this.user.jid]
         if (settingsGlob?.maintenance && !isOwner) {
-            await this.reply(m.chat, `\`\`\`╔══════════════════════════════════╗\n║     BOT IN MANUTENZIONE          ║\n╚══════════════════════════════════╝\`\`\`\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`⚠️\` Il bot è in manutenzione, riprova più tardi.\n\`⏳\` Solo il proprietario può operare ora.\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`🔐\` *SISTEMA ELIXIR*`, m)
+            await this.reply(m.chat, `\`\`\`╔══════════════════════════════════╗\n║     BOT IN MANUTENZIONE          ║\n╚══════════════════════════════════╝\`\`\`\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`⚠️\` Il bot è in manutenzione, riprova più tardi.\n\`⏳\` Solo il proprietario può operare ora.\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`🔐\` *SISTEMA THE PUNISHER*`, m)
             return false
         }
 
         if (!m.isGroup && !isOwner) {
-            await this.reply(m.chat, `\`\`\`╔══════════════════════════════════╗\n║       PRIVATE BLOCK              ║\n╚══════════════════════════════════╝\`\`\`\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`⚠️\` I messaggi privati sono disabilitati sul sistema.\n\`🔒\` Verrai bloccato automaticamente.\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`🔐\` *SISTEMA ELIXIR*`, m);
+            await this.reply(m.chat, `\`\`\`╔══════════════════════════════════╗\n║       PRIVATE BLOCK              ║\n╚══════════════════════════════════╝\`\`\`\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`⚠️\` I messaggi privati sono disabilitati sul sistema.\n\`🔒\` Verrai bloccato automaticamente.\n\`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\`\n\`🔐\` *SISTEMA THE PUNISHER*`, m);
             try {
                 await this.updateBlockStatus(m.sender, 'block')
             } catch (e) {
