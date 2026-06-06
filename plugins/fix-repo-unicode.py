@@ -10,7 +10,7 @@ def bold_italic_char(c):
 def bold_italic(text):
     return ''.join(bold_italic_char(c) for c in text)
 
-ELIXIR_BOLD = bold_italic('THE PUNISHER')
+THE PUNISHER_BOLD = bold_italic('THE PUNISHER')
 BOT_BOLD = bold_italic('BOT')
 
 content = f"""let handler = async (m, {{ conn }}) => {{
