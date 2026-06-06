@@ -1,61 +1,104 @@
-// Plug-in creato da elixir
-import os from 'os';
-import util from 'util';
-import sizeFormatter from 'human-readable';
-import MessageType from '@whiskeysockets/baileys';
-import fs from 'fs';
-import { performance } from 'perf_hooks';
+import { performance } from 'perf_hooks'
 
-let handler = async (m, { conn, usedPrefix, text }) => {
-    if (!text) return m.reply(`Chi devo taggare? Usa il comando così:\n*${usedPrefix}sega @utente*`);
+const sleep = ms => new Promise(r => setTimeout(r, ms))
+const tag = jid => '@' + String(jid || '').split('@')[0]
 
-    let _uptime = process.uptime() * 1000;
-    let uptime = clockString(_uptime);
-    let old = performance.now();
-    let neww = performance.now();
-    let speed = (neww - old).toFixed(4);
-
-    let { key } = await conn.sendMessage(m.chat, { text: "💥 Preparati, il motore si scalda... 💥" }, { quoted: m });
-
-    const array = [
-        "8==👊==D", "8===👊=D", "8=👊===D", "8==👊==D", 
-        "8===👊=D", "8=👊===D", "8==👊==D💦", "8===👊=D💦",
-        "8=👊===D💦", "8===👊=D💦💦"
-    ];
-
-    for (let item of array) {
-        await conn.sendMessage(m.chat, { text: `${item}`, edit: key }, { quoted: m });
-        await new Promise(resolve => setTimeout(resolve, 500));
-    }
-
-    // Estrai la menzione (se c'è un @user nel testo)
-    let mentionedJid = text.match(/@(\d{5,})/);
-    let target = mentionedJid ? mentionedJid[1] + '@s.whatsapp.net' : null;
-
-    let finale = `
-━━━━━━━━━━━━━━━━━━━━━
-😋 *Oh ${text} ha raggiunto il culmine!* 💦
-━━━━━━━━━━━━━━━━━━━━━
-🕒 *Uptime bot:* ${uptime}
-⚡ *Velocità risposta:* ${speed} ms
-`.trim();
-
-    return conn.sendMessage(
-        m.chat, 
-        { text: finale, edit: key, mentions: target ? [target] : [m.sender] }, 
-        { quoted: m }
-    );
-};
-
-handler.help = ['sega @utente'];
-handler.tags = ['info', 'tools'];
-handler.command = /^(sega)$/i;
-
-export default handler;
-
-function clockString(ms) {
-    let h = Math.floor(ms / 3600000);
-    let m = Math.floor(ms / 60000) % 60;
-    let s = Math.floor(ms / 1000) % 60;
-    return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':');
+async function editMessage(conn, chatId, key, text, mentions = []) {
+  await conn.relayMessage(
+    chatId,
+    {
+      protocolMessage: {
+        key,
+        type: 14,
+        editedMessage: {
+          extendedTextMessage: {
+            text,
+            contextInfo: mentions.length ? { mentionedJid: mentions } : {}
+          }
+        }
+      }
+    },
+    {}
+  )
 }
+
+let handler = async (m, { conn }) => {
+  const chatId = m.chat
+  if (!chatId) return
+
+  let destinatario =
+    m.quoted?.sender ||
+    (Array.isArray(m.mentionedJid) && m.mentionedJid[0]) ||
+    m?.message?.extendedTextMessage?.contextInfo?.participant ||
+    m?.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[0] ||
+    null
+
+  if (!destinatario) {
+    await conn.sendMessage(
+      chatId,
+      {
+        text: '⚠️ *Tagga qualcuno o rispondi a un messaggio.*'
+      },
+      { quoted: m }
+    )
+    return
+  }
+
+  const mittente =
+    m.sender ||
+    m.key?.participant ||
+    m.participant ||
+    (m.key?.fromMe ? conn?.user?.id : m.key?.remoteJid) ||
+    ''
+
+  const start = performance.now()
+
+  const sent = await conn.sendMessage(
+    chatId,
+    {
+      text: `*Ora faccio una sega a ${tag(destinatario)}...* 😏`,
+      mentions: [destinatario]
+    },
+    { quoted: m }
+  )
+
+  const key = sent?.key
+  if (!key) return
+
+  await sleep(2000)
+
+  const frames = [
+    '*8====👊D*',
+    '*8===👊=D*',
+    '*8==👊==D*',
+    '*8=👊===D*',
+    '*8=👊===D*',
+    '*8==👊==D*',
+    '*8===👊=D*',
+    "*8====👊D💦*"
+  ]
+
+  for (const f of frames) {
+    await editMessage(conn, chatId, key, f, [destinatario])
+    const randomDelay = Math.floor(Math.random() * (900 - 300 + 1)) + 300
+    await sleep(randomDelay)
+  }
+
+  const end = performance.now()
+  const elapsed = ((end - start) / 1000).toFixed(2)
+
+  await editMessage(
+    conn,
+    chatId,
+    key,
+`*🤤 Ohhsyy babyy* 🥵\n\n ${tag(mittente)} *ha fatto una sega a ${tag(destinatario)} e ha sborrato dappertutto in ${elapsed} secondi! 💦*`,
+    [mittente, destinatario]
+  )
+}
+
+handler.help = ['segs @utente']
+handler.tags = ['fun']
+handler.command = ['sega']
+handler.group = true
+
+export default handler
