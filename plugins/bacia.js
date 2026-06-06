@@ -1,81 +1,96 @@
-import { createCanvas } from 'canvas';
+const tag = (jid = '') => '@' + String(jid).split('@')[0].split(':')[0]
 
-globalThis.baciRank = globalThis.baciRank || {};
+function buildContextMsg(title) {
+  return {
+    key: {
+      participants: '0@s.whatsapp.net',
+      fromMe: false,
+      id: 'CTX'
+    },
+    message: {
+      locationMessage: {
+        name: title
+      }
+    },
+    participant: '0@s.whatsapp.net'
+  }
+}
 
-let handler = async (m, { conn }) => {
-  let sender = m.sender;
-  let target = null;
+function resolveTarget(m, text = '', botJid = '') {
+  const ctx = m.message?.extendedTextMessage?.contextInfo || {}
 
-  if (m.mentionedJid && m.mentionedJid[0]) {
-    target = m.mentionedJid[0];
-  } else if (m.quoted && m.quoted.sender) {
-    target = m.quoted.sender;
-  } else {
-    return m.reply("Devi menzionare qualcuno o rispondere al suo messaggio per dargli un bacio! 💋");
+  const numero = String(text || '').replace(/[^\d]/g, '')
+  if (numero.length >= 5) return `${numero}@s.whatsapp.net`
+
+  if (String(text || '').endsWith('@s.whatsapp.net') || String(text || '').endsWith('@c.us')) {
+    return String(text).trim()
   }
 
-  // --- CREAZIONE CANVAS REALISTICO ---
-  const canvas = createCanvas(500, 300);
-  const ctx = canvas.getContext('2d');
+  if (Array.isArray(m.mentionedJid) && m.mentionedJid.length) return m.mentionedJid[0]
+  if (Array.isArray(ctx.mentionedJid) && ctx.mentionedJid.length) return ctx.mentionedJid[0]
 
-  // Gradiente per le labbra (rosso/borgogna)
-  const grad = ctx.createRadialGradient(250, 150, 20, 250, 150, 150);
-  grad.addColorStop(0, '#ff4d6d'); // Centro più chiaro
-  grad.addColorStop(1, '#800e13'); // Bordi scuri
+  const quotedSender = m.quoted?.sender || m.quoted?.participant || ctx.participant
+  if (quotedSender && quotedSender !== botJid) return quotedSender
 
-  ctx.fillStyle = grad;
-  ctx.shadowBlur = 10;
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+  return null
+}
 
-  // Labbro superiore (Arco di Cupido)
-  ctx.beginPath();
-  ctx.moveTo(150, 150);
-  ctx.bezierCurveTo(180, 100, 230, 100, 250, 130); // Sinistra
-  ctx.bezierCurveTo(270, 100, 320, 100, 350, 150); // Destra
-  ctx.bezierCurveTo(300, 160, 200, 160, 150, 150); // Base superiore
-  ctx.fill();
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  const chat = m.chat || m.key?.remoteJid
+  if (!chat) return
 
-  // Labbro inferiore (Più pieno)
-  ctx.beginPath();
-  ctx.moveTo(150, 160);
-  ctx.bezierCurveTo(180, 240, 320, 240, 350, 160);
-  ctx.bezierCurveTo(300, 175, 200, 175, 150, 160);
-  ctx.fill();
+  const sender = String(
+    m.sender ||
+    m.key?.participant ||
+    m.participant ||
+    (m.key?.fromMe ? conn?.user?.id : '')
+  )
 
-  // Effetto lucido (Highlight)
-  ctx.beginPath();
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-  ctx.lineWidth = 4;
-  ctx.arc(250, 195, 40, Math.PI * 0.2, Math.PI * 0.8);
-  ctx.stroke();
+  const botJid = conn.user?.jid || conn.user?.id || ''
+  const target = resolveTarget(m, text, botJid)
+  const q = buildContextMsg('*💋 𝐁𝐀𝐂𝐈𝐎*')
 
-  const buffer = canvas.toBuffer();
+  if (!target) {
+    return conn.sendMessage(chat, {
+      text: `*⚠️ 𝐃𝐞𝐯𝐢 𝐦𝐞𝐧𝐳𝐢𝐨𝐧𝐚𝐫𝐞 𝐪𝐮𝐚𝐥𝐜𝐮𝐧𝐨 𝐨 𝐫𝐢𝐬𝐩𝐨𝐧𝐝𝐞𝐫𝐞 𝐚 𝐮𝐧 𝐦𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐩𝐞𝐫 𝐛𝐚𝐜𝐢𝐚𝐫𝐥𝐨 💋*\n\n*𝐄𝐬𝐞𝐦𝐩𝐢𝐨:*\n*${usedPrefix}${command} @utente*`,
+      contextInfo: global.rcanal?.contextInfo || {}
+    }, { quoted: q })
+  }
 
-  // --- LOGICA RANKING E FRASI ---
-  const frasi = [
-    `@${sender.split("@")[0]} ha dato un bacio travolgente a @${target.split("@")[0]}! 💋`,
-    `Un bacio dolcissimo da @${sender.split("@")[0]} per @${target.split("@")[0]}! ✨`,
-    `@${sender.split("@")[0]} ha appena baciato @${target.split("@")[0]} davanti a tutti! 😳`,
-    `Muah! @${sender.split("@")[0]} lancia un bacio speciale a @${target.split("@")[0]}! 💖`
-  ];
+  if (target === sender) {
+    return conn.sendMessage(chat, {
+      text: `*💋 ${tag(sender)} 𝐬𝐢 è 𝐝𝐚𝐭𝐨 𝐮𝐧 𝐛𝐚𝐜𝐢𝐨 𝐝𝐚 𝐬𝐨𝐥𝐨 😳*`,
+      contextInfo: {
+        ...(global.rcanal?.contextInfo || {}),
+        mentionedJid: [sender]
+      },
+      mentions: [sender]
+    }, { quoted: q })
+  }
 
-  const fraseRandom = frasi[Math.floor(Math.random() * frasi.length)];
-  
-  if (!globalThis.baciRank[target]) globalThis.baciRank[target] = 0;
-  globalThis.baciRank[target] += 1;
+  const senderNumero = String(sender).split('@')[0].split(':')[0]
 
-  const testoFinale = `${fraseRandom}\n\n💋 Baci totali ricevuti da @${target.split("@")[0]}: ${globalThis.baciRank[target]}`;
+  await conn.sendMessage(chat, {
+    text: `*💋 ${tag(sender)} 𝐡𝐚 𝐛𝐚𝐜𝐢𝐚𝐭𝐨 ${tag(target)} 😘*`,
+    contextInfo: {
+      ...(global.rcanal?.contextInfo || {}),
+      mentionedJid: [sender, target]
+    },
+    mentions: [sender, target],
+    buttons: [
+      {
+        buttonId: `${usedPrefix}${command} ${senderNumero}`,
+        buttonText: { displayText: '💞 Ricambia il bacio' },
+        type: 1
+      }
+    ],
+    headerType: 1
+  }, { quoted: q })
+}
 
-  await conn.sendMessage(m.chat, {
-    image: buffer,
-    caption: testoFinale,
-    mentions: [sender, target]
-  }, { quoted: m });
-};
+handler.help = ['bacia @user']
+handler.tags = ['fun']
+handler.command = ['bacia', 'bacio', 'bacino', 'kiss']
+handler.group = true
 
-handler.help = ['bacia'];
-handler.tags = ['giochi'];
-handler.command = /^(bacia|kiss)$/i;
-handler.group = true;
-
-export default handler;
+export default handler
