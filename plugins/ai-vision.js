@@ -66,7 +66,7 @@ let handler = async (m, { conn, quoted, usedPrefix, command }) => {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
         'HTTP-Referer': 'https://elixirbot.x',
-        'X-Title': 'ElixirBot'
+        'X-Title': '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃'
       },
       body: JSON.stringify({
         model: 'google/gemini-flash-1.5',
