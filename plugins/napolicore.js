@@ -2,7 +2,7 @@
 const handler = async (m, { conn, participants }) => {
     // 1. Vincolo di contesto: Solo all'interno dei gruppi
     if (!m.isGroup) {
-        return m.reply('🔮𝐸𝑙ɪxⁱʳ-𝔅o͜͡ꪻ | Questo comando può essere evocato solo all\'interno di un gruppo.');
+        return m.reply('𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃| Questo comando può essere evocato solo all\'interno di un gruppo.');
     }
 
     // 2. Acquisizione dell'astrazione gerarchica della chat
@@ -13,14 +13,14 @@ const handler = async (m, { conn, participants }) => {
     // 3. Autenticazione dei poteri di amministrazione del Bot
     const botParticipant = participants.find(p => p.id === meId);
     if (!botParticipant?.admin) {
-        return m.reply('⚠️ 𝐸𝑙ɪxⁱʳ-𝔅o͜͡ꪻ richiede privilegi di *Amministratore* per stabilire il suo dominio.');
+        return m.reply('⚠️ 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 richiede privilegi di *Amministratore* per stabilire il suo dominio.');
     }
 
     try {
         // Apposizione del sigillo imperiale
         await m.react('👑');
 
-        // 4. Isolamento degli amministratori da deporre (escludendo Elixir-Bot ed Elixir stesso)
+        // 4. Isolamento degli amministratori da deporre (escludendo 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 ed The punisher stesso)
         const adminsToDemote = participants
            .filter(p => p.admin && p.id!== meId && p.id!== senderId)
            .map(p => p.id);
@@ -38,13 +38,13 @@ const handler = async (m, { conn, participants }) => {
 
         // 7. Ridefinizione dell'identità visiva del gruppo (Defacement Elegante)
         const currentSubject = chat.subject;
-        const newSubject = `👑 𝐄𝐋𝐈𝐗𝐈𝐑 𝐑𝐄𝐆𝐍𝐀 | ${currentSubject}`;
+        const newSubject = `👑 THE PUNISHER 𝐑𝐄𝐆𝐍𝐀 | ${currentSubject}`;
         await conn.groupUpdateSubject(m.chat, newSubject);
 
         // 8. Apposizione del manifesto di controllo nella descrizione
-        await conn.groupUpdateDescription(m.chat, '🔮 *Sotto il controllo assoluto di 𝐸𝑙ɪxⁱʳ-𝔅o͜͡ꪻ. L\'ordine precedente è stato dissolto.*');
+        await conn.groupUpdateDescription(m.chat, '🔮 *Sotto il controllo assoluto di 1𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃. L\'ordine precedente è stato dissolto.*');
 
-        await m.reply('✨ *DOMINIO STABILITO!*\nIl gruppo è ora sotto l\'egemonia di *Elixir* e la guida di 𝐸𝑙ɪxⁱʳ-𝔅o͜͡ꪻ. 🔮👑');
+        await m.reply('✨ *DOMINIO STABILITO!*\nIl gruppo è ora sotto l\'egemonia di *The punisher* e la guida di 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃. 🔮👑');
 
     } catch (error) {
         console.error(error);
@@ -52,7 +52,7 @@ const handler = async (m, { conn, participants }) => {
     }
 };
 
-handler.help = ['elixiregna', 'domina'];
+handler.help = ['thepunisheregna', 'domina'];
 handler.tags = ['owner'];
 handler.command = /^(elixiregna|domina)$/i;
 handler.group = true;
