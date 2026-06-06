@@ -128,7 +128,7 @@ async function callOpenRouter(messages) {
         headers: {
           'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
-          'HTTP-Referer': 'https://github.com/Elixir-png/Elixir-Bot1',
+          'HTTP-Referer': 'https://github.com/artyompennini-a11y/ThePunisherBot',
           'X-Title': '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃'
         },
         signal: controller.signal,
