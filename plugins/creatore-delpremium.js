@@ -6,7 +6,7 @@ const handler = async (m, {conn, text, usedPrefix, command}) => {
   if (!who) return m.reply(`⚠️ *Istruzioni:* Tagga l'utente o rispondi a un suo messaggio per rimuovere il Premium.`);
 
   const user = global.db.data.users[who];
-  if (!user) return m.reply(`❌ L'utente non è presente nel database di *Elixir Bot*.`);
+  if (!user) return m.reply(`❌ L'utente non è presente nel database di *𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃*.`);
 
   // Controllo se è effettivamente premium
   if (!user.premium && (user.premiumTime === 0 || !user.premiumTime)) {
