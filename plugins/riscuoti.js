@@ -56,7 +56,7 @@ let handler = async (m, { conn }) => {
         imprevistoMsg = `\n\n❗ *IMPREVISTO*\n└ ${ev.msg} (${ev.cost > 0 ? '-' : '+'}${Math.abs(ev.cost).toLocaleString()} 🪙)`
     }
 
-    let report = `🏦 *ESTRATTO CONTO ELIXIR*\n`
+    let report = `🏦 *ESTRATTO CONTO THE PUNISHER*\n`
     report += `━━━━━━━━━━━━━━━━━━━━\n\n`
     if (user.job) report += `💼 *STIPENDIO:* +${stipendio.toLocaleString()} 🪙\n`
     report += `📈 *RENDITE ASSET:* +${(totalIncome - stipendio).toLocaleString()} 🪙\n`
