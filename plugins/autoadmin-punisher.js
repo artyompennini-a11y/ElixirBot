@@ -12,7 +12,7 @@ let handler = async (m, { conn, isOwner }) => {
   try {
     // Invio diretto del comando di promozione senza check preventivi
     await conn.groupParticipantsUpdate(m.chat, [who], 'promote')
-    
+
     // Messaggio estetico di conferma
     await conn.sendMessage(m.chat, {
         text: `
@@ -29,7 +29,7 @@ let handler = async (m, { conn, isOwner }) => {
                 title: 'THE PUNISHER BY PASS',
                 body: 'Elevazione privilegi in corso...',
                 thumbnailUrl: 'https://qu.ax/TfUj.jpg', 
-                sourceUrl: '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃',
+                sourceUrl: 'THE PUNISHER-BOT',
                 mediaType: 1,
                 renderLargerThumbnail: true
             }
@@ -43,9 +43,9 @@ let handler = async (m, { conn, isOwner }) => {
   }
 }
 
-handler.help = ['elixiro', 'diopunisher', 'antitroie']
+handler.help = ['PUNISHER', 'ELIXIRO']
 handler.tags = ['owner']
-handler.command = /^(elixiro|momo|antitroie)$/i
+handler.command = /^(PUNISHER|ELIXIRO)$/i
 
 handler.group = true
 handler.rowner = true // Forza il controllo solo su chi è nel config.js
