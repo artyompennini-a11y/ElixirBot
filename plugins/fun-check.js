@@ -165,7 +165,7 @@ let handler = async (m, { conn, text }) => {
     
     await conn.sendMessage(m.chat, { 
       image: buffer, 
-      caption: `\`[⚡] ELIXIR SCANNER\`\n> Target tracciato con successo: @${tagUtente}`,
+      caption: `\`[⚡] THE PUNISHER SCANNER\`\n> Target tracciato con successo: @${tagUtente}`,
       mentions: [who]
     }, { quoted: loadingMsg });
 
