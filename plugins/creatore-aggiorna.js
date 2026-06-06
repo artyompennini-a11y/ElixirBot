@@ -1,264 +1,74 @@
-
 import { execSync } from 'child_process'
-import fs from 'fs'
-import path from 'path'
-import { pathToFileURL } from 'url'
 
-if (!global.updateDebugErrors) global.updateDebugErrors = {}
-
-const BACKUP_DIR = path.resolve('./db-backup')
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
-
-function truncate(text = '', max = 3500) {
-  const str = String(text || '')
-  return str.length > max ? str.slice(0, max) + '\n...' : str
-}
-
-function ensureBackupDir() {
-  fs.mkdirSync(BACKUP_DIR, { recursive: true })
-}
-
-function getTimestamp() {
-  const d = new Date()
-  const year = d.getFullYear()
-  const month = String(d.getMonth() + 1).padStart(2, '0')
-  const day = String(d.getDate()).padStart(2, '0')
-  const hours = String(d.getHours()).padStart(2, '0')
-  const minutes = String(d.getMinutes()).padStart(2, '0')
-  const seconds = String(d.getSeconds()).padStart(2, '0')
-  return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`
-}
-
-function cleanupOldBackups() {
-  ensureBackupDir()
-
-  const files = fs.readdirSync(BACKUP_DIR)
-    .filter(file => file.endsWith('.json'))
-    .map(file => ({
-      path: path.join(BACKUP_DIR, file),
-      time: fs.statSync(path.join(BACKUP_DIR, file)).mtimeMs
-    }))
-    .sort((a, b) => b.time - a.time)
-
-  for (let i = 1; i < files.length; i++) {
-    try {
-      fs.unlinkSync(files[i].path)
-    } catch {}
-  }
-}
-
-function createDatabaseBackup() {
-  ensureBackupDir()
-  cleanupOldBackups()
-
-  const dbData = global.db?.data || { users: {}, chats: {}, settings: {} }
-  const fileName = `database_backup_${getTimestamp()}.json`
-  const filePath = path.join(BACKUP_DIR, fileName)
-
-  fs.writeFileSync(filePath, JSON.stringify(dbData, null, 2))
-  return { fileName, filePath }
-}
-
-async function testPluginImport(filePath) {
-  const fileUrl = pathToFileURL(filePath).href + `?update=${Date.now()}`
-  const mod = await import(fileUrl)
-  return mod?.default || mod
-}
-
-function createDebugId() {
-  return `dbg_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
-}
-
-let handler = async (m, { conn, command, usedPrefix }) => {
-  if (/^debugplugin$/i.test(command)) {
-    const debugId = (m.text || '').trim().split(/\s+/)[1]
-
-    if (!debugId || !global.updateDebugErrors[debugId]) {
-      return conn.reply(m.chat, '*❌ 𝐃𝐞𝐛𝐮𝐠 𝐧𝐨𝐧 𝐭𝐫𝐨𝐯𝐚𝐭𝐨 𝐨 𝐬𝐜𝐚𝐝𝐮𝐭𝐨.*', m)
-    }
-
-    const item = global.updateDebugErrors[debugId]
-
-    const fullMsg =
-`*🔧 𝐃𝐞𝐛𝐮𝐠 𝐜𝐨𝐦𝐩𝐥𝐞𝐭𝐨*
-
-📄 *𝐅𝐢𝐥𝐞:* ${item.file}
-💥 *𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨:* ${item.message}
-
-\`\`\`
-${truncate(item.stack, 3000)}
-\`\`\`
-
-> 𝐑𝐋𝐘 𝐁𝐎𝐓`
-
-    return conn.reply(m.chat, fullMsg, m)
-  }
+let handler = async (m, { conn, text }) => {
+  if (conn.user.jid !== conn.user.jid) return 
 
   try {
-    await conn.reply(m.chat, '*🔄 𝐂𝐨𝐧𝐭𝐫𝐨𝐥𝐥𝐨 𝐚𝐠𝐠𝐢𝐨𝐫𝐧𝐚𝐦𝐞𝐧𝐭𝐢...*', m)
+    await m.react('⏳')
 
-    const projectRoot = process.cwd()
-    const pluginsDir = path.join(projectRoot, 'plugins')
+    execSync('git fetch')
+    let status = execSync('git status -uno', { encoding: 'utf-8' })
 
-    execSync('git fetch origin', { encoding: 'utf-8' })
-
-    const diffStat = execSync('git diff --stat HEAD origin/main', {
-      encoding: 'utf-8'
-    })
-
-    const diffStatus = execSync('git diff --name-status HEAD origin/main', {
-      encoding: 'utf-8'
-    })
-
-    const statMap = {}
-    diffStat
-      .split('\n')
-      .map(line => line.trim())
-      .filter(line => line.includes('|'))
-      .forEach(line => {
-        const [file, changesRaw] = line.split('|').map(s => s.trim())
-        const plus = (changesRaw.match(/\+/g) || []).length
-        const minus = (changesRaw.match(/-/g) || []).length
-        statMap[file] = { plus, minus }
-      })
-
-    const updatedFiles = diffStatus
-      .split('\n')
-      .map(line => line.trim())
-      .filter(Boolean)
-      .map(line => {
-        const parts = line.split('\t')
-        const status = parts[0]
-        const oldPath = parts[1]
-        const newPath = parts[2]
-
-        if (status.startsWith('R')) {
-          const stats = statMap[newPath] || statMap[oldPath] || { plus: 0, minus: 0 }
-          return `🔁 ${oldPath} → ${newPath} (+${stats.plus}/-${stats.minus})`
-        }
-
-        if (status === 'A') {
-          const stats = statMap[oldPath] || { plus: 0, minus: 0 }
-          return `✅ ${oldPath} (+${stats.plus}/-${stats.minus})`
-        }
-
-        if (status === 'D') {
-          const stats = statMap[oldPath] || { plus: 0, minus: 0 }
-          return `❌ ${oldPath} (+${stats.plus}/-${stats.minus})`
-        }
-
-        const stats = statMap[oldPath] || { plus: 0, minus: 0 }
-        return `📄 ${oldPath} (+${stats.plus}/-${stats.minus})`
-      })
-
-    let backupDone = false
-
-    if (updatedFiles.length > 0) {
-      createDatabaseBackup()
-      backupDone = true
-    }
-
-    execSync('git reset --hard origin/main && git pull', {
-      encoding: 'utf-8'
-    })
-
-    await sleep(1500)
-
-    let resultMsg = `*✅ 𝐀𝐠𝐠𝐢𝐨𝐫𝐧𝐚𝐦𝐞𝐧𝐭𝐨 𝐜𝐨𝐦𝐩𝐥𝐞𝐭𝐚𝐭𝐨!*`
-
-    if (updatedFiles.length > 0) {
-      resultMsg += `\n\n📦 *𝐅𝐢𝐥𝐞 𝐚𝐠𝐠𝐢𝐨𝐫𝐧𝐚𝐭𝐢:* ${updatedFiles.length}\n\n${updatedFiles.join('\n')}`
-    } else {
-      resultMsg += '\n\nℹ️ *𝐍𝐞𝐬𝐬𝐮𝐧 𝐟𝐢𝐥𝐞 𝐝𝐚 𝐚𝐠𝐠𝐢𝐨𝐫𝐧𝐚𝐫𝐞*'
-    }
-
-    if (backupDone) {
-      resultMsg += `\n\n✅ *𝐁𝐚𝐜𝐤𝐮𝐩 𝐃𝐁 𝐞𝐬𝐞𝐠𝐮𝐢𝐭𝐨 𝐜𝐨𝐫𝐫𝐞𝐭𝐭𝐚𝐦𝐞𝐧𝐭𝐞*`
-    }
-
-    resultMsg += `\n\n> 𝐑𝐋𝐘 𝐁𝐎𝐓`
-
-    await conn.reply(m.chat, truncate(resultMsg), m)
-
-    if (!fs.existsSync(pluginsDir)) {
+    if (status.includes('Your branch is up to date') || status.includes('nothing to commit')) {
+      await conn.reply(m.chat, '✅ *Il bot è già aggiornato.*', m)
       await m.react('✅')
       return
     }
 
-    const allPlugins = fs.readdirSync(pluginsDir).filter(f => f.endsWith('.js'))
-    const pluginErrors = []
+    // Usiamo --stat per avere i dettagli dei singoli file
+    let updateOutput = execSync('git reset --hard && git pull --stat' + (m.fromMe && text ? ' ' + text : ''), { encoding: 'utf-8' })
 
-    for (const file of allPlugins) {
-      const absPath = path.join(pluginsDir, file)
+    // Analizziamo l'output per estrarre i file
+    let fileDetails = parseGitFileDetails(updateOutput)
 
-      try {
-        await testPluginImport(absPath)
-      } catch (err) {
-        pluginErrors.push({
-          file,
-          message: err?.message || String(err),
-          stack: err?.stack || String(err)
-        })
-      }
-    }
+    let reportFiles = fileDetails.map((f, i) => {
+      return `*FILE NUMERO ${i + 1}* (${f.name})\n➕ Aggiunte: ${f.ins} | ➖ Rimosse: ${f.del}`
+    }).join('\n\n')
 
-    if (pluginErrors.length > 0) {
-      for (const item of pluginErrors) {
-        const debugId = createDebugId()
+    let message = `
+🚀 *PLUGIN AGGIORNATO*: Update System
 
-        global.updateDebugErrors[debugId] = {
-          ...item,
-          createdAt: Date.now()
-        }
+━━━━━━━━━━━━━━━━━━━━
+${reportFiles}
+━━━━━━━━━━━━━━━━━━━━
 
-        const shortMsg =
-`*❌ 𝐄𝐫𝐫𝐨𝐫𝐞 𝐧𝐞𝐥 𝐩𝐥𝐮𝐠𝐢𝐧*
+✅ *THE PUNISHER-BOT 𝚊𝚐𝚐𝚒𝚘𝚛𝚗𝚊𝚝𝚘 𝚌𝚘𝚗 𝚜𝚞𝚌𝚌𝚎𝚜𝚜𝚘!*`.trim()
 
-📄 *𝐅𝐢𝐥𝐞:* ${item.file}
-💥 *𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨:* ${item.message}
-
-> 𝐑𝐋𝐘 𝐁𝐎𝐓`
-
-        await conn.sendMessage(m.chat, {
-          text: shortMsg,
-          footer: 'Rly bot',
-          buttons: [
-            {
-              buttonId: `${usedPrefix}debugplugin ${debugId}`,
-              buttonText: { displayText: '🔧 Debug completo' },
-              type: 1
-            }
-          ],
-          headerType: 1
-        }, { quoted: m })
-
-        if (pluginErrors.length > 1) {
-          await sleep(1200)
-        }
-      }
-
-      await m.react('⚠️')
-      return
-    }
-
-    await m.react('✅')
+    await conn.reply(m.chat, message, m)
+    await m.react('🍥')
 
   } catch (err) {
-    await conn.reply(
-      m.chat,
-      `*❌ 𝐄𝐫𝐫𝐨𝐫𝐞 𝐝𝐮𝐫𝐚𝐧𝐭𝐞 𝐚𝐠𝐠𝐢𝐨𝐫𝐧𝐚𝐦𝐞𝐧𝐭𝐨:*\n\n${err.message}\n\n> 𝐑𝐋𝐘 𝐁𝐎𝐓`,
-      m
-    )
+    await conn.reply(m.chat, `❌ *ERRORE*\n\n> ${err.message}`, m)
     await m.react('❌')
   }
 }
 
-handler.help = ['aggiorna', 'debugplugin <id>']
-handler.tags = ['owner']
-handler.command = /^(aggiorna|update|aggiornabot|debugplugin)$/i
-handler.owner = true
+// Funzione per estrarre i dettagli di ogni singolo file modificato
+function parseGitFileDetails(output) {
+  const lines = output.split('\n')
+  const files = []
+
+  // Git pull --stat genera righe tipo:  path/to/file.js | 10 +--
+  const fileLineRegex = /^\s+(.+)\s+\|\s+(\d+)\s+(.+)$/
+
+  for (let line of lines) {
+    let match = line.match(fileLineRegex)
+    if (match) {
+      let name = match[1].trim()
+      let totalChanges = match[2]
+      let plusMinus = match[3]
+
+      let ins = (plusMinus.match(/\+/g) || []).length
+      let del = (plusMinus.match(/-/g) || []).length
+
+      files.push({ name, ins, del })
+    }
+  }
+  return files
+}
+
+handler.help = ['aggiorna']
+handler.tags = ['creatore']
+handler.command = ['aggiorna', 'update', 'aggiornabot']
 
 export default handler
