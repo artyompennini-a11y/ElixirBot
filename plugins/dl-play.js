@@ -8,7 +8,7 @@ import path from 'path';
 import os from 'os';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return m.reply(`🔮 *𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃*\n\n💡 _Scrivi:_ ${usedPrefix + command} nome canzone`);
+  if (!text) return m.reply(`💀 *ᴛʜᴇ ᴘᴜɴɪꜱʜᴇʀ-ʙᴏᴛ*\n\n💡 _Scrivi:_ ${usedPrefix + command} nome canzone`);
 
   const tmpDir = os.tmpdir();
   const inputPath = path.join(tmpDir, `input_${Date.now()}`);
@@ -24,7 +24,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     // Menu principale
     if (command === 'play') {
         let infoMsg = `┏━━━━━━━━━━━━━━━━━━━┓\n`;
-        infoMsg += `      🎧 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 PLAYER 🎧\n`;
+        infoMsg += `    🎧 ᴛʜᴇ ᴘᴜɴɪꜱʜᴇʀ-ʙᴏᴛ ᴘʟᴀʏᴇʀ 🎧\n`;
         infoMsg += `┗━━━━━━━━━━━━━━━━━━━┛\n\n`;
         infoMsg += `◈ 📌 *𝗧𝗶𝘁𝗼𝗹𝗼:* ${vid.title}\n`;
         infoMsg += `◈ ⏱️ *𝗗𝘂𝗿𝗮𝘁𝗮:* ${vid.timestamp}\n\n`;
@@ -33,7 +33,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         return await conn.sendMessage(m.chat, {
             image: { url: vid.thumbnail },
             caption: infoMsg,
-            footer: 'ᴇʟɪxɪʀ ʙᴏᴛ • 𝟤𝟢𝟤𝟨',
+            footer: 'THE PUNISHER-BOT • 𝟤𝟢𝟤𝟨',
             buttons: [
                 { buttonId: `${usedPrefix}playaud ${url}`, buttonText: { displayText: '🎵 𝗔𝗨𝗗𝗜𝗢 (𝗠𝗣𝟯)' }, type: 1 },
                 { buttonId: `${usedPrefix}playvid ${url}`, buttonText: { displayText: '🎬 𝗩𝗜𝗗𝗘𝗢 (𝗠𝗣𝟰)' }, type: 1 }
@@ -42,7 +42,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         }, { quoted: m });
     }
 
-    await conn.sendMessage(m.chat, { react: { text: "🔮", key: m.key } });
+    await conn.sendMessage(m.chat, { react: { text: "💀", key: m.key } });
 
     let downloadUrl = null;
     const isAudio = command === 'playaud';
@@ -85,7 +85,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         await conn.sendMessage(m.chat, {
             video: fs.readFileSync(inputPath),
             mimetype: 'video/mp4',
-            caption: `✅ *SCARICATO DA 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃*\n📌 *Titolo:* ${vid.title}`,
+            caption: `✅ *ꜱᴄᴀʀɪᴄᴀᴛᴏ ᴅᴀ ᴛʜᴇ ᴘᴜɴɪꜱʜᴇʀ-ʙᴏᴛ*\n📌 *Titolo:* ${vid.title}`,
         }, { quoted: m });
     }
 
@@ -93,7 +93,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
   } catch (e) {
     console.error(e);
-    m.reply('🚀 *𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃 ERROR:* Servizio momentaneamente non disponibile.');
+    m.reply('🚀 *ᴛʜᴇ ᴘᴜɴɪꜱʜᴇʀ-ʙᴏᴛ ᴘʟᴀʏᴇʀ ᴇʀʀᴏʀ:* Servizio momentaneamente non disponibile.');
     await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key } });
   } finally {
     // Pulizia file sicura
