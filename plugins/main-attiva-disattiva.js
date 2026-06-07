@@ -38,7 +38,7 @@ const featureRegistry = [
   { key: 'autolevelup', store: 'chat', perm: PERM.ADMIN, name: '⬆️ Autolivello', desc: 'Messaggio di level up' },
   { key: 'antinuke', store: 'chat', perm: PERM.OWNER, name: '🛡️ Antinuke', desc: 'Protezione totale anti-raid' },
   { key: 'antiprivato', store: 'bot', perm: PERM.OWNER, name: '🔒 Blocco privato', desc: 'Blocca chi scrive in DM al bot' },
-  { key: 'soloe', store: 'bot', perm: PERM.sam, name: '👑 Solocreatore', desc: 'Bot utilizzabile solo da Elixir' },
+  { key: 'soloe', store: 'bot', perm: PERM.sam, name: '👑 Solocreatore', desc: 'Bot utilizzabile solo da The punisher' },
   { key: 'multiprefix', store: 'bot', perm: PERM.OWNER, name: '🔣 Multiprefix', desc: 'Abilita più prefissi (.!/)' },
   { key: 'jadibotmd', store: 'bot', perm: PERM.OWNER, name: '🧬 Subbots', desc: 'Abilita sessioni secondarie' },
   { key: 'antispambot', store: 'bot', perm: PERM.OWNER, name: '🤖 Anti-spam comandi', desc: 'Limita spam comandi globale' },
