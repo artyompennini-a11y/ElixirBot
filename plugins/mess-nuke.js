@@ -1,5 +1,5 @@
 let handler = async (m, { conn }) => {
-  const message = `*Per svuotare gruppi ci pensa The punisher,manda il a me o a +33 6 25 41 55 28`;
+  const message = `*Per svuotare gruppi ci pensa The punisher, manda il link a me o a +33 6 25 41 55 28*`;
 
   await conn.sendMessage(m.chat, { text: message }, { quoted: m });
 };
