@@ -39,9 +39,9 @@ let handler = async (m, { conn }) => {
                     {
                         vcard: `BEGIN:VCARD
 VERSION:3.0
-FN:Elixⁱʳ
+FN:THE PUNISHER 
 ORG:THE PUNISHER-BOT - Creatore / Developer
-TEL;type=CELL;type=VOICE;waid=447529461874:+447529461874
+TEL;type=CELL;type=VOICE;waid=393206032199:+393206032199
 END:VCARD`
                     }
                 ]
