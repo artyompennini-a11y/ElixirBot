@@ -92,6 +92,6 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
 
 handler.help = ['shop <categoria> <id>']
 handler.tags = ['economy']
-handler.command = /^(shop|buy|compra)$/i
+handler.command = /^(shop|buy)$/i
 
 export default handler
