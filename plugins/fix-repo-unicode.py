@@ -48,7 +48,7 @@ print(f"File exists: {os.path.exists(target)}")
 with open(target, 'r', encoding='utf-8') as f:
     verify = f.read()
 print(f"Read back: {len(verify)} bytes")
-print("Contains ELIXIR_BOLD:", ELIXIR_BOLD in verify)
+print("Contains THE PUNISHER_BOLD:", THE PUNISHER_BOLD in verify)
 print("Contains BOT_BOLD:", BOT_BOLD in verify)
 
 # Show the last line
