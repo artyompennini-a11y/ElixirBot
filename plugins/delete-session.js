@@ -1,21 +1,20 @@
 import { existsSync, promises as fsPromises } from 'fs';
 import path from 'path';
 
-const handler = async (message, { conn }) => {
-
+const handler = async (m, { conn, usedPrefix }) => {
   if (global.conn.user.jid !== conn.user.jid) {
-    return conn.sendMessage(message.chat, {
-      text: "*💠 𝐔𝐭𝐢𝐥𝐢𝐳𝐳𝐚 𝐪𝐮𝐞𝐬𝐭𝐨 𝐜𝐨𝐦𝐚𝐧𝐝𝐨 𝐝𝐢𝐫𝐞𝐭𝐭𝐚𝐦𝐞𝐧𝐭𝐞 𝐧𝐞𝐥 𝐧𝐮𝐦𝐞𝐫𝐨 𝐝𝐞𝐥 𝐛𝐨𝐭.*"
-    }, { quoted: message });
+    return conn.sendMessage(m.chat, {
+      text: "*🚨 𝐔𝐭𝐢𝐥𝐢𝐳𝐳𝐢 𝐪𝐮𝐞𝐬𝐭𝐨 𝐜𝐨𝐦𝐚𝐧𝐝𝐨 𝐝𝐢𝐫𝐞𝐭𝐭𝐚𝐦𝐞𝐧𝐭𝐞 𝐧𝐞𝐥 𝐧𝐮𝐦𝐞𝐫𝐨 𝐝𝐞𝐥 𝐛𝐨𝐭.*"
+    }, { quoted: m });
   }
 
   try {
-    const sessionFolder = "./sessioni/";
+    const sessionFolder = "./varesession/";
 
     if (!existsSync(sessionFolder)) {
-      return await conn.sendMessage(message.chat, {
-        text: "*💠 𝐋𝐚 𝐜𝐚𝐫𝐭𝐞𝐥𝐥𝐚 𝐝𝐞𝐥𝐥𝐞 𝐬𝐞𝐬𝐬𝐢𝐨𝐧𝐢 𝐞̀ 𝐯𝐮𝐨𝐭𝐚 𝐨𝐩𝐩𝐮𝐫𝐞 𝐧𝐨𝐧 𝐞𝐬𝐢𝐬𝐭𝐞.*"
-      }, { quoted: message });
+      return await conn.sendMessage(m.chat, {
+        text: "*❌ 𝐍𝐨𝐧 𝐜𝐢 𝐬𝐨𝐧𝐨 𝐡𝐚𝐧𝐝𝐢𝐜𝐚𝐩𝐩𝐚𝐭𝐢  o 𝐧𝐨𝐧 𝐞𝐬𝐢𝐬𝐭𝐨𝐧𝐨.*"
+      }, { quoted: m });
     }
 
     const sessionFiles = await fsPromises.readdir(sessionFolder);
@@ -28,36 +27,28 @@ const handler = async (message, { conn }) => {
       }
     }
 
-    const responseText = deletedCount === 0
-      ? "💠 𝐋𝐞 𝐬𝐞𝐬𝐬𝐢𝐨𝐧𝐢 𝐬𝐨𝐧𝐨 𝐯𝐮𝐨𝐭𝐞"
-      : `*💠 𝐒𝐨𝐧𝐨 𝐬𝐭𝐚𝐭𝐢 𝐞𝐥𝐢𝐦𝐢𝐦𝐚𝐧𝐢 ${deletedCount} 𝐚𝐫𝐜𝐡𝐢𝐯𝐢 𝐝𝐚𝐥𝐥𝐞 𝐬𝐞𝐬𝐬𝐢𝐨𝐧𝐢, 𝐆𝐫𝐚𝐳𝐢𝐞 𝐩𝐞𝐫 𝐚𝐯𝐞𝐫𝐦𝐢 𝐬𝐯𝐮𝐨𝐭𝐚𝐭𝐨!*`;
+    const textMsg = deletedCount === 0 
+      ? '❗ 𝐍𝐢𝐞𝐧𝐭𝐞 𝐡𝐚𝐧𝐝𝐢𝐜𝐚𝐩𝐩𝐚𝐭𝐢, 𝐫𝐢𝐩𝐫𝐨𝐯𝐚 𝐭𝐫𝐚 𝐩𝐨𝐜𝐨 𝐧𝐞 𝐡𝐨 𝐛𝐢𝐬𝐨𝐠𝐧𝐨 ‼️' 
+      : '🔥 𝐇𝐨 𝐬𝐩𝐚𝐰𝐧-𝐤𝐢𝐥𝐥𝐚𝐭𝐨 ' + deletedCount + ' 𝐡𝐚𝐧𝐝𝐢𝐜𝐚𝐩𝐩𝐚𝐭𝐢 !💦';
 
-    // 💠 Bottoni aggiunti
-    const buttons = [
-      { buttonId: "ds", buttonText: { displayText: "🔄 𝐒𝐯𝐮𝐨𝐭𝐚 𝐝𝐢 𝐧𝐮𝐨𝐯𝐨" }, type: 1 },
-      { buttonId: "ping", buttonText: { displayText: "📊 𝐏𝐢𝐧𝐠" }, type: 1 }
-
-    ];
-
-    await conn.sendMessage(
-      message.chat,
-      {
-        text: responseText,
-        buttons,
-        headerType: 1
-      },
-      { quoted: message }
-    );
+    await conn.sendMessage(m.chat, {
+      text: textMsg,
+      footer: "Seleziona un'opzione qui sotto 👇",
+      buttons: [
+        { buttonId: usedPrefix + "ds", buttonText: { displayText: "🔄 𝐒𝐯𝐮𝐨𝐭𝐚 𝐝𝐢 𝐧𝐮𝐨𝐯𝐨" }, type: 1 },
+        { buttonId: usedPrefix + "ping", buttonText: { displayText: "📡 𝐏𝐢𝐧𝐠" }, type: 1 },
+      ],
+      headerType: 1
+    }, { quoted: m });
 
   } catch (error) {
-    console.error('Errore:', error);
-    await conn.sendMessage(message.chat, { text: "💠 Errore di eliminazione!" }, { quoted: message });
+    await conn.sendMessage(m.chat, { text: "❌ 𝐄𝐫𝐫𝐨𝐫𝐞 𝐝𝐢 𝐞𝐥𝐢𝐦𝐢𝐧𝐚𝐳𝐢𝐨𝐧𝐞!" }, { quoted: m });
   }
 };
 
 handler.help = ['del_reg_in_session_owner'];
 handler.tags = ["owner"];
-handler.command = ["ds", "deletesession", "svuotasessioni"];
+handler.command = /^(deletession|ds)$/i;
 handler.admin = true;
 
 export default handler;
