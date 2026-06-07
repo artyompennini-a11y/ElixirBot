@@ -232,7 +232,7 @@ BT
 0 -25 Td
 (SOCIAL: ${escapePDF(data.socialProfili.split('\n').join(' | '))}) Tj
 0 -30 Td
-(Report generato il: ${escapePDF(ora)} | ELIXIR-BOT) Tj
+(Report generato il: ${escapePDF(ora)} | THE PUNISHER-BOT) Tj
 0 -15 Td
 (DATI SIMULATI - SOLO A SCOPO RICREATIVO) Tj
 ET
