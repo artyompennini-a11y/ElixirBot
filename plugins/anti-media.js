@@ -36,13 +36,13 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isSam }) {
     })
     .catch(() => {})
 
-  // Messaggio estetico 𝓔𝓛𝓘𝓧𝓘𝓡-𝓑𝓞𝓣
+  // Messaggio estetico 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃
   const header = `⋆｡˚『 ╭ \`ANTIMEDIA SYSTEM\` ╯ 』˚｡⋆`
   const footer = `╰⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒`
   
   const text = `${header}
 ╭
-┃ 🛡️ \`Stato:\` *Protocollo Elixir Attivo*
+┃ 🛡️ \`Stato:\` *Protocollo The punisher Attivo*
 ┃
 ┃ 『 👤 』 \`Target:\` @${m.sender.split('@')[0]}
 ┃ 『 🖼️ 』 \`Rilevato:\` *Media Permanente*
@@ -58,7 +58,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isSam }) {
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
-          title: 'ELIXIR SECURITY',
+          title: 'THE PUNISHER SECURITY',
           body: 'Restrizione media attiva',
           thumbnailUrl: 'https://qu.ax/TfUj.jpg',
           mediaType: 1
