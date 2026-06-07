@@ -73,7 +73,7 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
     }
 
     if (command === 'casino') {
-        let intro = `*🎰 GRAND CASINÒ DI ELIXIR 🎰*\n\n*💰 SALDO:* *${user.euro}€*  |  *⭐ LIVELLO:* ${user.level}`
+        let intro = `*🎰 GRAND CASINÒ DI THE PUNISHER 🎰*\n\n*💰 SALDO:* *${user.euro}€*  |  *⭐ LIVELLO:* ${user.level}`
         const buttons = [
             { buttonId: `${usedPrefix}infoslot`, buttonText: { displayText: '🎰 SLOT' }, type: 1 },
             { buttonId: `${usedPrefix}infobj`, buttonText: { displayText: '🃏 BLACKJACK' }, type: 1 },
@@ -124,7 +124,7 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         const canvas = createCanvas(600, 250); const ctx = canvas.getContext('2d')
         ctx.fillStyle = '#111'; ctx.fillRect(0,0,600,250)
         ctx.fillStyle = '#d4af37'; ctx.font = 'bold 28px Arial'; ctx.textAlign = 'center'
-        ctx.fillText('🎰 ELIXIR SLOT 🎰', 300, 40)
+        ctx.fillText('🎰 THE PUNISHER SLOT 🎰', 300, 40)
         try {
             const i1 = await loadImage(fruitURLs[r[0]]), i2 = await loadImage(fruitURLs[r[1]]), i3 = await loadImage(fruitURLs[r[2]])
             ctx.drawImage(i1, 100, 70, 100, 100); ctx.drawImage(i2, 250, 70, 100, 100); ctx.drawImage(i3, 400, 70, 100, 100)
@@ -195,7 +195,7 @@ let handler = async (m, { conn, command, args, usedPrefix }) => {
         const canvas = createCanvas(600, 400); const ctx = canvas.getContext('2d')
         ctx.fillStyle = '#0d2818'; ctx.fillRect(0,0,600,400)
         ctx.fillStyle = '#d4af37'; ctx.font = 'bold 30px Arial'; ctx.textAlign = 'center'
-        ctx.fillText('🃏 BLACKJACK ELIXIR 🃏', 300, 40)
+        ctx.fillText('🃏 BLACKJACK THE PUNISHER 🃏', 300, 40)
 
         ctx.fillStyle = '#ff6b6b'; ctx.font = 'bold 20px Arial'; ctx.fillText('BANCO', 300, 80)
         ctx.fillStyle = '#fff'; ctx.font = '18px Arial'
