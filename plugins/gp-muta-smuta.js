@@ -1,123 +1,261 @@
-import { createCanvas, loadImage } from 'canvas';
+import { createMuteCard } from '../lib/cards/mute-card.js'
 
-// --- LOGICA DI CANCELLAZIONE MESSAGGI ---
-export async function before(m, { conn, isAdmin, isBotAdmin }) {
-    if (m.isBaileys && m.fromMe) return true;
-    if (!m.isGroup) return false;
+function normalizeJid(jid = '') {
+  if (!jid) return null
+  if (jid.includes('@s.whatsapp.net')) return jid
+  if (jid.includes('@lid')) return jid
 
-    const user = global.db.data.users?.[m.sender];
-    if (user && user.muto && isBotAdmin && !isAdmin) {
-        await conn.sendMessage(m.chat, { delete: m.key });
-        return false;
-    }
-    return true;
+  const clean = String(jid).replace(/[^0-9]/g, '')
+  if (clean.length > 5) return clean + '@s.whatsapp.net'
+
+  return null
 }
 
-// --- LOGICA DEL COMANDO ---
-const handler = async (m, { conn, command, text, isAdmin, isBotAdmin }) => {
-  const BOT_OWNERS = (global.owner || []).map(o => o[0] + '@s.whatsapp.net');
-  let mentionedJid = m.mentionedJid?.[0] || m.quoted?.sender;
+function cleanJid(jid = '') {
+  return String(jid || '').replace(/[^0-9]/g, '')
+}
 
-  if (!mentionedJid && text) {
-    let number = text.replace(/[^0-9]/g, '');
-    if (number.length >= 8) mentionedJid = number + '@s.whatsapp.net';
+function isOwnerJid(jid = '') {
+  const num = cleanJid(jid)
+
+  return (global.owner || []).some(owner => {
+    const ownerNum = Array.isArray(owner)
+      ? cleanJid(owner[0])
+      : cleanJid(owner)
+
+    return ownerNum === num
+  })
+}
+
+function getMentioned(m) {
+  return (
+    m.mentionedJid?.[0] ||
+    m.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[0] ||
+    m.msg?.contextInfo?.mentionedJid?.[0] ||
+    null
+  )
+}
+
+function resolveTarget(m, text = '') {
+  const mentioned = getMentioned(m)
+
+  if (mentioned) return normalizeJid(mentioned)
+
+  if (m.quoted?.sender) return normalizeJid(m.quoted.sender)
+
+  const clean = String(text || '').replace(/[^0-9]/g, '')
+
+  if (clean.length > 5) return normalizeJid(clean)
+
+  return null
+}
+
+function resolveAction(m, command = '') {
+  const cmd = String(command || '').toLowerCase().replace(/^[.!/#]/, '')
+  const body = String(
+    m.text ||
+    m.body ||
+    m.message?.conversation ||
+    ''
+  ).toLowerCase().trim()
+
+  if (cmd === 'muta') return true
+  if (cmd === 'smuta') return false
+
+  if (/^[.!/#]smuta(\s|$)/i.test(body)) return false
+  if (/^[.!/#]muta(\s|$)/i.test(body)) return true
+
+  return null
+}
+
+function ensureChatMuteStore(chat) {
+  global.db.data.chats ||= {}
+  global.db.data.chats[chat] ||= {}
+  global.db.data.chats[chat].mutedUsers ||= {}
+
+  return global.db.data.chats[chat].mutedUsers
+}
+
+function parseDuration(text = '') {
+  const match = String(text)
+    .toLowerCase()
+    .match(/(?:^|\s)(\d+)\s*(m|min|minuti|h|ore|ora|d|giorni|giorno)?(?:\s|$)/)
+
+  if (!match) return null
+
+  const value = Number(match[1])
+  const unit = match[2] || 'm'
+
+  if (!value || value <= 0) return null
+
+  if (['h', 'ora', 'ore'].includes(unit)) {
+    return {
+      ms: value * 60 * 60 * 1000,
+      label: `${value} ${value === 1 ? 'ora' : 'ore'}`
+    }
   }
 
-  const chatId = m.chat;
-  const botNumber = conn.user.jid;
-
-  if (!isAdmin) throw '⚠️ Solo gli amministratori possono usare questo comando.';
-  if (!isBotAdmin) throw '⚠️ Il bot deve essere admin per poter cancellare i messaggi.';
-  if (!mentionedJid) return m.reply(`💡 *Esempio:* .${command} @tag`);
-
-  let groupOwner = null;
-  try {
-    const metadata = await conn.groupMetadata(chatId);
-    groupOwner = metadata.owner;
-  } catch { groupOwner = null }
-
-  if ([groupOwner, botNumber, ...BOT_OWNERS].includes(mentionedJid))
-    throw '🛡️ *ERRORE:* Impossibile mutare un superiore (Owner/Bot).';
-
-  if (!global.db.data.users[mentionedJid]) global.db.data.users[mentionedJid] = { muto: false };
-  const user = global.db.data.users[mentionedJid];
-  const isMute = command === 'muta';
-  const tag = '@' + mentionedJid.split('@')[0];
-
-  // Cambio stato
-  if (isMute) {
-    if (user.muto) throw '🔇 L\'utente è già mutato.';
-    user.muto = true;
-  } else {
-    if (!user.muto) throw '🔊 L\'utente non è mutato.';
-    user.muto = false;
+  if (['d', 'giorno', 'giorni'].includes(unit)) {
+    return {
+      ms: value * 24 * 60 * 60 * 1000,
+      label: `${value} ${value === 1 ? 'giorno' : 'giorni'}`
+    }
   }
 
-  const caption = isMute 
-    ? `『 *SISTEMA MODERAZIONE* 』\n\n🛑 *Utente:* ${tag}\n⚖️ *Stato:* Silenziato\n🛡️ *Admin:* @${m.sender.split('@')[0]}\n\n*Nota:* I messaggi di questo utente verranno eliminati automaticamente.`
-    : `『 *SISTEMA MODERAZIONE* 』\n\n✅ *Utente:* ${tag}\n⚖️ *Stato:* Riabilitato\n🔔 *Info:* L'utente può tornare a scrivere.`;
+  return {
+    ms: value * 60 * 1000,
+    label: `${value} ${value === 1 ? 'minuto' : 'minuti'}`
+  }
+}
 
-  // --- TENTATIVO CANVAS (Fallback se fallisce) ---
+let handler = async (m, {
+  conn,
+  text,
+  command,
+  isOwner,
+  isROwner
+}) => {
   try {
-    const canvas = createCanvas(800, 300);
-    const ctx = canvas.getContext('2d');
+    const isMute = resolveAction(m, command)
+    const target = resolveTarget(m, text || '')
 
-    ctx.fillStyle = '#121212';
-    ctx.fillRect(0, 0, 800, 300);
-    ctx.fillStyle = isMute ? '#ff4b5c' : '#4bffb3';
-    ctx.fillRect(0, 0, 15, 300);
+    if (isMute === null) return
 
-    let pp;
-    try { 
-      pp = await conn.profilePictureUrl(mentionedJid, 'image');
-    } catch { 
-      pp = 'https://i.imgur.com/8K9mXz4.png';
+    if (!target) {
+      return conn.reply(
+        m.chat,
+        '*⚠️ 𝐃𝐞𝐯𝐢 𝐦𝐞𝐧𝐳𝐢𝐨𝐧𝐚𝐫𝐞 𝐨 𝐫𝐢𝐬𝐩𝐨𝐧𝐝𝐞𝐫𝐞 𝐚𝐝 𝐮𝐧 𝐮𝐭𝐞𝐧𝐭𝐞.*\n\n> *THE PUNISHER-BOT*',
+        m
+      )
     }
 
-    const avatar = await loadImage(pp);
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(160, 150, 90, 0, Math.PI * 2, true);
-    ctx.closePath();
-    ctx.clip();
-    ctx.drawImage(avatar, 70, 60, 180, 180);
-    ctx.restore();
+    const executorIsOwner = !!(isOwner || isROwner || isOwnerJid(m.sender))
+    const targetIsOwner = isOwnerJid(target)
 
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 50px sans-serif';
-    ctx.fillText(isMute ? 'MUTE ATTIVATO' : 'MUTE RIMOSSO', 300, 110);
+    if (isMute && targetIsOwner) {
+      return conn.reply(
+        m.chat,
+        '*⛔ 𝐍𝐨𝐧 𝐩𝐮𝐨𝐢 𝐦𝐮𝐭𝐚𝐫𝐞 𝐝𝐢𝐨.*\n\n> *THE PUNISHER-BOT*',
+        m
+      )
+    }
 
-    ctx.font = '30px sans-serif';
-    ctx.fillStyle = '#bbbbbb';
-    ctx.fillText(`ID: ${mentionedJid.split('@')[0]}`, 300, 165);
+    const mutedUsers = ensureChatMuteStore(m.chat)
+    const oldMuteData = mutedUsers[target]
 
-    ctx.fillStyle = isMute ? '#ff4b5c' : '#4bffb3';
-    ctx.beginPath();
-    ctx.arc(315, 220, 12, 0, Math.PI * 2);
-    ctx.fill();
+    if (!isMute && oldMuteData?.mutedByOwner && !executorIsOwner) {
+      return conn.reply(
+        m.chat,
+        '*⛔ 𝐐𝐮𝐞𝐬𝐭𝐨 𝐮𝐭𝐞𝐧𝐭𝐞 è 𝐬𝐭𝐚𝐭𝐨 𝐦𝐮𝐭𝐚𝐭𝐨 𝐝𝐚 𝐮𝐧 𝐨𝐰𝐧𝐞𝐫.*\n*𝐒𝐨𝐥𝐨 𝐮𝐧 𝐨𝐰𝐧𝐞𝐫 𝐩𝐮𝐨̀ 𝐬𝐦𝐮𝐭𝐚𝐫𝐥𝐨.*\n\n> *THE PUNISHER-BOT*',
+        m
+      )
+    }
 
-    ctx.font = 'bold 40px sans-serif';
-    ctx.fillText(isMute ? 'SILENZIATO' : 'ATTIVO', 345, 235);
+    const duration = isMute
+      ? parseDuration(text || '')
+      : null
 
-    await conn.sendMessage(chatId, { 
-      image: canvas.toBuffer(), 
-      caption: caption,
-      mentions: [mentionedJid, m.sender]
-    }, { quoted: m });
+    const expiresAt = duration
+      ? Date.now() + duration.ms
+      : null
+
+    if (isMute) {
+      mutedUsers[target] = {
+        active: true,
+        expiresAt,
+        mutedBy: m.sender,
+        mutedByOwner: executorIsOwner
+      }
+    } else {
+      delete mutedUsers[target]
+    }
+
+    const username = await conn.getName(target)
+    const executor = `@${m.sender.split('@')[0]}`
+
+    let avatar
+
+    try {
+      avatar = await conn.profilePictureUrl(target, 'image')
+    } catch {
+      avatar = 'https://i.imgur.com/8K9mXz4.png'
+    }
+
+    const card = await createMuteCard(
+      username,
+      avatar,
+      isMute
+    )
+
+    const caption = isMute
+      ? `*🔇 𝐈 𝐬𝐮𝐨𝐢 𝐦𝐞𝐬𝐬𝐚𝐠𝐠𝐢 𝐯𝐞𝐫𝐫𝐚𝐧𝐧𝐨 𝐞𝐥𝐢𝐦𝐢𝐧𝐚𝐭𝐢.*
+
+*👮 𝐄𝐬𝐞𝐠𝐮𝐢𝐭𝐨 𝐝𝐚:* ${executor}
+*⏳ 𝐃𝐮𝐫𝐚𝐭𝐚:* ${duration?.label || 'permanente'}
+
+> *THE PUNISHER-BOT*`
+      : `*🔊 𝐋’𝐮𝐭𝐞𝐧𝐭𝐞 𝐩𝐮𝐨̀ 𝐭𝐨𝐫𝐧𝐚𝐫𝐞 𝐚 𝐬𝐜𝐫𝐢𝐯𝐞𝐫𝐞.*
+
+*👮 𝐄𝐬𝐞𝐠𝐮𝐢𝐭𝐨 𝐝𝐚:* ${executor}
+
+> *THE PUNISHER-BOT*`
+
+    await conn.sendMessage(m.chat, {
+      image: card,
+      caption,
+      mentions: [target, m.sender]
+    }, { quoted: m })
 
   } catch (e) {
-    // SE CANVAS FALLISCE (Termux o errori librerie)
-    console.error('Canvas non disponibile, invio solo testo:', e.message);
-    await conn.sendMessage(chatId, { 
-      text: caption, 
-      mentions: [mentionedJid, m.sender] 
-    }, { quoted: m });
+    console.error('[MUTA ERROR]', e)
+
+    conn.reply(
+      m.chat,
+      '*❌ 𝐄𝐫𝐫𝐨𝐫𝐞 𝐝𝐮𝐫𝐚𝐧𝐭𝐞 𝐥𝐚 𝐠𝐞𝐬𝐭𝐢𝐨𝐧𝐞 𝐝𝐞𝐥 𝐦𝐮𝐭𝐞.*\n\n> *THE PUNISHER-BOT*',
+      m
+    )
   }
-};
+}
 
-handler.command = /^(muta|smuta)$/i;
-handler.group = true;
-handler.admin = true;
-handler.botAdmin = true;
+handler.before = async function (m, { conn }) {
+  if (!m.isGroup) return
+  if (!m.sender) return
+  if (m.fromMe) return
 
-export default handler;
+  const sender = normalizeJid(m.sender)
+
+  if (!sender) return
+
+  const mutedUsers = ensureChatMuteStore(m.chat)
+  const muteData = mutedUsers[sender]
+
+  if (!muteData) return
+
+  if (
+    muteData !== true &&
+    muteData.expiresAt &&
+    Date.now() >= muteData.expiresAt
+  ) {
+    delete mutedUsers[sender]
+    return
+  }
+
+  const isMuted =
+    muteData === true ||
+    muteData.active === true
+
+  if (!isMuted) return
+
+  try {
+    await conn.sendMessage(m.chat, {
+      delete: m.key
+    })
+  } catch {}
+}
+
+handler.command = ['muta', 'smuta']
+handler.group = true
+handler.admin = true
+handler.botAdmin = true
+
+export default handler
