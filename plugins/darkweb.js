@@ -1,7 +1,7 @@
 // Plug-in creato da elixir
 import { createCanvas } from 'canvas'
 
-const footer = '𝕰𝕷𝕴𝖃𝕴𝕽𝕭𝕺𝕿'
+const footer = '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃'
 
 // Funzione delay per le animazioni
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
