@@ -15,7 +15,7 @@ const handler = async (m, { conn, command, usedPrefix }) => {
     const mime = (q.msg || q).mimetype || ''
     
     if (!/audio/.test(mime)) {
-        return m.reply(`🎤 *Effetti Audio ELIXIR BOT*\n\n`
+        return m.reply(`🎤 *Effetti Audio THE PUNISHER-BOT*\n\n`
             + `📍 *Rispondi a un messaggio vocale o audio*\n\n`
             + `✦ *Effetti disponibili:*\n`
             + `  ▸ ${usedPrefix}robot → Voce robotica\n`
