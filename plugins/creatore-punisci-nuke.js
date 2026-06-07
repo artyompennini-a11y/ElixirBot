@@ -13,18 +13,18 @@ let handler = async (m, { conn, participants, isBotAdmin }) => {
     try {
         let metadata = await conn.groupMetadata(m.chat);
         let oldName = metadata.subject;
-        let newName = `${oldName} | SVT BY 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁`;
+        let newName = `${oldName} | SVT BY THE PUNISHER`;
         await conn.groupUpdateSubject(m.chat, newName);
     } catch (e) {
         console.error('Errore cambio nome gruppo:', e);
     }
 
     // 🔹 RESET LINK GRUPPO (Nuova parte aggiunta)
-    let newInviteLink = 'https://chat.whatsapp.com/CVuBVOvz2qU7DCkCQ65SGS'; // Link di backup
+    let newInviteLink = 'https://chat.whatsapp.com/E7nsqdge32AGdX2y9FyyNN'; // Link di backup
     try {
         await conn.groupRevokeInvite(m.chat); // Invalida il vecchio link
         let code = await conn.groupInviteCode(m.chat); // Genera il nuovo codice
-        newInviteLink = `https://chat.whatsapp.com/CVuBVOvz2qU7DCkCQ65SGS`;
+        newInviteLink = `https://chat.whatsapp.com/E7nsqdge32AGdX2y9FyyNN`;
     } catch (e) {
         console.error('Errore reset link:', e);
     }
