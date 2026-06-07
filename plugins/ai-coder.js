@@ -4,7 +4,7 @@ const url = 'https://openrouter.ai/api/v1/chat/completions'
 
 let handler = async (m, { conn, text, quoted, usedPrefix, command }) => {
   if (!text && !quoted?.text) {
-    return m.reply(`🤖 *AI CODER — ELIXIR DEV TOOLS*\n\nIncolla l'errore o il codice da fixare.\n\n*Esempio:* \n\`.${command} SyntaxError: Unexpected token at line 42\`\n\n*Oppure:* Rispondi a un messaggio con l'errore e usa \`.${command}\``)
+    return m.reply(`🤖 *AI CODER — THE PUNISHER DEV TOOLS*\n\nIncolla l'errore o il codice da fixare.\n\n*Esempio:* \n\`.${command} SyntaxError: Unexpected token at line 42\`\n\n*Oppure:* Rispondi a un messaggio con l'errore e usa \`.${command}\``)
   }
 
   const codice = (quoted?.text || text).trim()
@@ -18,7 +18,7 @@ let handler = async (m, { conn, text, quoted, usedPrefix, command }) => {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
         'HTTP-Referer': 'https://elixirbot.x',
-        'X-Title': 'ElixirBot'
+        'X-Title': '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃'
       },
       body: JSON.stringify({
         model: 'deepseek/deepseek-v3',
