@@ -4,8 +4,8 @@ let handler = async (m, { conn }) => {
   await conn.sendMessage(m.chat, { text: message }, { quoted: m });
 };
 
-handler.help = ['punisher'];
+handler.help = ['The punisher'];
 handler.tags = ['giochi'];
-handler.command = /^(punisher)$/i; // Corretto il regex per attivarsi con "punisher"
+handler.command = /^(The punisher)$/i; // Corretto il regex per attivarsi con "The punisher"
 
 export default handler;
