@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════
-//  🛡️  ELIXIR - ANTI-LINK  🛡️
+//  🛡️  THE PUNISHER - ANTI-LINK  🛡️
 //  Blocca: link WhatsApp (gruppi, canali, wa.me, wa.link) + Short URL
 //  Chiave DB: chat.antiLink
 // ═══════════════════════════════════════════════════════════════════
