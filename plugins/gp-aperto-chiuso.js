@@ -25,7 +25,7 @@ let handler = async (m, { conn, command }) => {
             forwardingScore: 999,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363426482335068@newsletter',
+                newsletterJid: '120363407063409735@newsletter',
                 newsletterName: `✦ ${global.db.data.nomedelbot || '𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃'} ✦`,
                 serverMessageId: 143
             }
