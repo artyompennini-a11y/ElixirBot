@@ -91,7 +91,7 @@ const handler = async (m, { conn, command, usedPrefix }) => {
             contextInfo: {
                 externalAdReply: {
                     title: `🎤 Effetto: ${effectName}`,
-                    body: 'ELIXIR BOT — Audio FX',
+                    body: 'THE PUNISHER-BOT — Audio FX',
                     thumbnailUrl: 'https://i.imgur.com/8K9qY1G.png',
                     sourceUrl: 'https://github.com',
                     mediaType: 1,
