@@ -9,7 +9,7 @@ let handler = async (m, { conn }) => {
 ╭─── 👑 𝐂𝐑𝐄𝐀𝐓𝐎𝐑𝐄 ────╮
 │ ✦ 𝐍𝐨𝐦𝐞: 𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁
 │ ✦ 𝐑𝐮𝐨𝐥𝐨: Creatore / Developer
-│ ✦ 𝐂𝐨𝐧𝐭𝐚𝐭𝐭𝐨: @447529461874
+│ ✦ 𝐂𝐨𝐧𝐭𝐚𝐭𝐭𝐨: @393206032199
 ╰──────────────────╯
 
 ╭─── 📌 𝐈𝐍𝐅𝐎 𝐔𝐓𝐈𝐋𝐈 ───╮
@@ -25,7 +25,7 @@ let handler = async (m, { conn }) => {
         {
             contextInfo: {
                 mentionedJid: [
-                    '447529461874@s.whatsapp.net'
+                    '393206032199@s.whatsapp.net'
                 ]
             }
         }
@@ -40,7 +40,7 @@ let handler = async (m, { conn }) => {
                         vcard: `BEGIN:VCARD
 VERSION:3.0
 FN:Elixⁱʳ
-ORG:ELIXIR BOT - Creatore / Developer
+ORG:THE PUNISHER-BOT - Creatore / Developer
 TEL;type=CELL;type=VOICE;waid=447529461874:+447529461874
 END:VCARD`
                     }
