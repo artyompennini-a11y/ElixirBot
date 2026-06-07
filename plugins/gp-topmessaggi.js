@@ -110,7 +110,7 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
             const buffer = canvas.toBuffer()
             await conn.sendMessage(m.chat, {
                 image: buffer,
-                caption: '`[⚡] ELIXIR ANALYTICS CORE`'
+                caption: '`[⚡] THE PUNISHER ANALYTICS CORE`'
             }, { quoted: m })
         } else {
             let output = `\`\`\`╔══════════════════════════════════╗
