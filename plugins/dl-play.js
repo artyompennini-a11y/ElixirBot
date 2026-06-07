@@ -1,4 +1,3 @@
-// Plug-in creato da elixir
 import yts from 'yt-search';
 import fg from 'api-dylux';
 import fetch from 'node-fetch';
@@ -8,11 +7,7 @@ import path from 'path';
 import os from 'os';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return m.reply(`💀 *ᴛʜᴇ ᴘᴜɴɪꜱʜᴇʀ-ʙᴏᴛ*\n\n💡 _Scrivi:_ ${usedPrefix + command} nome canzone`);
-
-  const tmpDir = os.tmpdir();
-  const inputPath = path.join(tmpDir, `input_${Date.now()}`);
-  const outputPath = path.join(tmpDir, `output_${Date.now()}.${command === 'playaud' ? 'mp3' : 'mp4'}`);
+  if (!text) return m.reply(`⚡ *THE 𝐏𝐔𝐍𝐈𝐒𝐇𝐄𝐑-𝗕𝗢𝗧*\n\n💡 _Scrivi:_ ${usedPrefix + command} nome canzone`);
 
   try {
     const search = await yts(text);
@@ -21,84 +16,95 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     const url = vid.url;
 
-    // Menu principale
     if (command === 'play') {
-        let infoMsg = `┏━━━━━━━━━━━━━━━━━━━┓\n`;
-        infoMsg += `    🎧 ᴛʜᴇ ᴘᴜɴɪꜱʜᴇʀ-ʙᴏᴛ ᴘʟᴀʏᴇʀ 🎧\n`;
-        infoMsg += `┗━━━━━━━━━━━━━━━━━━━┛\n\n`;
-        infoMsg += `◈ 📌 *𝗧𝗶𝘁𝗼𝗹𝗼:* ${vid.title}\n`;
-        infoMsg += `◈ ⏱️ *𝗗𝘂𝗿𝗮𝘁𝗮:* ${vid.timestamp}\n\n`;
-        infoMsg += `*𝗦𝗲𝗹𝗲𝘇𝗶𝗼𝗻𝗮 𝗶𝗹 𝗳𝗼𝗿𝗺𝗮𝘁𝗼:*`;
+        let infoMsg = `┏━━━━━━━━━━━━━━━━━━━┓\n` +
+                      `   🎧  *𝙋𝙡𝙖𝙮 THE 𝐏𝐔𝐍𝐈𝐒𝐇𝐄𝐑-𝗕𝗢𝗧* 🎧\n` +
+                      `┗━━━━━━━━━━━━━━━━━━━┛\n\n` +
+                      `◈ 📌 *𝗧𝗶𝘁𝗼𝗹𝗼:* ${vid.title}\n` +
+                      `◈ ⏱️ *𝗗𝘂𝗿𝗮𝘁𝗮:* ${vid.timestamp}\n\n` +
+                      `*𝗦𝗲𝗹𝗲𝘇𝗶𝗼𝗻𝗮 𝗶𝗹 𝗳𝗼𝗿𝗺𝗮𝘁𝗼:*`;
 
         return await conn.sendMessage(m.chat, {
             image: { url: vid.thumbnail },
             caption: infoMsg,
-            footer: 'THE PUNISHER-BOT • 𝟤𝟢𝟤𝟨',
+            footer: '\n THE 𝐏𝐔𝐍𝐈𝐒𝐇𝐄𝐑-𝗕𝗢𝗧',
             buttons: [
-                { buttonId: `${usedPrefix}playaud ${url}`, buttonText: { displayText: '🎵 𝗔𝗨𝗗𝗜𝗢 (𝗠𝗣𝟯)' }, type: 1 },
-                { buttonId: `${usedPrefix}playvid ${url}`, buttonText: { displayText: '🎬 𝗩𝗜𝗗𝗘𝗢 (𝗠𝗣𝟰)' }, type: 1 }
+                { buttonId: `${usedPrefix}playaud ${url}`, buttonText: { displayText: '🎵 𝗔𝗨𝗗𝗜𝗢 (𝗠🇵𝟯)' }, type: 1 },
+                { buttonId: `${usedPrefix}playvid ${url}`, buttonText: { displayText: '🎬 𝗩𝗜𝗗𝗘𝗢 (𝗠🇵𝟰)' }, type: 1 }
             ],
             headerType: 4
         }, { quoted: m });
     }
 
-    await conn.sendMessage(m.chat, { react: { text: "💀", key: m.key } });
+    await conn.sendMessage(m.chat, { react: { text: "🎵", key: m.key } });
 
     let downloadUrl = null;
     const isAudio = command === 'playaud';
-
-    // Tentativo di download tramite API Dylux
+    
     try {
         let res = isAudio ? await fg.yta(url) : await fg.ytv(url);
         if (res && res.dl_url) downloadUrl = res.dl_url;
-    } catch (e) {
-        // Fallback su API esterna (Corretto URL con /)
-        let api = isAudio ? 'ytmp3' : 'ytmp4';
-        let res = await fetch(`https://vreden.my.id{api}?url=${url}`);
-        let json = await res.json();
-        downloadUrl = json.result?.download?.url || json.result?.url;
+    } catch (e) { console.log("Dylux API failed"); }
+
+    if (!downloadUrl) {
+        try {
+            let apiType = isAudio ? 'youtube-mp3' : 'youtube-mp4';
+            let res = await fetch(`https://vreden.my.id{apiType}?url=${encodeURIComponent(url)}`);
+            let json = await res.json();
+            downloadUrl = json.result?.download?.url || json.result?.url || json.result?.downloadUrl;
+        } catch (e) { console.log("Vreden API failed:", e.message); }
     }
 
-    if (!downloadUrl) throw new Error('Download URL non trovato');
+    if (!downloadUrl) {
+        throw new Error('APIs failed to provide a download URL');
+    }
+
+    const tmpDir = os.tmpdir();
+    const fileName = `file_${Date.now()}`;
+    const inputPath = path.join(tmpDir, `${fileName}.${isAudio ? 'mp3' : 'mp4'}`);
+    const outputPath = path.join(tmpDir, `${fileName}.${isAudio ? 'mp3' : 'mp4'}`);
 
     const response = await fetch(downloadUrl);
-    const buffer = await response.buffer();
-    fs.writeFileSync(inputPath, buffer);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const arrayBuffer = await response.arrayBuffer();
+    fs.writeFileSync(inputPath, Buffer.from(arrayBuffer));
 
     if (isAudio) {
-        // Conversione Audio con FFmpeg
+        const voicePath = path.join(tmpDir, `${fileName}.ogg`);
+
         await new Promise((resolve, reject) => {
-            exec(`ffmpeg -i "${inputPath}" -vn -ar 44100 -ac 2 -b:a 128k "${outputPath}"`, (err) => {
-                if (err) reject(err);
-                else resolve();
-            });
+            exec(
+                `ffmpeg -hide_banner -loglevel error -y -i "${inputPath}" -map_metadata -1 -vn -ar 48000 -ac 1 -c:a libopus -b:a 64k -application voip -f ogg "${voicePath}"`,
+                (err) => {
+                    if (err) reject(err);
+                    else resolve();
+                }
+            );
         });
 
         await conn.sendMessage(m.chat, {
-            audio: fs.readFileSync(outputPath),
-            mimetype: 'audio/mpeg',
-            fileName: `${vid.title}.mp3`,
-            ptt: false
+            audio: fs.readFileSync(voicePath),
+            mimetype: 'audio/ogg; codecs=opus',
+            ptt: true
         }, { quoted: m });
+
+        if (fs.existsSync(voicePath)) fs.unlinkSync(voicePath);
+
     } else {
-        // Invio Video
         await conn.sendMessage(m.chat, {
             video: fs.readFileSync(inputPath),
             mimetype: 'video/mp4',
-            caption: `✅ *ꜱᴄᴀʀɪᴄᴀᴛᴏ ᴅᴀ ᴛʜᴇ ᴘᴜɴɪꜱʜᴇʀ-ʙᴏᴛ*\n📌 *Titolo:* ${vid.title}`,
+            caption: `✅ *𝐒𝐜𝐚𝐫𝐢𝐜𝐚𝐭𝐨 𝐝𝐚 THE 𝐏𝐔𝐍𝐈𝐒𝐇𝐄𝐑-𝗕𝗢𝗧*`
         }, { quoted: m });
     }
 
+    if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+    if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
     await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key } });
 
   } catch (e) {
-    console.error(e);
-    m.reply('🚀 *ᴛʜᴇ ᴘᴜɴɪꜱʜᴇʀ-ʙᴏᴛ ᴘʟᴀʏᴇʀ ᴇʀʀᴏʀ:* Servizio momentaneamente non disponibile.');
-    await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key } });
-  } finally {
-    // Pulizia file sicura
-    if (fs.existsSync(inputPath)) try { fs.unlinkSync(inputPath) } catch {}
-    if (fs.existsSync(outputPath)) try { fs.unlinkSync(outputPath) } catch {}
+    console.error("Handler Error:", e.message);
+    m.reply('🚀 *𝙋𝙡𝙖𝙮 𝙀𝙧𝙧𝙤rer:* Al momento i server di download sono sovraccarichi o offline. Riprova tra poco.');
   }
 };
 
