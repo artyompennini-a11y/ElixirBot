@@ -29,7 +29,7 @@ const handler = async (m, { conn, usedPrefix }) => {
 
     const textMsg = deletedCount === 0 
       ? '❗ 𝐍𝐢𝐞𝐧𝐭𝐞 𝐡𝐚𝐧𝐝𝐢𝐜𝐚𝐩𝐩𝐚𝐭𝐢, 𝐫𝐢𝐩𝐫𝐨𝐯𝐚 𝐭𝐫𝐚 𝐩𝐨𝐜𝐨 𝐧𝐞 𝐡𝐨 𝐛𝐢𝐬𝐨𝐠𝐧𝐨 ‼️' 
-      : '🔥🔫 𝐇𝐨 𝐬𝐩𝐚𝐰𝐧-𝐤𝐢𝐥𝐥𝐚𝐭𝐨 ' + deletedCount + ' EBREI !💀';
+      : '🔥🔫 𝐇𝐨 𝐬𝐩𝐚𝐰𝐧-𝐤𝐢𝐥𝐥𝐚𝐭𝐨 ' + deletedCount + ' 𝗲𝗯𝗿𝗲𝗶 !💀';
 
     await conn.sendMessage(m.chat, {
       text: textMsg,
