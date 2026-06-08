@@ -1,3 +1,5 @@
+import { createCanvas } from 'canvas'
+
 function normalizeJid(jid = '') {
   if (!jid) return null
   if (jid.includes('@s.whatsapp.net')) return jid
@@ -93,6 +95,59 @@ function parseDuration(text = '') {
   }
 }
 
+// Funzione dedicata alla generazione della card Canvas
+async function drawMuteCard(statusTitle, targetID, themeColor) {
+  const width = 800
+  const height = 400
+  const canvas = createCanvas(width, height)
+  const ctx = canvas.getContext('2d')
+
+  // Sfondo scuro opaco
+  ctx.fillStyle = '#0d0f14'
+  ctx.fillRect(0, 0, width, height)
+
+  // Griglia geometrica di sfondo cibernetica
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.02)'
+  ctx.lineWidth = 1
+  const gridSize = 40
+  for (let x = 0; x < width; x += gridSize) {
+    ctx.beginPath()
+    ctx.moveTo(x, 0)
+    ctx.lineTo(x, height)
+    ctx.stroke()
+  }
+  for (let y = 0; y < height; y += gridSize) {
+    ctx.beginPath()
+    ctx.moveTo(0, y)
+    ctx.lineTo(width, y)
+    ctx.stroke()
+  }
+
+  // Cornice decorativa esterna basata sul colore dell'azione
+  ctx.strokeStyle = themeColor
+  ctx.lineWidth = 6
+  ctx.strokeRect(25, 25, width - 50, height - 50)
+
+  // Titolo dell'operazione (Stato attuale del firewall)
+  ctx.font = 'bold 44px sans-serif'
+  ctx.fillStyle = '#ffffff'
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillText(statusTitle, width / 2, 140)
+
+  // Stringa identificativa dell'utente colpito o liberato
+  ctx.font = '700 28px monospace'
+  ctx.fillStyle = themeColor
+  ctx.fillText(`ID TARGET: @${targetID}`, width / 2, 220)
+
+  // Watermark fisso a piè di pagina
+  ctx.font = 'italic 18px sans-serif'
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'
+  ctx.fillText('SECURITY CORE SYSTEM • THE PUNISHER-BOT', width / 2, 330)
+
+  return canvas.toBuffer('image/jpeg')
+}
+
 let handler = async (m, { conn, text, command, isOwner, isROwner }) => {
   try {
     const isMute = resolveAction(m, command)
@@ -144,12 +199,17 @@ let handler = async (m, { conn, text, command, isOwner, isROwner }) => {
       delete mutedUsers[target]
     }
 
-    const targetTag = `@${target.split('@')[0]}`
+    const targetNumber = target.split('@')[0]
+    const targetTag = `@${targetNumber}`
     const executorTag = `@${m.sender.split('@')[0]}`
 
-    // Configurazione del layout testuale senza dipendenza da immagini generate in locale
     let messaggio = ''
+    let canvasTitle = ''
+    let canvasColor = ''
+
     if (isMute) {
+      canvasTitle = '🔴 ACCESS RESTRICTION ACTIVE'
+      canvasColor = '#ff3838'
       messaggio = `╔════════════════════════╗\n` +
                   `🔇   *UTENTE MUTATO* 🔇\n` +
                   `╚════════════════════════╝\n\n` +
@@ -159,6 +219,8 @@ let handler = async (m, { conn, text, command, isOwner, isROwner }) => {
                   `_I messaggi inviati dall'utente verranno intercettati ed eliminati automaticamente._\n\n` +
                   `> *THE PUNISHER-BOT*`
     } else {
+      canvasTitle = '🟢 ACCESS RESTRICTION LIFTED'
+      canvasColor = '#2ed573'
       messaggio = `╔════════════════════════╗\n` +
                   `🔊  *MUTING REVOCATO* 🔊\n` +
                   `╚════════════════════════╝\n\n` +
@@ -168,8 +230,13 @@ let handler = async (m, { conn, text, command, isOwner, isROwner }) => {
                   `> *THE PUNISHER-BOT*`
     }
 
+    // Costruzione dinamica dell'immagine tramite Canvas
+    const imageBuffer = await drawMuteCard(canvasTitle, targetNumber, canvasColor)
+
+    // Spedizione del file multimediale con testo integrato come didascalia
     await conn.sendMessage(m.chat, {
-      text: messaggio,
+      image: imageBuffer,
+      caption: messaggio,
       mentions: [target, m.sender]
     }, { quoted: m })
 
@@ -183,7 +250,6 @@ let handler = async (m, { conn, text, command, isOwner, isROwner }) => {
   }
 }
 
-// Intercettore per la cancellazione automatica dei messaggi degli utenti mutati
 handler.before = async function (m, { conn }) {
   if (!m.isGroup || !m.sender || m.fromMe) return
 
@@ -195,7 +261,6 @@ handler.before = async function (m, { conn }) {
 
   if (!muteData) return
 
-  // Controllo e pulizia automatica se la sanzione a tempo è scaduta
   if (muteData.expiresAt && Date.now() >= muteData.expiresAt) {
     delete mutedUsers[sender]
     return
@@ -206,7 +271,6 @@ handler.before = async function (m, { conn }) {
   if (!isMuted) return
 
   try {
-    // Rimozione immediata del payload/messaggio inviato dall'utente sanzionato
     await conn.sendMessage(m.chat, { delete: m.key })
   } catch (err) {
     console.error('[MUTE DELETE ERROR]', err)
