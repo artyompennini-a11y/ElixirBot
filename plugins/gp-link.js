@@ -12,13 +12,19 @@ const handler = async (m, { conn }) => {
             ppUrl = 'https://i.ibb.co/3Fh9V6p/avatar-group-default.png';
         }
 
+        // Preparazione del file multimediale per l'header
+        const mediaPrepared = await conn.prepareMessageMedia(
+            { image: { url: ppUrl } }, 
+            { upload: conn.waUploadToServer }
+        );
+
         const interactiveMessage = {
             body: { text: `*${groupName}*` },
             footer: { text: '𝓿𝓪𝓻𝓮𝓫𝓸𝓽' },
             header: {
-                title: `『 🔗 』 *\`link gruppo:\`*`,
+                title: `『 🔗 』 *\`Link Gruppo:\`*`,
                 hasMediaAttachment: true,
-                imageMessage: (await conn.prepareMessageMedia({ image: { url: ppUrl } }, { upload: conn.waUploadToServer })).imageMessage
+                imageMessage: mediaPrepared.imageMessage
             },
             nativeFlowMessage: {
                 buttons: [
@@ -46,11 +52,12 @@ const handler = async (m, { conn }) => {
     } catch (error) {
         console.error('Errore invio messaggio link:', error);
         try {
+            // Fallback in formato testo normale se i bottoni interattivi falliscono
             const metadata = await conn.groupMetadata(m.chat);
             const groupName = metadata.subject;
             const inviteCode = await conn.groupInviteCode(m.chat);
             const linkgruppo = 'https://chat.whatsapp.com/' + inviteCode;
-            const messageText = `*${groupName}*\n\n『 🔗 』 *\`link gruppo:\`*\n- *${metadata.participants.length} Membri*\n- ${linkgruppo}`;
+            const messageText = `*${groupName}*\n\n『 🔗 』 *\`Link Gruppo:\`*\n- *${metadata.participants.length} Membri*\n\n${linkgruppo}`;
             
             await conn.sendMessage(m.chat, { text: messageText }, { quoted: m });
         } catch (e) {
