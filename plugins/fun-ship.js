@@ -1,43 +1,64 @@
-// Plug-in creato da elixir
 let handler = async (m, { conn, text }) => {
-    let mentioned = m.mentionedJid
-    // Controllo se sono state menzionate almeno 2 persone
-    if (mentioned.length < 2) return m.reply('✨ *SHIP METER*\n\nDevi menzionare due persone!\nEs: `.ship @user1 @user2`')
-
-    let user1 = mentioned[0]
-    let user2 = mentioned[1]
+   
+    let mentioned = m.mentionedJid || [];
     
-    let percentuale = Math.floor(Math.random() * 100) + 1
+    let user1 = '';
+    let user2 = '';
+
     
-    // Logica dei commenti
-    let commento = ""
-    if (percentuale > 90) commento = "💖 Destinati a stare insieme!"
-    else if (percentuale > 70) commento = "❤️ Una coppia bellissima!"
-    else if (percentuale > 50) commento = "✨ C'è del potenziale qui..."
-    else if (percentuale > 30) commento = "🤔 Forse come amici?"
-    else commento = "🚫 Meglio lasciar perdere 😂"
+    if (mentioned.length >= 2) {
+        user1 = mentioned[0];
+        user2 = mentioned[1];
+    } else if (mentioned.length === 1 && m.quoted) {
+        user1 = m.quoted.sender;
+        user2 = mentioned[0];
+    } else if (m.quoted) {
+        user1 = m.sender;
+        user2 = m.quoted.sender;
+    } else {
+        return m.reply('✨ *SHIP METER*\n\nDevi menzionare due persone o rispondere al messaggio di un utente menzionandone un altro!\nEs: `.ship @user1 @user2` o rispondi a un messaggio scrivendo `.ship @user` ');
+    }
 
-    let shipMsg = `
-   *─── 「 💞 sʜɪᴘ ᴍᴇᴛᴇʀ 」 ────*
+   
+    let percentuale = Math.floor(Math.random() * 100) + 1;
+    
+    // Generazione della barra di progresso visiva (10 blocchi totali)
+    let boccoCount = Math.round(percentuale / 10);
+    let bar = '█'.repeat(boccoCount) + '░'.repeat(10 - boccoCount);
+    
+   
+    let commento = "";
+    if (percentuale > 90) commento = "💖 *Destinati a stare insieme!*";
+    else if (percentuale > 75) commento = "❤️ *Una coppia assolutamente bellissima!*";
+    else if (percentuale > 50) commento = "✨ *C'è dell'ottimo potenziale qui...*";
+    else if (percentuale > 30) commento = "🤔 *Forse funziona meglio come amicizia?*";
+    else commento = "🚫 *Sintonia non rilevata. Meglio lasciar perdere!* 😂";
 
-  💌 *@${user1.split('@')[0]}*
-  ➕
-  💌 *@${user2.split('@')[0]}*
+  
+    let shipMsg = `┌─── 「 💞 *ꜱʜɪᴘ ᴍᴇᴛᴇʀ* 」 ───┐\n` +
+                  `│\n` +
+                  `│ 👤 *User 1:* @${user1.split('@')[0]}\n` +
+                  `│ ➕\n` +
+                  `│ 👤 *User 2:* @${user2.split('@')[0]}\n` +
+                  `│\n` +
+                  `├───────────────────────────\n` +
+                  `│\n` +
+                  `│ 📊 *ᴄᴏᴍᴘᴀᴛɪʙɪʟɪᴛà:* \`${percentuale}%\`\n` +
+                  `│ 📟 *Progress:* \`[${bar}]\`\n` +
+                  `│\n` +
+                  `│ 💬 ${commento}\n` +
+                  `│\n` +
+                  `└───────────────────────────┘`.trim();
 
-  📊 *ᴄᴏᴍᴘᴀᴛɪʙɪʟɪᴛà:* \`${percentuale}%\`
-  ${commento}
-
-   *────────────────────────*
-`.trim()
-
+    
     await conn.sendMessage(m.chat, { 
         text: shipMsg, 
         mentions: [user1, user2] 
-    }, { quoted: m })
-}
+    }, { quoted: m });
+};
 
-handler.command = /^ship$/i
-handler.tags = ['fun']
-handler.group = true
+handler.command = /^ship$/i;
+handler.tags = ['fun'];
+handler.group = true;
 
-export default handler
+export default handler;
