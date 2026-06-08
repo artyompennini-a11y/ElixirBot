@@ -8,7 +8,7 @@ let handler = async (m, { conn }) => {
     await conn.sendMessage(m.chat, { 
       sticker: buffer,
     }, { quoted: m });
-    await m.reply('https://github.com/BLOOD212/𝓔𝓛𝓘𝓧𝓘𝓡-𝓑𝓞𝓣1');
+    await m.reply('https://github.com/artyompennini-a11y/ThePunisherBot');
   } catch (err) {
     console.error(err);
     await m.reply('❌ Errore nell\'invio dello sticker.');
