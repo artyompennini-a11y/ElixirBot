@@ -154,7 +154,7 @@ let handler = async (m, { conn, text, command, isOwner, isROwner }) => {
                   `🔇   *UTENTE MUTATO* 🔇\n` +
                   `╚════════════════════════╝\n\n` +
                   `• 👤 *Target:* ${targetTag}\n` +
-                  `• 👮 *Eseguito da:* ${executorTag}\n` +
+                  `• 👑 *Eseguito da:* ${executorTag}\n` +
                   `• ⏳ *Durata:* \`${duration?.label || 'Permanente'}\`\n\n` +
                   `_I messaggi inviati dall'utente verranno intercettati ed eliminati automaticamente._\n\n` +
                   `> *THE PUNISHER-BOT*`
@@ -163,7 +163,7 @@ let handler = async (m, { conn, text, command, isOwner, isROwner }) => {
                   `🔊  *MUTING REVOCATO* 🔊\n` +
                   `╚════════════════════════╝\n\n` +
                   `• 👤 *Target:* ${targetTag}\n` +
-                  `• 👮 *Sbloccato da:* ${executorTag}\n\n` +
+                  `• 👑 *Sbloccato da:* ${executorTag}\n\n` +
                   `_L'utente può riprendere regolarmente l'attività all'interno della chat._\n\n` +
                   `> *THE PUNISHER-BOT*`
     }
