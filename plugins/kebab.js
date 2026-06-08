@@ -8,63 +8,123 @@ const kebabIngredients = [
 ];
 
 const kebabBotReplies = [
-  "🌯 Kebab perfetto!",
-  "😋 Che bontà!",
-  "🔥 Attenzione, questo è piccante!",
-  "🎉 Kebab da campioni!",
-  "🤤 Mmm, che delizia!"
+  "🌯 Kebab perfetto! Uno spettacolo per il palato.",
+  "😋 Che bontà! Il maestro del kebab approva.",
+  "🔥 Attenzione, questo è decisamente piccante!",
+  "🎉 Kebab da campioni! Pronto per essere divorato.",
+  "🤤 Mmm, la combinazione definitiva. Che delizia!"
 ];
 
-const playAgainButtons = () => [
-  {
-    name: 'quick_reply',
-    buttonParamsJson: JSON.stringify({
-      display_text: 'Ordina un altro kebab 🌯',
-      id: `.kebab`
-    })
-  }
-];
-
+// Funzione Canvas per disegnare un kebab stilizzato e dinamico
 async function generateKebabImage(ingredients) {
-  const width = 800;
-  const height = 800;
+  const width = 600;
+  const height = 600;
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext('2d');
 
-  // Sfondo
-  ctx.fillStyle = "#f5e6c8";
+  // Sfondo della card
+  ctx.fillStyle = "#1e1e24";
   ctx.fillRect(0, 0, width, height);
 
-  // Titolo
-  ctx.fillStyle = "#000";
-  ctx.font = "bold 50px Sans";
+  // Cerchio di sfondo decorativo
+  ctx.fillStyle = "#2a2a35";
+  ctx.beginPath();
+  ctx.arc(width / 2, height / 2, 220, 0, Math.PI * 2);
+  ctx.fill();
+
+  // DISEGNO DEL KEBAB STRATIFICATO
+  // 1. Il Pane (Pita) di sfondo
+  ctx.fillStyle = "#e29c52";
+  ctx.beginPath();
+  ctx.arc(width / 2, height / 2 + 50, 160, 0, Math.PI, true);
+  ctx.fill();
+
+  // 2. Strato Insalata (Verde)
+  if (ingredients.some(i => i.includes('Insalata') || i.includes('Rucola'))) {
+    ctx.fillStyle = "#2ed573";
+    ctx.fillRect(width / 2 - 100, height / 2 - 20, 200, 40);
+  }
+
+  // 3. Strato Carne (Marrone)
+  ctx.fillStyle = "#744410";
+  ctx.fillRect(width / 2 - 110, height / 2 + 10, 220, 50);
+
+  // 4. Strato Pomodori / Piccante (Rosso)
+  if (ingredients.some(i => i.includes('Pomodori') || i.includes('piccante') || i.includes('Peperoncino'))) {
+    ctx.fillStyle = "#ff4757";
+    ctx.beginPath();
+    ctx.arc(width / 2 - 50, height / 2 + 20, 20, 0, Math.PI * 2);
+    ctx.arc(width / 2 + 50, height / 2 + 20, 20, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // 5. Strato Salse (Salsa Yogurt / Aglio)
+  if (ingredients.some(i => i.includes('Salsa'))) {
+    ctx.strokeStyle = "#f1f2f6";
+    ctx.lineWidth = 12;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(width / 2 - 80, height / 2 - 10);
+    ctx.bezierCurveTo(width / 2 - 40, height / 2 + 30, width / 2 + 40, height / 2 - 30, width / 2 + 80, height / 2 + 10);
+    ctx.stroke();
+  }
+
+  // 6. Chiusura del Pane davanti (Involtino)
+  ctx.fillStyle = "#f5b066";
+  ctx.beginPath();
+  ctx.moveTo(width / 2 - 140, height / 2 + 150);
+  ctx.lineTo(width / 2, height / 2 - 40);
+  ctx.lineTo(width / 2 + 140, height / 2 + 150);
+  ctx.closePath();
+  ctx.fill();
+
+  // Testo e Titolo sulla Canvas
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "bold 36px sans-serif";
   ctx.textAlign = "center";
-  ctx.fillText("IL TUO KEBAB", width / 2, 80);
+  ctx.fillText("🌟 KEBAB SPECIAL 🌟", width / 2, 70);
 
-  // Base kebab
-  ctx.fillStyle = "#d9a066";
-  ctx.fillRect(250, 200, 300, 400);
+  ctx.fillStyle = "#a4b0be";
+  ctx.font = "16px monospace";
+  ctx.fillText("PREPARATO DA THE PUNISHER-BOT", width / 2, 550);
 
-  ctx.fillStyle = "#fff";
-  ctx.fillRect(270, 220, 260, 360);
+  return canvas.toBuffer('image/jpeg');
+}
 
-  // Ingredienti scritti dentro
-  ctx.fillStyle = "#000";
-  ctx.font = "28px Sans";
-  ctx.textAlign = "left";
+// Funzione unica per finalizzare e inviare il Kebab inserito nel flusso della chat
+async function finalizeKebab(chatId, conn) {
+  const game = global.kebabGame[chatId];
+  if (!game) return;
 
-  let y = 260;
-  ingredients.forEach(ing => {
-    ctx.fillText("• " + ing.replace(/\*/g, ''), 290, y);
-    y += 40;
+  // Se l'utente non ha scelto ingredienti, ne mettiamo alcuni a caso per evitare errori
+  if (game.ingredients.length === 0) {
+    game.ingredients.push(kebabIngredients[0], kebabIngredients[2], kebabIngredients[5]);
+  }
+
+  const kebab = game.ingredients.join(', ');
+  const userTag = `@${game.user.split('@')[0]}`;
+  const randomReply = kebabBotReplies[Math.floor(Math.random() * kebabBotReplies.length)];
+  
+  const imageBuffer = await generateKebabImage(game.ingredients);
+
+  await conn.sendMessage(chatId, {
+    image: imageBuffer,
+    caption: `┌🌯 *𝑲𝑬𝑩𝑨𝑩 𝑪𝑹𝑬𝑨𝑻𝑶* 🌯┐\n` +
+            `│ 👤 *Chef:* ${userTag}\n` +
+            `│\n` +
+            `│ 🥙 *Ingredienti scelti:*\n` +
+            `│ ${kebab.replace(/\*/g, '')}\n` +
+            `└───────────────────┘\n\n` +
+            `_${randomReply}_`,
+    mentions: [game.user]
   });
 
-  return canvas.toBuffer();
+  delete global.kebabGame[chatId];
 }
 
 let handler = async (m, { conn }) => {
   if (global.kebabGame?.[m.chat])
-    return m.reply("⚠️ C'è già un kebab in preparazione in questo gruppo!");
+    return m.reply("⚠️ C'è già un kebab in fase di preparazione in questo gruppo!");
 
   const cooldownKey = `kebab_${m.chat}`;
   const now = Date.now();
@@ -75,63 +135,36 @@ let handler = async (m, { conn }) => {
 
   if (now - lastGame < cooldownTime) {
     const remaining = Math.ceil((cooldownTime - (now - lastGame)) / 1000);
-    return m.reply(`⏳ Aspetta ${remaining} secondi prima di riaprire la cucina!`);
+    return m.reply(`⏳ La cucina è calda! Aspetta ${remaining} secondi prima di ordinare.`);
   }
 
   global.cooldowns[cooldownKey] = now;
 
-  const intro = `
-╭━━━〔 🌯 𝑲𝑬𝑩𝑨𝑩 𝑺𝑻𝑼𝑫𝑰𝑶 🌯 〕━━━╮
-┃  Crea il tuo kebab perfetto
-╰━━━━━━━━━━━━━━━━━━╯
-`;
+  const intro = `┌━━━〔 🌯 *𝑲𝑬𝑩𝑨𝑩 𝑺𝑻𝑼𝑫𝑰𝑶* 🌯 〕━━━┐\n` +
+                `│ Componenti disponibili in dispensa:\n` +
+                `└━━━━━━━━━━━━━━━━━━━━━━━━━┘\n`;
 
   let text = intro + "\n";
   kebabIngredients.forEach((c, i) => {
-    text += `〔 ${i + 1} 〕 ${c}\n`;
+    text += `  [ ${String(i + 1).padStart(2, '0')} ]  ${c}\n`;
   });
 
-  text += `
-━━━━━━━━━━━━━━
-✎ Scrivi: 1,2,3
-✦ Scrivi "fine" per completare
-━━━━━━━━━━━━━━`;
+  text += `\n───────────────────────────\n` +
+          `📝 *Istruzioni:* Rispondi a questo messaggio scrivendo i numeri separati da virgola (es: *1, 3, 11*).\n` +
+          `🏁 Scrivi *fine* per completare la cottura!`;
 
-  const msg = await conn.sendMessage(m.chat, { text }, { quoted: m });
+  const msg = await conn.sendMessage(m.chat, { text, mentions: [m.sender] }, { quoted: m });
 
   global.kebabGame = global.kebabGame || {};
   global.kebabGame[m.chat] = {
     id: msg.key.id,
     ingredients: [],
     user: m.sender,
-    timeout: setTimeout(async () => {
-      const game = global.kebabGame[m.chat];
-      if (!game) return;
-
-      const kebab = game.ingredients.join(', ');
-      const userTag = `@${game.user.split('@')[0]}`;
-      const randomReply = kebabBotReplies[Math.floor(Math.random() * kebabBotReplies.length)];
-      const imageBuffer = await generateKebabImage(game.ingredients);
-
-      await conn.sendMessage(m.chat, {
-        image: imageBuffer,
-        caption: `
-╭━━━〔 🌯 𝑲𝑬𝑩𝑨𝑩 𝑪𝑹𝑬𝑨𝑻𝑶 🌯 〕━━━╮
-┃ 👤 Creato da: ${userTag}
-┃
-┃ 🥙 Ingredienti:
-┃ ${kebab}
-┃
-╰━━━━━━━━━━━━━━━━━━╯
-
-${randomReply}
-`,
-        mentions: [game.user],
-        interactiveButtons: playAgainButtons()
-      });
-
-      delete global.kebabGame[m.chat];
-    }, 120000)
+    timeout: setTimeout(() => {
+      if (global.kebabGame?.[m.chat]) {
+        finalizeKebab(m.chat, conn);
+      }
+    }, 60000) // Ridotto a 1 minuto per dinamicità del gruppo
   };
 };
 
@@ -144,30 +177,7 @@ handler.before = async (m, { conn }) => {
   for (const choice of choices) {
     if (choice.toLowerCase() === 'fine') {
       clearTimeout(game.timeout);
-
-      const kebab = game.ingredients.join(', ');
-      const userTag = `@${game.user.split('@')[0]}`;
-      const randomReply = kebabBotReplies[Math.floor(Math.random() * kebabBotReplies.length)];
-      const imageBuffer = await generateKebabImage(game.ingredients);
-
-      await conn.sendMessage(m.chat, {
-        image: imageBuffer,
-        caption: `
-╭━━━〔 🌯 𝑲𝑬𝑩𝑨𝑩 𝑪𝑹𝑬𝑨𝑻𝑶 🌯 〕━━━╮
-┃ 👤 Creato da: ${userTag}
-┃
-┃ 🥙 Ingredienti:
-┃ ${kebab}
-┃
-╰━━━━━━━━━━━━━━━━━━╯
-
-${randomReply}
-`,
-        mentions: [game.user],
-        interactiveButtons: playAgainButtons()
-      });
-
-      delete global.kebabGame[m.chat];
+      await finalizeKebab(m.chat, conn);
       return;
     }
 
@@ -178,14 +188,13 @@ ${randomReply}
   }
 
   await conn.sendMessage(m.chat, {
-    text: `🥙 Hai scelto:\n${game.ingredients.join(', ')}\n\nScrivi altri numeri o "fine".`
-  });
+    text: `🥙 *In cucina:* Hai aggiunto:\n${game.ingredients.join(', ').replace(/\*/g, '')}\n\nContinua l'ordine inserendo altri numeri oppure scrivi *fine*.`
+  }, { quoted: m });
 };
 
 handler.help = ['kebab'];
 handler.tags = ['giochi'];
 handler.command = /^kebab$/i;
 handler.group = true;
-handler.register = false;
 
 export default handler;
