@@ -4,11 +4,11 @@ let handler = async (m, { conn }) => {
   await conn.sendMessage(m.chat, { text: message }, { quoted: m });
 };
 
-handler.help = ['lilblud'];
+handler.help = ['Lilblud'];
 handler.tags = ['giochi'];
 
-// Questa regex rileva "lilblud" ovunque nel messaggio, ignorando maiuscole/minuscole
-handler.customPrefix = /lilblud/i; 
+// Questa regex rileva "Lilblud" ovunque nel messaggio, ignorando maiuscole/minuscole
+handler.customPrefix = /Lilblud/i; 
 handler.command = new RegExp; // Sovrascrive il comando standard per usare il prefisso personalizzato
 
 export default handler;
