@@ -16,12 +16,12 @@ const moduleCache = new NodeCache({ stdTTL: 300 });
 global.sam = ['393784409415', '393206032199', '2348174457298', '33625415528']
 global.owner = [
   ['393784409415', 'Elixir', true],
-  ['393514722317', 'Momo', true],
+  ['xxxxxx', 'xxxxx', true],
   ['393206032199', 'Punisher', true],
   ['962770035395', 'The punisher-bot', true], 
   ['2348174457298', 'Elixir voip', true],
   ['xxxxx', 'xxxxx', true],
-  ['584261241115', 'Riley', true],
+  ['xxxxxx', 'xxxxx', true],
   ['33625415528', 'Punishervoip', true]
 ]
 
