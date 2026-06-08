@@ -1,5 +1,3 @@
-import { createMuteCard } from '../lib/cards/mute-card.js'
-
 function normalizeJid(jid = '') {
   if (!jid) return null
   if (jid.includes('@s.whatsapp.net')) return jid
@@ -17,12 +15,8 @@ function cleanJid(jid = '') {
 
 function isOwnerJid(jid = '') {
   const num = cleanJid(jid)
-
   return (global.owner || []).some(owner => {
-    const ownerNum = Array.isArray(owner)
-      ? cleanJid(owner[0])
-      : cleanJid(owner)
-
+    const ownerNum = Array.isArray(owner) ? cleanJid(owner[0]) : cleanJid(owner)
     return ownerNum === num
   })
 }
@@ -38,13 +32,10 @@ function getMentioned(m) {
 
 function resolveTarget(m, text = '') {
   const mentioned = getMentioned(m)
-
   if (mentioned) return normalizeJid(mentioned)
-
   if (m.quoted?.sender) return normalizeJid(m.quoted.sender)
 
   const clean = String(text || '').replace(/[^0-9]/g, '')
-
   if (clean.length > 5) return normalizeJid(clean)
 
   return null
@@ -52,12 +43,7 @@ function resolveTarget(m, text = '') {
 
 function resolveAction(m, command = '') {
   const cmd = String(command || '').toLowerCase().replace(/^[.!/#]/, '')
-  const body = String(
-    m.text ||
-    m.body ||
-    m.message?.conversation ||
-    ''
-  ).toLowerCase().trim()
+  const body = String(m.text || m.body || m.message?.conversation || '').toLowerCase().trim()
 
   if (cmd === 'muta') return true
   if (cmd === 'smuta') return false
@@ -72,7 +58,6 @@ function ensureChatMuteStore(chat) {
   global.db.data.chats ||= {}
   global.db.data.chats[chat] ||= {}
   global.db.data.chats[chat].mutedUsers ||= {}
-
   return global.db.data.chats[chat].mutedUsers
 }
 
@@ -108,13 +93,7 @@ function parseDuration(text = '') {
   }
 }
 
-let handler = async (m, {
-  conn,
-  text,
-  command,
-  isOwner,
-  isROwner
-}) => {
+let handler = async (m, { conn, text, command, isOwner, isROwner }) => {
   try {
     const isMute = resolveAction(m, command)
     const target = resolveTarget(m, text || '')
@@ -124,7 +103,7 @@ let handler = async (m, {
     if (!target) {
       return conn.reply(
         m.chat,
-        '*⚠️ 𝐃𝐞𝐯𝐢 𝐦𝐞𝐧𝐳𝐢𝐨𝐧𝐚𝐫𝐞 𝐨 𝐫𝐢𝐬𝐩𝐨𝐧𝐝𝐞𝐫𝐞 𝐚𝐝 𝐮𝐧 𝐮𝐭𝐞𝐧𝐭𝐞.*\n\n> *THE PUNISHER-BOT*',
+        '⚠️ *Devi menzionare o rispondere al messaggio di un utente.*\n\n> *THE PUNISHER-BOT*',
         m
       )
     }
@@ -135,7 +114,7 @@ let handler = async (m, {
     if (isMute && targetIsOwner) {
       return conn.reply(
         m.chat,
-        '*⛔ 𝐍𝐨𝐧 𝐩𝐮𝐨𝐢 𝐦𝐮𝐭𝐚𝐫𝐞 𝐝𝐢𝐨.*\n\n> *THE PUNISHER-BOT*',
+        '⛔ *Non è possibile applicare restrizioni ai creatori/owner.*\n\n> *THE PUNISHER-BOT*',
         m
       )
     }
@@ -146,18 +125,13 @@ let handler = async (m, {
     if (!isMute && oldMuteData?.mutedByOwner && !executorIsOwner) {
       return conn.reply(
         m.chat,
-        '*⛔ 𝐐𝐮𝐞𝐬𝐭𝐨 𝐮𝐭𝐞𝐧𝐭𝐞 è 𝐬𝐭𝐚𝐭𝐨 𝐦𝐮𝐭𝐚𝐭𝐨 𝐝𝐚 𝐮𝐧 𝐨𝐰𝐧𝐞𝐫.*\n*𝐒𝐨𝐥𝐨 𝐮𝐧 𝐨𝐰𝐧𝐞𝐫 𝐩𝐮𝐨̀ 𝐬𝐦𝐮𝐭𝐚𝐫𝐥𝐨.*\n\n> *THE PUNISHER-BOT*',
+        '⛔ *Questo utente è stato mutato direttamente da un Owner. Solo un Owner può revocare la sanzione.*\n\n> *THE PUNISHER-BOT*',
         m
       )
     }
 
-    const duration = isMute
-      ? parseDuration(text || '')
-      : null
-
-    const expiresAt = duration
-      ? Date.now() + duration.ms
-      : null
+    const duration = isMute ? parseDuration(text || '') : null
+    const expiresAt = duration ? Date.now() + duration.ms : null
 
     if (isMute) {
       mutedUsers[target] = {
@@ -170,60 +144,50 @@ let handler = async (m, {
       delete mutedUsers[target]
     }
 
-    const username = await conn.getName(target)
-    const executor = `@${m.sender.split('@')[0]}`
+    const targetTag = `@${target.split('@')[0]}`
+    const executorTag = `@${m.sender.split('@')[0]}`
 
-    let avatar
-
-    try {
-      avatar = await conn.profilePictureUrl(target, 'image')
-    } catch {
-      avatar = 'https://i.imgur.com/8K9mXz4.png'
+    // Configurazione del layout testuale senza dipendenza da immagini generate in locale
+    let messaggio = ''
+    if (isMute) {
+      messaggio = `╔════════════════════════╗\n` +
+                  `🔇   *UTENTE MUTATO* 🔇\n` +
+                  `╚════════════════════════╝\n\n` +
+                  `• 👤 *Target:* ${targetTag}\n` +
+                  `• 👮 *Eseguito da:* ${executorTag}\n` +
+                  `• ⏳ *Durata:* \`${duration?.label || 'Permanente'}\`\n\n` +
+                  `_I messaggi inviati dall'utente verranno intercettati ed eliminati automaticamente._\n\n` +
+                  `> *THE PUNISHER-BOT*`
+    } else {
+      messaggio = `╔════════════════════════╗\n` +
+                  `🔊  *MUTING REVOCATO* 🔊\n` +
+                  `╚════════════════════════╝\n\n` +
+                  `• 👤 *Target:* ${targetTag}\n` +
+                  `• 👮 *Sbloccato da:* ${executorTag}\n\n` +
+                  `_L'utente può riprendere regolarmente l'attività all'interno della chat._\n\n` +
+                  `> *THE PUNISHER-BOT*`
     }
 
-    const card = await createMuteCard(
-      username,
-      avatar,
-      isMute
-    )
-
-    const caption = isMute
-      ? `*🔇 𝐈 𝐬𝐮𝐨𝐢 𝐦𝐞𝐬𝐬𝐚𝐠𝐠𝐢 𝐯𝐞𝐫𝐫𝐚𝐧𝐧𝐨 𝐞𝐥𝐢𝐦𝐢𝐧𝐚𝐭𝐢.*
-
-*👮 𝐄𝐬𝐞𝐠𝐮𝐢𝐭𝐨 𝐝𝐚:* ${executor}
-*⏳ 𝐃𝐮𝐫𝐚𝐭𝐚:* ${duration?.label || 'permanente'}
-
-> *THE PUNISHER-BOT*`
-      : `*🔊 𝐋’𝐮𝐭𝐞𝐧𝐭𝐞 𝐩𝐮𝐨̀ 𝐭𝐨𝐫𝐧𝐚𝐫𝐞 𝐚 𝐬𝐜𝐫𝐢𝐯𝐞𝐫𝐞.*
-
-*👮 𝐄𝐬𝐞𝐠𝐮𝐢𝐭𝐨 𝐝𝐚:* ${executor}
-
-> *THE PUNISHER-BOT*`
-
     await conn.sendMessage(m.chat, {
-      image: card,
-      caption,
+      text: messaggio,
       mentions: [target, m.sender]
     }, { quoted: m })
 
   } catch (e) {
     console.error('[MUTA ERROR]', e)
-
     conn.reply(
       m.chat,
-      '*❌ 𝐄𝐫𝐫𝐨𝐫𝐞 𝐝𝐮𝐫𝐚𝐧𝐭𝐞 𝐥𝐚 𝐠𝐞𝐬𝐭𝐢𝐨𝐧𝐞 𝐝𝐞𝐥 𝐦𝐮𝐭𝐞.*\n\n> *THE PUNISHER-BOT*',
+      '❌ *Errore critico durante l\'elaborazione del comando Mute.*',
       m
     )
   }
 }
 
+// Intercettore per la cancellazione automatica dei messaggi degli utenti mutati
 handler.before = async function (m, { conn }) {
-  if (!m.isGroup) return
-  if (!m.sender) return
-  if (m.fromMe) return
+  if (!m.isGroup || !m.sender || m.fromMe) return
 
   const sender = normalizeJid(m.sender)
-
   if (!sender) return
 
   const mutedUsers = ensureChatMuteStore(m.chat)
@@ -231,26 +195,22 @@ handler.before = async function (m, { conn }) {
 
   if (!muteData) return
 
-  if (
-    muteData !== true &&
-    muteData.expiresAt &&
-    Date.now() >= muteData.expiresAt
-  ) {
+  // Controllo e pulizia automatica se la sanzione a tempo è scaduta
+  if (muteData.expiresAt && Date.now() >= muteData.expiresAt) {
     delete mutedUsers[sender]
     return
   }
 
-  const isMuted =
-    muteData === true ||
-    muteData.active === true
+  const isMuted = muteData.active === true
 
   if (!isMuted) return
 
   try {
-    await conn.sendMessage(m.chat, {
-      delete: m.key
-    })
-  } catch {}
+    // Rimozione immediata del payload/messaggio inviato dall'utente sanzionato
+    await conn.sendMessage(m.chat, { delete: m.key })
+  } catch (err) {
+    console.error('[MUTE DELETE ERROR]', err)
+  }
 }
 
 handler.command = ['muta', 'smuta']
