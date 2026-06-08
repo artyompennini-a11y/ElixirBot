@@ -1,41 +1,82 @@
-// by elixir
 const handler = async (m, { conn }) => {
     try {
         const metadata = await conn.groupMetadata(m.chat);
         const groupName = metadata.subject;
         const inviteCode = await conn.groupInviteCode(m.chat);
         const linkgruppo = 'https://chat.whatsapp.com/' + inviteCode;
-        const memberCount = metadata.participants.length;
-
         let ppUrl;
+        
         try {
             ppUrl = await conn.profilePictureUrl(m.chat, 'image');
         } catch {
-            ppUrl = 'https://ibb.co';
+            ppUrl = 'https://i.ibb.co/3Fh9V6p/avatar-group-default.png';
         }
 
-        const messageText = `> ⛓️‍💥 *LINK GENERATO CON SUCCESSO*\n\n` +
-                            `*〢 𝖨𝖭𝖥𝖮𝖱𝖬𝖠𝖹𝖨𝖮𝖭𝖨 𝖦𝖱𝖴𝖯𝖯𝖮*\n` +
-                            `  » *Nome:* ${groupName}\n` +
-                            `  » *Utenti all'interno:* ${memberCount}\n\n` +
-                            `*〢 𝖢𝖮𝖭𝖭𝖤𝖲𝖲𝖨𝖮𝖭𝖤 𝖣𝖨𝖱𝖤𝖳𝖳𝖠*\n` +
-                            `  ${linkgruppo}\n\n` +
-                            `＿\n` +
-                            `⌗ Richiesta elaborata per @${m.sender.split('@')[0]}`;
-
+        const linkCard = {
+            image: { url: ppUrl },
+            title: `『 🔗 』 *\`link gruppo:\`*`,
+            body: `- *${metadata.participants.length} Membri* \n- *${linkgruppo}*`,
+            footer: '',
+            buttons: [
+                {
+                    name: 'cta_copy',
+                    buttonParamsJson: JSON.stringify({
+                        display_text: '📎 Copia Link',
+                        copy_code: linkgruppo
+                    })
+                },
+            ]
+        }
         await conn.sendMessage(
             m.chat,
             {
-                image: { url: ppUrl },
-                caption: messageText,
-                mentions: [m.sender]
+                text: `*${groupName}*`,
+                footer: '𝓿𝓪𝓻𝓮𝓫𝓸𝓽',
+                cards: [linkCard]
             },
             { quoted: m }
-        );
+        )
 
     } catch (error) {
-        console.error(error);
-        m.reply('❌ Errore nel recupero del link. Assicurati che il bot sia amministratore.');
+        console.error('Errore invio messaggio link:', error);
+        const metadata = await conn.groupMetadata(m.chat);
+        const groupName = metadata.subject;
+        const inviteCode = await conn.groupInviteCode(m.chat);
+        const linkgruppo = 'https://chat.whatsapp.com/' + inviteCode;
+        let ppUrl;
+        
+        try {
+            ppUrl = await conn.profilePictureUrl(m.chat, 'image');
+        } catch {
+            ppUrl = null;
+        }
+
+        const interactiveButtons = [
+            {
+                name: "cta_copy",
+                buttonParamsJson: JSON.stringify({
+                    display_text: "Copia link 📎",
+                    id: linkgruppo,
+                    copy_code: linkgruppo
+                })
+            },
+        ];
+
+        const messageText = `*\`Link gruppo:\`*\n- *${groupName}*\n- *${linkgruppo}*`;
+
+        if (ppUrl) {
+            await conn.sendMessage(m.chat, {
+                image: { url: ppUrl },
+                caption: messageText,
+                interactiveButtons
+            }, { quoted: m });
+        } else {
+            const interactiveMessage = {
+                text: messageText,
+                interactiveButtons
+            };
+            await conn.sendMessage(m.chat, interactiveMessage, { quoted: m });
+        }
     }
 };
 
