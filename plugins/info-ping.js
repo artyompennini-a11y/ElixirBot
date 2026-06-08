@@ -1,5 +1,3 @@
-// by elixir
-
 import { performance } from 'perf_hooks'
 
 const toMathematicalAlphanumericSymbols = number => {
@@ -23,34 +21,29 @@ const clockString = ms => {
   return `${toMathematicalAlphanumericSymbols(days.toString().padStart(2, '0'))}d ${toMathematicalAlphanumericSymbols(hours.toString().padStart(2, '0'))}h ${toMathematicalAlphanumericSymbols(minutes.toString().padStart(2, '0'))}m`
 }
 
-const handler = async (m, { conn, usedPrefix }) => {
+const handler = async (m, { conn }) => {
   const start = performance.now()
+  
+  // Calcolo dell'uptime del processo
   const uptime = clockString(process.uptime() * 1000)
 
-  const handlerStart = m.timestamp || start
-  const speed = (performance.now() - handlerStart).toFixed(2)
+  // Calcolo preciso della latenza di risposta del bot
+  const end = performance.now()
+  const speed = (end - start).toFixed(2)
   const speedWithFont = toMathematicalAlphanumericSymbols(speed)
 
-  const info = `
-*🏓 ᴘɪɴɢ!*
+  const messaggio = `╔════════════════════════╗
+  📡  *𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁 STATUS* 📡
+╚════════════════════════╝
 
-*🚀 ᴠᴇʟᴏᴄɪᴛᴀ ᴅɪ ʀɪꜱᴘᴏꜱᴛᴀ:* ${speedWithFont} ms
-*⏱️ ᴜᴘᴛɪᴍᴇ:* ${uptime}
-*✅ ꜱᴛᴀᴛᴜꜱ:* Online
+• 🏓 *Pong:* \`Online\`
+• 🚀 *Latenza:* \`${speedWithFont} ms\`
+• ⏱️ *Uptime:* \`${uptime}\`
 
-> *𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃*
-`.trim()
-
-  const buttons = [
-    { buttonId: `${usedPrefix}ping`, buttonText: { displayText: "📡 𝐏𝐢𝐧𝐠" }, type: 1 },
-    { buttonId: `${usedPrefix}menu`, buttonText: { displayText: "📋 Menu" }, type: 1 }
-  ]
+> *𝚃𝙷𝙴 𝙿𝚄𝙽𝙸𝚂𝙷𝙴𝚁-𝙱𝙾𝚃*`
 
   await conn.sendMessage(m.chat, {
-    text: info,
-    footer: "Seleziona un'opzione qui sotto 👇",
-    buttons: buttons,
-    headerType: 1
+    text: messaggio
   }, { quoted: m })
 }
 
