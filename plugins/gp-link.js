@@ -1,65 +1,60 @@
 const handler = async (m, { conn }) => {
-    const metadata = await conn.groupMetadata(m.chat);
-    const groupName = metadata.subject;
-    const inviteCode = await conn.groupInviteCode(m.chat);
-    const linkgruppo = 'https://chat.whatsapp.com/' + inviteCode;
-    let ppUrl;
-    
     try {
-        ppUrl = await conn.profilePictureUrl(m.chat, 'image');
-    } catch {
-        ppUrl = 'https://ibb.co';
-    }
+        const metadata = await conn.groupMetadata(m.chat);
+        const groupName = metadata.subject;
+        const inviteCode = await conn.groupInviteCode(m.chat);
+        const linkgruppo = 'https://chat.whatsapp.com/' + inviteCode;
+        let ppUrl;
+        
+        try {
+            ppUrl = await conn.profilePictureUrl(m.chat, 'image');
+        } catch {
+            ppUrl = 'https://i.ibb.co/3Fh9V6p/avatar-group-default.png';
+        }
 
-    try {
-        const linkCard = {
-            image: { url: ppUrl },
-            title: `『 🔗 』 *\`link gruppo:\`*`,
-            body: `- *${metadata.participants.length} Membri* \n- *${linkgruppo}*`,
-            footer: '',
-            buttons: [
-                {
-                    name: 'cta_copy',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: '📎 Copia Link',
-                        copy_code: linkgruppo
-                    })
-                },
-            ]
+        const interactiveMessage = {
+            body: { text: `*${groupName}*` },
+            footer: { text: '𝓿𝓪𝓻𝓮𝓫𝓸𝓽' },
+            header: {
+                title: `『 🔗 』 *\`link gruppo:\`*`,
+                hasMediaAttachment: true,
+                imageMessage: (await conn.prepareMessageMedia({ image: { url: ppUrl } }, { upload: conn.waUploadToServer })).imageMessage
+            },
+            nativeFlowMessage: {
+                buttons: [
+                    {
+                        name: 'cta_copy',
+                        buttonParamsJson: JSON.stringify({
+                            display_text: '📎 Copia Link',
+                            copy_code: linkgruppo
+                        })
+                    }
+                ]
+            }
         };
 
-        await conn.sendMessage(m.chat, {
-            text: `*${groupName}*`,
-            footer: '𝓿𝓪𝓻𝓮𝓫𝓸𝓽',
-            cards: [linkCard]
-        }, { quoted: m });
+        const messageToSend = {
+            viewOnceMessage: {
+                message: {
+                    interactiveMessage: interactiveMessage
+                }
+            }
+        };
+
+        await conn.relayMessage(m.chat, messageToSend, { quoted: m });
 
     } catch (error) {
-        console.error('Errore:', error);
-        
-        const interactiveButtons = [{
-            name: "cta_copy",
-            buttonParamsJson: JSON.stringify({
-                display_text: "Copia link 📎",
-                id: linkgruppo,
-                copy_code: linkgruppo
-            })
-        }];
-
-        const messageText = `*\`Link gruppo:\`*\n- *${groupName}*\n- *${linkgruppo}*`;
-        const hasValidPp = ppUrl && !ppUrl.includes('avatar-group-default.png');
-
-        if (hasValidPp) {
-            await conn.sendMessage(m.chat, {
-                image: { url: ppUrl },
-                caption: messageText,
-                interactiveButtons
-            }, { quoted: m });
-        } else {
-            await conn.sendMessage(m.chat, {
-                text: messageText,
-                interactiveButtons
-            }, { quoted: m });
+        console.error('Errore invio messaggio link:', error);
+        try {
+            const metadata = await conn.groupMetadata(m.chat);
+            const groupName = metadata.subject;
+            const inviteCode = await conn.groupInviteCode(m.chat);
+            const linkgruppo = 'https://chat.whatsapp.com/' + inviteCode;
+            const messageText = `*${groupName}*\n\n『 🔗 』 *\`link gruppo:\`*\n- *${metadata.participants.length} Membri*\n- ${linkgruppo}`;
+            
+            await conn.sendMessage(m.chat, { text: messageText }, { quoted: m });
+        } catch (e) {
+            console.error('Errore fallback critico:', e);
         }
     }
 };
