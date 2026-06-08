@@ -54,7 +54,7 @@ let handler = async (m, { conn, text, command, isAdmin, isOwner }) => {
 ╚════════════════════════╝
 
 • 👤 *Target:* @${rawNumber.split('@')[0]}
-• 👮 *Eseguito da:* @${sender.split('@')[0]}
+• 👑 *Eseguito da:* @${sender.split('@')[0]}
 • ⚙️ *Azione:* \`${isPromote ? 'PROMOZIONE ↑' : 'RETROCESSIONE ↓'}\`
 
 > *THE PUNISHER-BOT*`
