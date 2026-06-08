@@ -3,48 +3,50 @@ const handler = async (m, { conn }) => {
         const metadata = await conn.groupMetadata(m.chat);
         const groupName = metadata.subject;
         const inviteCode = await conn.groupInviteCode(m.chat);
-        const linkgruppo = 'https://chat.whatsapp.com/' + inviteCode;
+        const linkgruppo = 'https://whatsapp.com' + inviteCode;
         let ppUrl;
         
         try {
             ppUrl = await conn.profilePictureUrl(m.chat, 'image');
         } catch {
-            ppUrl = 'https://i.ibb.co/3Fh9V6p/avatar-group-default.png';
+            ppUrl = 'https://ibb.co';
         }
 
+        // 1. Prepariamo i media con il server WhatsApp prima di inviarli
+        const mediaDoc = await conn.prepareMessageMedia({ image: { url: ppUrl } }, { upload: conn.waUploadToServer });
+
+        // 2. Struttura interattiva identica ai top bot GitHub
         const interactiveMessage = {
-            body: { text: `*${groupName}*` },
+            body: { text: `*${groupName}*\n\nPremi il bottone qui sotto per copiare istantaneamente il link del gruppo negli appunti.` },
             footer: { text: '𝓿𝓪𝓻𝓮𝓫𝓸𝓽' },
             header: {
                 title: `『 🔗 』 *\`link gruppo:\`*`,
                 hasMediaAttachment: true,
-                imageMessage: (await conn.prepareMessageMedia({ image: { url: ppUrl } }, { upload: conn.waUploadToServer })).imageMessage
+                imageMessage: mediaDoc.imageMessage
             },
             nativeFlowMessage: {
                 buttons: [
                     {
-                        name: 'cta_copy',
+                        name: 'cta_copy', // Tipo di bottone nativo per la copia
                         buttonParamsJson: JSON.stringify({
                             display_text: '📎 Copia Link',
-                            id: inviteCode, // L'ID è obbligatorio per rendere il tasto cliccabile
-                            copy_code: linkgruppo
+                            id: 'copy_code', // ID dell'azione richiesto da WhatsApp
+                            copy_code: linkgruppo // Il testo effettivo che verrà copiato negli appunti
                         })
                     }
                 ],
-                cards: [],
-                messageParamsJson: ''
+                version: 1 // Versione del flusso nativo richiesta per iOS/Android
             }
         };
 
-        const messageToSend = {
+        // 3. Spediamo usando il relayMessage incapsulato correttamente
+        await conn.relayMessage(m.chat, {
             viewOnceMessage: {
                 message: {
                     interactiveMessage: interactiveMessage
                 }
             }
-        };
-
-        await conn.relayMessage(m.chat, messageToSend, { quoted: m });
+        }, { quoted: m });
 
     } catch (error) {
         console.error('Errore invio messaggio link:', error);
@@ -52,7 +54,7 @@ const handler = async (m, { conn }) => {
             const metadata = await conn.groupMetadata(m.chat);
             const groupName = metadata.subject;
             const inviteCode = await conn.groupInviteCode(m.chat);
-            const linkgruppo = 'https://chat.whatsapp.com/' + inviteCode;
+            const linkgruppo = 'https://whatsapp.com' + inviteCode;
             const messageText = `*${groupName}*\n\n『 🔗 』 *\`link gruppo:\`*\n- *${metadata.participants.length} Membri*\n- ${linkgruppo}`;
             
             await conn.sendMessage(m.chat, { text: messageText }, { quoted: m });
