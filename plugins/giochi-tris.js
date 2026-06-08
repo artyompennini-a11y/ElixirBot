@@ -1,4 +1,8 @@
-import { createCanvas } from 'canvas'
+// ╔═══════════════════════════════════════════╗
+// ║                                           ║
+// ║   Sviluppato da: The punisher             ║
+// ║                                           ║
+// ╚═══════════════════════════════════════════╝
 
 let games = {};
 
@@ -10,157 +14,165 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
         return jid.split('@')[0].replace(/\D/g, '');
     };
 
-    // ===== START (.tris) =====
+    // ----- INIZIO PARTITA (.tris) -----
     if (command === 'tris') {
         let mention = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : (m.quoted ? m.quoted.sender : null);
 
-        if (!mention) 
-            return m.reply(`⚠️ *ERRORE*: Devi menzionare qualcuno!\nEsempio: ${usedPrefix}tris @utente`);
+        if (!mention) {
+            return m.reply(`┌─── 「 ⚠️ *ᴇʀʀᴏʀᴇ* 」 ───┐\n│\n│ ❌ *Devi menzionare un avversario.*\n│ 📝 *Esempio:* \`${usedPrefix}tris @utente\`\n│\n└───────────────────────────┘`);
+        }
 
         const myNumber = getPhoneNumber(m.sender);
         const theirNumber = getPhoneNumber(mention);
 
-        if (myNumber === theirNumber) return m.reply('❌ Non puoi sfidare te stesso!');
-        if (games[chatId]) return m.reply('❌ C\'è già una partita in corso qui!');
+        if (myNumber === theirNumber) return m.reply('❌ *Non puoi sfidare te stesso!*');
+        if (games[chatId]) return m.reply('❌ *C\'è già una partita attiva in questo gruppo.*');
 
         games[chatId] = {
-            board: [['','',''],['','',''],['','','']],
+            board: [['', '', ''], ['', '', ''], ['', '', '']],
             players: [myNumber, theirNumber],
             jids: [m.sender, mention],
             turn: 0,
             timer: null,
-            symbols: ['X', 'O']
+            symbols: ['❌', '⭕']
         };
 
-        await sendCanvasBoard(chatId, conn, games[chatId], 
-            `🎮 *TRIS HD INIZIATO!*\n\n` +
-            `❌ @${games[chatId].jids[0].split('@')[0]}\n` +
-            `⭕ @${games[chatId].jids[1].split('@')[0]}\n\n` +
-            `👉 *Tocca a:* @${games[chatId].jids[0].split('@')[0]}\n` +
-            `📝 *Comando:* \`${usedPrefix}putris [riga][colonna]\` (es: A1, B2, C3)`
-        );
+        const currentGame = games[chatId];
+        const boardStr = renderTextBoard(currentGame.board);
+        
+        let startMsg = `┌─── 「 🎮 *ᴛʀɪs ʜᴅ ᴀᴠᴠɪᴀᴛᴏ* 」 ───┐\n` +
+                       `│\n` +
+                       `│ ❌ *Sfidante 1:* @${currentGame.jids[0].split('@')[0]}\n` +
+                       `│ ⭕ *Sfidante 2:* @${currentGame.jids[1].split('@')[0]}\n` +
+                       `│\n` +
+                       `${boardStr}\n` +
+                       `│\n` +
+                       `│ 👉 *Tocca a:* @${currentGame.jids[0].split('@')[0]}\n` +
+                       `│ 📝 *Mossa:* \`${usedPrefix}putris [casella]\` (es: A1, B2, C3)\n` +
+                       `│\n` +
+                       `└───────────────────────────┘\n` +
+                       `> *THE PUNISHER-BOT*`;
+
+        await conn.reply(chatId, startMsg, m, { mentions: currentGame.jids });
         startTurnTimer(chatId, conn);
     }
 
-    // ===== MOVE (.putris) =====
+    // ----- ESECUZIONE MOSSA (.putris) -----
     else if (command === 'putris') {
         const game = games[chatId];
-        if (!game) return m.reply('❌ Nessuna partita attiva. Usa .tris per iniziare.');
+        if (!game) return m.reply(`❌ *Nessuna sfida attiva.* Usa \`${usedPrefix}tris\` per iniziare.`);
 
         const myNumber = getPhoneNumber(m.sender);
         if (myNumber !== game.players[game.turn]) {
-            return conn.reply(chatId, `❌ *NON È IL TUO TURNO!*\nAttendi @${game.jids[game.turn].split('@')[0]}`, m, { mentions: [game.jids[game.turn]] });
+            return conn.reply(chatId, `❌ *Non è il tuo turno!* Attendi la mossa di @${game.jids[game.turn].split('@')[0]}`, m, { mentions: [game.jids[game.turn]] });
         }
 
-        const move = text.trim().toUpperCase();
+        let move = text.trim().toUpperCase();
+        if (!move || move.length < 2) {
+            return m.reply(`⚠️ *Mossa non valida!* Specifica riga e colonna.\n*Esempio:* \`${usedPrefix}putris B2\``);
+        }
+
+        // Normalizzazione input flessibile (accetta sia A1 che 1A)
+        let letter = move.match(/[A-C]/);
+        let number = move.match(/[1-3]/);
+
+        if (!letter || !number) {
+            return m.reply(`⚠️ *Coordinata errata!* Usa le lettere (A, B, C) e i numeri (1, 2, 3).\n*Esempio:* \`${usedPrefix}putris A3\``);
+        }
+
         const map = { A: 0, B: 1, C: 2 };
-        const row = map[move[0]];
-        const col = parseInt(move[1]) - 1;
+        const row = map[letter[0]];
+        const col = parseInt(number[0]) - 1;
 
-        if (row === undefined || isNaN(col) || col < 0 || col > 2)
-            return m.reply(`⚠️ *MOSSA ERRATA!*\n\nDevi scrivere la riga (A, B, C) e il numero (1, 2, 3).\nEsempio: \`${usedPrefix}putris A1\``);
+        if (game.board[row][col] !== '') return m.reply('❌ *Quella casella è già occupata!* Scegline un\'altra.');
 
-        if (game.board[row][col] !== '')
-            return m.reply('❌ Quella casella è già occupata!');
-
+        // Assegnazione simbolo
         game.board[row][col] = game.symbols[game.turn];
 
         if (checkWinner(game.board)) {
             clearTimeout(game.timer);
-            await sendCanvasBoard(chatId, conn, game, `🎉 *VITTORIA!* \n\nComplimenti @${m.sender.split('@')[0]}, hai vinto la sfida! 🏆`);
+            const finalBoard = renderTextBoard(game.board);
+            let winMsg = `┌─── 「 🏆 *ᴠɪᴛᴛᴏʀɪᴀ!* 」 ───┐\n` +
+                         `│\n` +
+                         `│ 🎉 *Il match è terminato!*\n` +
+                         `│ 🥇 *Vincitore:* @${m.sender.split('@')[0]}\n` +
+                         `│\n` +
+                         `${finalBoard}\n` +
+                         `│\n` +
+                         `└───────────────────────────┘\n` +
+                         `> *THE PUNISHER-BOT*`;
+            
+            await conn.reply(chatId, winMsg, m, { mentions: game.jids });
             delete games[chatId];
         } 
         else if (game.board.flat().every(cell => cell !== '')) {
             clearTimeout(game.timer);
-            await sendCanvasBoard(chatId, conn, game, `🤝 *PAREGGIO!* \n\nOttima partita a entrambi.`);
+            const finalBoard = renderTextBoard(game.board);
+            let drawMsg = `┌─── 「 🤝 *ᴘᴀʀᴇɢɢɪᴏ* 」 ───┐\n` +
+                          `│\n` +
+                          `│ 📉 *Nessun vincitore: Griglia completa.*\n` +
+                          `│ 😉 Ottima strategia da parte di entrambi.\n` +
+                          `│\n` +
+                          `${finalBoard}\n` +
+                          `│\n` +
+                          `└───────────────────────────┘\n` +
+                          `> *THE PUNISHER-BOT*`;
+
+            await conn.reply(chatId, drawMsg, m, { mentions: game.jids });
             delete games[chatId];
         } 
         else {
-            game.turn = 1 - game.turn;
-            await sendCanvasBoard(chatId, conn, game, 
-                `✅ *MOSSA REGISTRATA!*\n\n` +
-                `👉 *Prossimo turno:* @${game.jids[game.turn].split('@')[0]}\n` +
-                `🎯 *Simbolo:* ${game.symbols[game.turn]}\n` +
-                `📝 *Usa:* \`${usedPrefix}putris [casella]\``
-            );
+            game.turn = 1 - game.turn; // Cambio turno
+            const updatedBoard = renderTextBoard(game.board);
+            let nextMsg = `┌─── 「 🎮 *ᴛʀɪs ʜᴅ* 」 ───┐\n` +
+                          `│\n` +
+                          `│ ✅ *Mossa registrata con successo!*\n` +
+                          `│\n` +
+                          `${updatedBoard}\n` +
+                          `│\n` +
+                          `│ 👉 *Prossimo turno:* @${game.jids[game.turn].split('@')[0]}\n` +
+                          `│ 🎯 *Simbolo attivo:* ${game.symbols[game.turn]}\n` +
+                          `│\n` +
+                          `└───────────────────────────┘\n` +
+                          `> *THE PUNISHER-BOT*`;
+
+            await conn.reply(chatId, nextMsg, m, { mentions: game.jids });
             startTurnTimer(chatId, conn);
         }
     }
 
-    // ===== END =====
+    // ----- TERMINAZIONE FORZATA (.endtris) -----
     else if (command === 'endtris') {
         if (games[chatId]) {
             clearTimeout(games[chatId].timer);
             delete games[chatId];
-            m.reply('🛑 Partita terminata forzatamente.');
+            m.reply('🛑 *Partita annullata e rimossa dalla memoria del gruppo.*');
+        } else {
+            m.reply('❌ Non ci sono sessioni di Tris attive in questa chat.');
         }
     }
 };
 
-// --- FUNZIONE DISEGNO CANVAS ---
-async function sendCanvasBoard(chatId, conn, game, msg = '') {
-    const canvas = createCanvas(500, 500);
-    const ctx = canvas.getContext('2d');
-
-    // Sfondo Dark
-    ctx.fillStyle = '#1e1e2e';
-    ctx.fillRect(0, 0, 500, 500);
-
-    // Griglia (Neon Blue)
-    ctx.strokeStyle = '#89b4fa';
-    ctx.lineWidth = 10;
-    ctx.lineCap = 'round';
-
-    // Linee griglia
-    for (let i = 1; i < 3; i++) {
-        let pos = i * 166;
-        // Verticali
-        ctx.beginPath(); ctx.moveTo(pos, 50); ctx.lineTo(pos, 450); ctx.stroke();
-        // Orizzontali
-        ctx.beginPath(); ctx.moveTo(50, pos); ctx.lineTo(450, pos); ctx.stroke();
-    }
-
-    // Lettere e Numeri (Spiegazione posizioni)
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 30px Arial';
-    ctx.textAlign = 'center';
+// ----- RENDERING DELLA GRIGLIA TESTUALE -----
+function renderTextBoard(board) {
+    const rowLetters = ['A', 'B', 'C'];
+    let textStr = `│      ⬜  \` 1 \`  \` 2 \`  \` 3 \` \n`;
     
-    // Numeri (Colonne 1, 2, 3)
-    ['1', '2', '3'].forEach((n, i) => ctx.fillText(n, 83 + i * 166, 35));
-    // Lettere (Righe A, B, C)
-    ['A', 'B', 'C'].forEach((l, i) => ctx.fillText(l, 25, 100 + i * 166));
-
-    // Disegno X e O
     for (let r = 0; r < 3; r++) {
+        let rowCells = [];
         for (let c = 0; c < 3; c++) {
-            let symbol = game.board[r][c];
-            let x = 83 + c * 166;
-            let y = 100 + r * 166;
-
-            if (symbol === 'X') {
-                ctx.strokeStyle = '#f38ba8'; // Rosso
-                ctx.lineWidth = 15;
-                ctx.beginPath();
-                ctx.moveTo(x - 40, y - 40); ctx.lineTo(x + 40, y + 40);
-                ctx.moveTo(x + 40, y - 40); ctx.lineTo(x - 40, y + 40);
-                ctx.stroke();
-            } else if (symbol === 'O') {
-                ctx.strokeStyle = '#f9e2af'; // Giallo/Oro
-                ctx.lineWidth = 15;
-                ctx.beginPath();
-                ctx.arc(x, y, 45, 0, Math.PI * 2);
-                ctx.stroke();
+            if (board[r][c] === '') {
+                rowCells.push('🟦'); // Casella Vuota standard
+            } else {
+                rowCells.push(board[r][c]); // Inserisce ❌ o ⭕
             }
         }
+        textStr += `│      \` ${rowLetters[r]} \` ${rowCells.join(' ')}\n`;
     }
-
-    await conn.sendMessage(chatId, { 
-        image: canvas.toBuffer(), 
-        caption: msg,
-        mentions: game.jids 
-    });
+    return textStr;
 }
 
+// ----- VERIFICA VINCITORE -----
 function checkWinner(board) {
     const lines = [
         [[0,0], [0,1], [0,2]], [[1,0], [1,1], [1,2]], [[2,0], [2,1], [2,2]], // Orizzontali
@@ -174,12 +186,13 @@ function checkWinner(board) {
     return false;
 }
 
+// ----- TIMER DI INATTIVITÀ (2 MINUTI) -----
 function startTurnTimer(chatId, conn) {
     const game = games[chatId];
     if (game?.timer) clearTimeout(game.timer);
     game.timer = setTimeout(() => {
         if (games[chatId]) {
-            conn.sendMessage(chatId, { text: '⏱️ *TEMPO SCADUTO!*\nLa partita è stata chiusa.' });
+            conn.sendMessage(chatId, { text: '⏱️ *TEMPO SCADUTO!*\nLa partita è stata terminata per inattività di uno dei giocatori.' });
             delete games[chatId];
         }
     }, 120000);
@@ -187,4 +200,5 @@ function startTurnTimer(chatId, conn) {
 
 handler.command = /^(tris|putris|endtris)$/i;
 handler.group = true;
+
 export default handler;
