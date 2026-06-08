@@ -1,18 +1,14 @@
 let handler = async (m, { conn }) => {
+  const message = `è un po' gay ma gli vogliamo tanto bene`;
 
-  const testo = `*momo sto coglione ha una palla storta e un dente nel naso ma gli voglio tanto bene al mio ragusano stronzo preferito melo chiavo tutti giorni*`;
-
-  await conn.sendMessage(
-    m.chat,
-    {
-      text: testo
-    },
-    { quoted: m }
-  );
+  await conn.sendMessage(m.chat, { text: message }, { quoted: m });
 };
 
-handler.help = ['momoo'];
+handler.help = ['momo'];
 handler.tags = ['giochi'];
-handler.command = ['momoo'];
+
+// Questa regex rileva "momo" ovunque nel messaggio, ignorando maiuscole/minuscole
+handler.customPrefix = /momo/i; 
+handler.command = new RegExp; // Sovrascrive il comando standard per usare il prefisso personalizzato
 
 export default handler;
