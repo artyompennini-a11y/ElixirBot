@@ -147,7 +147,7 @@ let handler = async (m, { conn, text, command, isOwner, isROwner }) => {
     const targetTag = `@${target.split('@')[0]}`
     const executorTag = `@${m.sender.split('@')[0]}`
 
-    // Configurazione del layout testuale senza dipendenza da immagini generate in locale
+    
     let messaggio = ''
     if (isMute) {
       messaggio = `╔════════════════════════╗\n` +
@@ -183,7 +183,7 @@ let handler = async (m, { conn, text, command, isOwner, isROwner }) => {
   }
 }
 
-// Intercettore per la cancellazione automatica dei messaggi degli utenti mutati
+
 handler.before = async function (m, { conn }) {
   if (!m.isGroup || !m.sender || m.fromMe) return
 
@@ -195,7 +195,7 @@ handler.before = async function (m, { conn }) {
 
   if (!muteData) return
 
-  // Controllo e pulizia automatica se la sanzione a tempo è scaduta
+  
   if (muteData.expiresAt && Date.now() >= muteData.expiresAt) {
     delete mutedUsers[sender]
     return
@@ -206,7 +206,7 @@ handler.before = async function (m, { conn }) {
   if (!isMuted) return
 
   try {
-    // Rimozione immediata del payload/messaggio inviato dall'utente sanzionato
+    
     await conn.sendMessage(m.chat, { delete: m.key })
   } catch (err) {
     console.error('[MUTE DELETE ERROR]', err)
