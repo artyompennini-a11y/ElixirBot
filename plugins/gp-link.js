@@ -1,17 +1,17 @@
 const handler = async (m, { conn }) => {
+    const metadata = await conn.groupMetadata(m.chat);
+    const groupName = metadata.subject;
+    const inviteCode = await conn.groupInviteCode(m.chat);
+    const linkgruppo = 'https://chat.whatsapp.com/' + inviteCode;
+    let ppUrl;
+    
     try {
-        const metadata = await conn.groupMetadata(m.chat);
-        const groupName = metadata.subject;
-        const inviteCode = await conn.groupInviteCode(m.chat);
-        const linkgruppo = 'https://chat.whatsapp.com/' + inviteCode;
-        let ppUrl;
-        
-        try {
-            ppUrl = await conn.profilePictureUrl(m.chat, 'image');
-        } catch {
-            ppUrl = 'https://i.ibb.co/3Fh9V6p/avatar-group-default.png';
-        }
+        ppUrl = await conn.profilePictureUrl(m.chat, 'image');
+    } catch {
+        ppUrl = 'https://ibb.co';
+    }
 
+    try {
         const linkCard = {
             image: { url: ppUrl },
             title: `『 🔗 』 *\`link gruppo:\`*`,
@@ -26,56 +26,40 @@ const handler = async (m, { conn }) => {
                     })
                 },
             ]
-        }
-        await conn.sendMessage(
-            m.chat,
-            {
-                text: `*${groupName}*`,
-                footer: '𝓿𝓪𝓻𝓮𝓫𝓸𝓽',
-                cards: [linkCard]
-            },
-            { quoted: m }
-        )
+        };
+
+        await conn.sendMessage(m.chat, {
+            text: `*${groupName}*`,
+            footer: '𝓿𝓪𝓻𝓮𝓫𝓸𝓽',
+            cards: [linkCard]
+        }, { quoted: m });
 
     } catch (error) {
-        console.error('Errore invio messaggio link:', error);
-        const metadata = await conn.groupMetadata(m.chat);
-        const groupName = metadata.subject;
-        const inviteCode = await conn.groupInviteCode(m.chat);
-        const linkgruppo = 'https://chat.whatsapp.com/' + inviteCode;
-        let ppUrl;
+        console.error('Errore:', error);
         
-        try {
-            ppUrl = await conn.profilePictureUrl(m.chat, 'image');
-        } catch {
-            ppUrl = null;
-        }
-
-        const interactiveButtons = [
-            {
-                name: "cta_copy",
-                buttonParamsJson: JSON.stringify({
-                    display_text: "Copia link 📎",
-                    id: linkgruppo,
-                    copy_code: linkgruppo
-                })
-            },
-        ];
+        const interactiveButtons = [{
+            name: "cta_copy",
+            buttonParamsJson: JSON.stringify({
+                display_text: "Copia link 📎",
+                id: linkgruppo,
+                copy_code: linkgruppo
+            })
+        }];
 
         const messageText = `*\`Link gruppo:\`*\n- *${groupName}*\n- *${linkgruppo}*`;
+        const hasValidPp = ppUrl && !ppUrl.includes('avatar-group-default.png');
 
-        if (ppUrl) {
+        if (hasValidPp) {
             await conn.sendMessage(m.chat, {
                 image: { url: ppUrl },
                 caption: messageText,
                 interactiveButtons
             }, { quoted: m });
         } else {
-            const interactiveMessage = {
+            await conn.sendMessage(m.chat, {
                 text: messageText,
                 interactiveButtons
-            };
-            await conn.sendMessage(m.chat, interactiveMessage, { quoted: m });
+            }, { quoted: m });
         }
     }
 };
