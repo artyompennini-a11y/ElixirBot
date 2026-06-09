@@ -1,11 +1,9 @@
 // ╔═══════════════════════════════════════════╗
-// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎           ║
-// ║        Sviluppato da: Elixir              ║
-// ║        ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ║
+// ║                                           ║
+// ║   Sviluppato da:The Punisher              ║
+// ║                                           ║
 // ╚═══════════════════════════════════════════╝
 import fetch from 'node-fetch'
-import { FormData } from 'formdata-node'
-import { createCanvas, loadImage } from 'canvas'
 import { MsEdgeTTS, OUTPUT_FORMAT } from 'msedge-tts'
 import { exec } from 'child_process'
 import { promisify } from 'util'
@@ -24,78 +22,10 @@ function streamToBuffer(stream) {
   });
 }
 
-function splitText(text, maxLength) {
-  const words = text.split(' ')
-  const lines = []
-  let currentLine = ''
-  words.forEach(word => {
-    if ((currentLine + word).length <= maxLength) {
-      currentLine += (currentLine ? ' ' : '') + word
-    } else {
-      lines.push(currentLine)
-      currentLine = word
-    }
-  })
-  if (currentLine) lines.push(currentLine)
-  return lines
-}
-
 async function generateImageUrl(prompt) {
   const seed = Math.floor(Math.random() * 1000000)
   const query = encodeURIComponent("professional news studio, tv news background, high definition, 4k")
   return `https://image.pollinations.ai/prompt/${query}?width=1280&height=720&seed=${seed}&model=flux&nologo=true`
-}
-
-async function createNewsImage(newsTitle, backgroundUrl) {
-  const canvas = createCanvas(1280, 720)
-  const ctx = canvas.getContext('2d')
-
-  let image;
-  try {
-    image = await loadImage(backgroundUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } })
-  } catch (e) {
-
-    const fallbackQuery = encodeURIComponent("tv news studio")
-    const fallbackUrl = `https://image.pollinations.ai/prompt/${fallbackQuery}?width=1280&height=720&model=flux&nologo=true`
-    image = await loadImage(fallbackUrl).catch(() => {
-        throw new Error('Servizio immagini non disponibile al momento.')
-    })
-  }
-  
-  ctx.drawImage(image, 0, 0, 1280, 720)
-
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.85)'
-  ctx.fillRect(0, 550, 1280, 170)
-  ctx.fillStyle = '#CC0000'
-  ctx.fillRect(0, 550, 1280, 55)
-
-  ctx.fillStyle = '#FFFFFF'
-  ctx.font = 'bold 42px sans-serif'
-  ctx.textAlign = 'left'
-  const lines = splitText(newsTitle.toUpperCase(), 45)
-  lines.slice(0, 2).forEach((line, i) => ctx.fillText(line, 40, 635 + i * 55))
-
-  const now = new Date().toLocaleString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
-  ctx.font = '24px sans-serif'
-  ctx.fillText(now, 40, 700)
-  ctx.textAlign = 'right'
-  ctx.fillText('VAREBOT NEWS 24', 1240, 700)
-  
-  return canvas.toBuffer('image/jpeg')
-}
-
-async function uploadImage(buffer) {
-  const formData = new FormData()
-  formData.append('key', '8ef100e30039c258e3029366f3af03c8')
-  formData.append('image', buffer.toString('base64'))
-  
-  const response = await fetch('https://imgbb.com', {
-    method: 'POST',
-    body: formData
-  })
-  const json = await response.json()
-  if (!json.success) throw new Error('Errore caricamento su ImgBB')
-  return json
 }
 
 async function createNewsAudio(newsTitle) {
@@ -128,12 +58,13 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     await m.reply('🎥 *Preparazione edizione straordinaria...*')
     
+    // Genera l'URL dell'immagine di sfondo del TG
     const url = await generateImageUrl(text)
-    const imgBuffer = await createNewsImage(text, url)
-    const upload = await uploadImage(imgBuffer)
     
-    await conn.sendFile(m.chat, upload.data.url, 'news.jpg', `🔴 *LIVE - ULTIME NOTIZIE*\n\n${text}\n\n> vare ✧ bot`, m)
+    // Invia direttamente l'immagine generata tramite URL con la didascalia testuale
+    await conn.sendFile(m.chat, url, 'news.jpg', `🔴 *LIVE - ULTIME NOTIZIE*\n\n${text.toUpperCase()}\n\n> vare ✧ bot`, m)
     
+    // Generazione e invio dell'audio del telegiornale
     const { ttsFile, finalAudioFile } = await createNewsAudio(text)
     await conn.sendFile(m.chat, finalAudioFile, 'news.mp3', null, m, true, { mimetype: 'audio/mp4', ptt: true })
 
